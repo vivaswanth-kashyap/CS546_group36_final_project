@@ -1,0 +1,26 @@
+{{#if question}}
+  <div class="questionWrapper1 flex flex-col mx-20">
+    <div class="flex flex-row basis-1/5 border-b-4 py-7">
+    <div class="basis-4/5"><h1 class="text-bold text-2xl text-slate-700">{{title}}</h1></div>
+    <div class="basis-1/5"><button class="rounded-lg border-1 px-2 py-2  bg-sky-600 text-white hover:bg-sky-700" value="Ask Question" ><a href="/questions/question">Ask Question</a></button></div>
+    </div>
+    <div class="basis-4/5 flex flex-row">
+      <div class="questionStats basis-1/5 my-4 mx-4">
+        <button class="rounded-full border-2 hover:bg-orange-100"><a href=""><span class="material-symbols-outlined orange600 my-4 mx-4">thumb_up</span></a></button><br>
+        <button class="rounded-full border-2 hover:bg-orange-100 mt-1"><a href=""><span class="material-symbols-outlined my-4 mx-4">thumb_down</span></a></button>
+
+      </div>
+      <div class="question basis-4/5">
+        <p class="p-3">{{question.problemDetails}}</p>
+        <p class="p-3">{{question.attemptDetails}}</p>
+             {{#each question.tagsObj}}
+          <button class="tags rounded-md border-1 border-slate-900 outline-0 px-2 py-1 bg-sky-100 text-sky-600 text-sm text-bold hover:bg-sky-200" value="{{tag}}">{{tag}}</button>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+{{else}}
+  <div class="error">
+    <h3>{{message}}</h3>
+  </div>
+{{/if}}
