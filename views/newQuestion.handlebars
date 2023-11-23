@@ -1,0 +1,21 @@
+<div class="newQuestionWrapper container mx-auto box-border box-content">
+  <h1>{{title}}</h1>
+  <div class="pl-60 ml-60 pt-8">
+    <form action="/questions/question" method="post">
+
+    <label class="mr-20" for="title">Title</label>
+    <textarea class="ml-5" name="title" id="questionTitle" cols="50" rows="1"></textarea><br>
+
+    <label class="mr-5" for="problemDetails">problem details</label>
+    <textarea name="problemDetails" id="problemDetails" cols="50" rows="6"></textarea><br>
+
+    <label class="mr-6" for="attemptDetails">attempt details</label>
+    <textarea name="attemptDetails" id="attemptDetails" cols="50" rows="6"></textarea><br>
+
+    <label class="mr-20" for="tags">tags</label>
+    <textarea class="ml-6" name="tags" id="tags" cols="50" rows="1"></textarea><br>
+    
+    <button name="submit" value="SUBMIT" id="createQuestionBtn" class="rounded-lg border-2 px-2 py-2 my-4 bg-red-300">SUBMIT</button><br>
+    </form>
+  </div>
+</div>
