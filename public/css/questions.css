@@ -1,4 +1,4 @@
-.material-symbols-outlined:hover {
+.material-symbols-outlined{
   font-variation-settings:
   'FILL' 100,
   'wght' 400,
@@ -6,7 +6,61 @@
   'opsz' 24
 }
 
-.demo-navigation .mdl-navigation__link:hover .material-symbols-outlined {
-  background-color: #00BCD4;
-  color: #FFF;
+.selected{ 
+  .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 100,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+}
+
+
+#questionTitle{
+  resize: none;
+  outline: none;
+}
+
+#problemDetails{
+  resize: none;
+  outline: none;
+}
+
+#attemptDetails{
+  resize: none;
+  outline: none;
+}
+
+#tags{
+  resize: none;
+  outline: none;
+}
+
+#questionTitle:focus{
+  resize: none;
+  outline: none;
+}
+
+#problemDetails:focus{
+  resize: none;
+  outline: none;
+}
+
+#attemptDetails:focus{
+  resize: none;
+  outline: none;
+}
+
+#tags:focus{
+  resize: none;
+  outline: none;
+}
+
+.goodPractices{
+  border-width: 1px;
+}
+
+.fieldWrapper{
+  border-width: 1px;
 }
