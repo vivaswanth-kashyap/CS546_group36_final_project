@@ -6,7 +6,7 @@ const router = Router();
 router.route("/").get(async (req, res) => {
 	try {
 		const questions = await questionData.findAllQuestions();
-		console.log(questions);
+		//console.log(questions);
 		res.render("questions", {
 			title: "All Questions",
 			questions: questions,
@@ -22,7 +22,10 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/question").get(async (req, res) => {
-	res.render("newQuestion", { title: "Ask a Question", bg: "bg-gray-100" });
+	res.render("newQuestion", {
+		title: "Ask a public question",
+		bg: "bg-zinc-100",
+	});
 });
 
 router.route("/question").post(async (req, res) => {
@@ -49,12 +52,11 @@ router.route("/question").post(async (req, res) => {
 				input.attemptDetails,
 				input.tags
 			);
+
+			let votes = question.likes - question.disLikes;
+			//console.log(votes);
 			//console.log(question);
-			res.render("question", {
-				title: question.title,
-				question: question,
-				bg: "bg-stone-50",
-			});
+			res.redirect(`/questions/${question._id}`);
 		}
 	} catch (e) {
 		res.render("question", {
@@ -65,16 +67,40 @@ router.route("/question").post(async (req, res) => {
 	}
 });
 
-router.route("/:id").get(async (req, res) => {
+router.route("/question").patch(async (req, res) => {
 	try {
-		let questionId = req.params.id;
-		questionId = helpers.checkId(questionId);
-		const question = await questionData.findQuestion(questionId);
+		let input = req.body;
+		input.id = helpers.checkId(input.id);
+
+		let question;
+		if (input.event === "up") {
+			question = await questionData.upVote(input.id);
+		} else {
+			question = await questionData.downVote(input.id);
+		}
 
 		res.render("question", {
 			title: question.title,
 			question: question,
 			bg: "bg-stone-50",
+		});
+	} catch (e) {
+		res.status(400).json({ error: e.message });
+	}
+});
+
+router.route("/:id").get(async (req, res) => {
+	try {
+		let questionId = req.params.id;
+		questionId = helpers.checkId(questionId);
+		const question = await questionData.findQuestion(questionId);
+		let votes = question.likes - question.disLikes;
+
+		res.render("question", {
+			title: question.title,
+			question: question,
+			bg: "bg-stone-50",
+			votes: votes,
 		});
 	} catch (e) {
 		res.render("question", {
@@ -84,5 +110,12 @@ router.route("/:id").get(async (req, res) => {
 		});
 	}
 });
+
+// res.render("question", {
+// 	title: question.title,
+// 	question: question,
+// 	bg: "bg-stone-50",
+// 	votes: votes,
+// });
 
 export default router;

@@ -123,10 +123,50 @@ const editQuestion = async (
 	}
 };
 
+const upVote = async (questionId) => {
+	questionId = helpers.checkId(questionId);
+	const questionCollection = await questions();
+
+	const question = await questionCollection.findOne({
+		_id: new ObjectId(questionId),
+	});
+
+	question.likes += 1;
+
+	const updateInfo = await questionCollection.findOneAndUpdate(
+		{ _id: new ObjectId(questionId) },
+		{ $set: { likes: question.likes } },
+		{ document: "after" }
+	);
+
+	return updateInfo;
+};
+
+const downVote = async (questionId) => {
+	questionId = helpers.checkId(questionId);
+	const questionCollection = await questions();
+
+	const question = await questionCollection.findOne({
+		_id: new ObjectId(questionId),
+	});
+
+	question.likes -= 1;
+
+	const updateInfo = await questionCollection.findOneAndUpdate(
+		{ _id: new ObjectId(questionId) },
+		{ $set: { likes: question.likes } },
+		{ document: "after" }
+	);
+
+	return updateInfo;
+};
+
 export {
 	createQuestion,
 	findAllQuestions,
 	findQuestion,
 	editQuestion,
 	removeQuestion,
+	upVote,
+	downVote,
 };
