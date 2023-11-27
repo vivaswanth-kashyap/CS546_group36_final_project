@@ -6,24 +6,22 @@
   
   <title>{{title}}</title>
   {{#if css}}
-  <link rel="stylesheet" href="css/{{css}}.css">
+  <link rel="stylesheet" href="/css/{{css}}.css">
   {{/if}}
 
   {{#if js}}
-  <script type="module" src="js/{{js}}.js"></script>
+  <script type="module" src="/js/{{js}}.js"></script>
   {{/if}}
 
   <!--Some default imports for all pages-->
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="/css/main.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="js/main.js"></script>
+  <script src="/js/main.js"></script>
 
 </head>
 
   <body>
-    <main>
       {{{body}}}
-    </main>
   </body>
 
 </html>
