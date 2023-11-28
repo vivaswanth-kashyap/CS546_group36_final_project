@@ -27,6 +27,7 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 			createdAt,
 			likes: 0,
 			disLikes: 0,
+			// votes: likes - disLikes,
 			comments: [],
 		};
 
@@ -74,6 +75,7 @@ const findQuestion = async (questionId) => {
 };
 
 const removeQuestion = async (questionId) => {
+	console.log("inside data delete");
 	questionId = helpers.checkId(questionId);
 	const questionCollection = await questions();
 
@@ -95,6 +97,11 @@ const editQuestion = async (
 	attemptDetails,
 	tags
 ) => {
+	// console.log("question id", questionId);
+	// console.log("title", title);
+	// console.log("problem ", problemDetails);
+	// console.log("attemot", attemptDetails);
+	// console.log(tags);
 	if (helpers.isValidQuestion(title, problemDetails, attemptDetails, tags)) {
 		questionId = helpers.checkId(questionId);
 		const questionCollection = await questions();
@@ -150,11 +157,11 @@ const downVote = async (questionId) => {
 		_id: new ObjectId(questionId),
 	});
 
-	question.likes -= 1;
+	question.disLikes += 1;
 
 	const updateInfo = await questionCollection.findOneAndUpdate(
 		{ _id: new ObjectId(questionId) },
-		{ $set: { likes: question.likes } },
+		{ $set: { disLikes: question.disLikes } },
 		{ document: "after" }
 	);
 

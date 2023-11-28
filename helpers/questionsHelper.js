@@ -33,6 +33,18 @@ export const isValidQuestion = (
 	attemptDetails,
 	tags
 ) => {
+	// if (!tags) {
+	// 	console.log("tag missing");
+	// }
+	// if (!title) {
+	// 	console.log("title missing");
+	// }
+	// if (!problemDetails) {
+	// 	console.log("problem missing");
+	// }
+	// if (!attemptDetails) {
+	// 	console.log("attempt missing");
+	// }
 	if (!title || !problemDetails || !attemptDetails || !tags) {
 		throw "All fields must exist";
 	}

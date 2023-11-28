@@ -1,3 +1,4 @@
+{{>header}}
 {{#if questions}}
 
 <div class="pageWrapper flex flex-row flex-nowrap bg-inherit">
@@ -11,7 +12,7 @@
       {{#each questions}}
       <div class="questionWrapper1 flex flex-row border-b-2 px-2">
         <div class="questionStats my-4 mx-8 whitespace-normal basis-1/3">
-          <h4 class="pl-5 text-sm text-normal"><span class="ml-6">{{likes}} votes</span></h3>
+          <h4 class="pl-5 text-sm text-normal"><span class="ml-6">{{votes}} votes</span></h3>
           <h4 class="pl-5 text-sm text-extralight text-slate-500"><span class="ml-1">{{comments.length}} answers</span></h3>
         </div>
         <div class="question basis-2/3 my-4 h-auto whitespace-normal ">
@@ -19,7 +20,7 @@
           <p class="text-slate-500 py-6 my-2 text-ellipsis overflow-hidden max-h-36">{{problemDetails}}</p>
           <ul>
           {{#each tagsObj}}
-            <button class="tags rounded-md border-slate-900 outline-0 px-2 py-1 bg-sky-100 text-sky-600 text-sm font-semibold hover:bg-sky-200" value="{{tag}}">{{tag}}</button>
+            <button class="tags rounded-md border-slate-900 outline-0 px-2 py-1 my-1 bg-sky-100 text-sky-600 text-sm font-semibold hover:bg-sky-200" value="{{tag}}">{{tag}}</button>
           {{/each}}
           </ul>
         </div>
