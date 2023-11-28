@@ -6,6 +6,19 @@ import configRoutes from "./routes/index.js";
 
 const app = express();
 
+const rewriteUnsupportedBrowserMethods = (req, res, next) => {
+	// If the user posts to the server with a property called _method, rewrite the request's method
+	// To be that method; so if they post _method=PUT you can now allow browsers to POST to a route that gets
+	// rewritten in this middleware to a PUT route
+	if (req.body && req.body._method) {
+		req.method = req.body._method;
+		delete req.body._method;
+	}
+
+	// let the next middleware run:
+	next();
+};
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -23,9 +36,29 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(rewriteUnsupportedBrowserMethods);
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/data", express.static("path/to/data"));
+
+app.use("/questions/question/edit", async (req, res, next) => {
+	//console.log(req);
+	console.log("inside middleware");
+
+	if (req.method == "POST") {
+		req.method = "PUT";
+		// return res.redirect("/questions/question");
+	}
+	next();
+});
+
+// app.use("/questions/:id", async (req, res, next) => {
+// 	console.log("inside middleware");
+
+// 	if (req.method == "POST") {
+// 		req.method = "DELETE";
+// 	}
+// 	next();
+// });
 
 configRoutes(app);
 

@@ -1,6 +1,8 @@
+import homePageRoutes from "./homePage.js";
 import questionRoutes from "./questions.js";
 
 const constructorMethod = (app) => {
+	app.use("/", homePageRoutes);
 	app.use("/questions", questionRoutes);
 
 	app.use("*", (req, res) => {
