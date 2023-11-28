@@ -18,16 +18,17 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 		for (let i of tags) {
 			tagsObj.push({ tag: i });
 		}
-
+		const likes = 0;
+		const disLikes = 0;
 		let newQuestion = {
 			title,
 			problemDetails,
 			attemptDetails,
 			tagsObj,
 			createdAt,
-			likes: 0,
-			disLikes: 0,
-			// votes: likes - disLikes,
+			likes,
+			disLikes,
+			votes: likes - disLikes,
 			comments: [],
 		};
 
@@ -168,12 +169,35 @@ const downVote = async (questionId) => {
 	return updateInfo;
 };
 
+const searchQuestions = async (searchTerm) => {
+	console.log("inside data searchQuestion");
+	console.log(searchTerm);
+	const questionCollection = await questions();
+	let query = {
+		$or: [
+			{ title: { $regex: searchTerm, $options: "i" } },
+			{ problemDetails: { $regex: searchTerm, $options: "i" } },
+			{ "tagsObj.tag": { $regex: searchTerm, $options: "i" } },
+		],
+	};
+
+	const results = await questionCollection.find(query).toArray();
+
+	if (!results) {
+		throw "No questions found matching the search criteria";
+	}
+	results.forEach((question) => (question._id = question._id.toString()));
+
+	return results;
+};
+
 export {
 	createQuestion,
 	findAllQuestions,
 	findQuestion,
 	editQuestion,
 	removeQuestion,
+	searchQuestions,
 	upVote,
 	downVote,
 };

@@ -64,3 +64,14 @@
 .fieldWrapper{
   border-width: 1px;
 }
+
+#search{
+  resize: none;
+  outline: none;
+}
+
+#search:focus{
+  resize: none;
+  outline: none;
+}
+

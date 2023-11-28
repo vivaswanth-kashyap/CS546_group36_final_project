@@ -1,4 +1,5 @@
 import { Router } from "express";
+import xss from "xss";
 import * as questionData from "../data/questions.js";
 import * as helpers from "../helpers/questionsHelper.js";
 const router = Router();
@@ -20,6 +21,17 @@ router.route("/").get(async (req, res) => {
 			message: e.message,
 			bg: "bg-stone-50",
 		});
+	}
+});
+
+router.route("/search/:searchTerm").get(async (req, res) => {
+	console.log("inside route search");
+	try {
+		const searchTerm = xss(req.params.searchTerm);
+		const results = await questionData.searchQuestions(searchTerm);
+		return res.status(200).json(results);
+	} catch (e) {
+		return res.status(500).json({ error: e.message });
 	}
 });
 
@@ -200,7 +212,7 @@ router.route("/:id").delete(async (req, res) => {
 
 		if (question.deleted) {
 			console.log("deleted");
-			return res.redirect("/questions/");
+			return res.status(200).json(question);
 		}
 	} catch (e) {
 		return res.render("question", {

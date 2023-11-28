@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+	const search = document.getElementById("search");
 	const votes = document.getElementById("votes");
 	const thumb_up = document.getElementById("thumb_up");
 	const thumb_down = document.getElementById("thumb_down");
@@ -42,6 +43,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			handleDelete();
 		});
 	}
+
+	if (search) {
+		search.addEventListener("input", (e) => {
+			e.preventDefault();
+			console.log("search fired");
+			handleSearch(e.target.value);
+		});
+		search.addEventListener("keyup", (e) => {
+			e.preventDefault();
+			console.log("key up");
+			handleKeyUp();
+		});
+	}
 });
 
 const handleUpVote = async () => {
@@ -83,12 +97,93 @@ const handleEdit = () => {
 
 const handleDelete = async () => {
 	try {
+		console.log("inside handle delete");
 		let id = document.getElementById("questionId").value;
 		let res = await axios.delete(`/questions/${id}`);
-		if (res.ok) {
-			window.location.href = "/questions/";
+		console.log(res);
+		if (res.status == 200) {
+			window.location.href = "/questions";
 		} else {
 			console.error("Error deleting question");
 		}
-	} catch (e) {}
+	} catch (e) {
+		console.log(e.message);
+	}
+};
+
+const handleSearch = async (searchTerm) => {
+	try {
+		console.log("inside handleSearch");
+		let res = await axios.get(
+			`/questions/search/${encodeURIComponent(searchTerm)}`
+		);
+		console.log(res);
+		if (res.status == 200) {
+			res.data.forEach((result) => {
+				result.tagsObj = result.tagsObj.map((obj) => obj.tag);
+			});
+			displaySearchResults(res.data);
+		}
+	} catch (e) {
+		e.message;
+	}
+};
+
+const displaySearchResults = (results) => {
+	const pageWrapper = document.querySelector(".pageWrapper");
+	const container = document.getElementById("searchResultsContainer");
+	container.innerHTML = "";
+
+	if (results.length === 0) {
+		container.innerHTML = "<p>No results found.</p>";
+		return;
+	}
+	document.getElementById("questionsWrapper1").hidden = true;
+	results.forEach((result) => {
+		console.log(result);
+		const questionDiv = document.createElement("div");
+		questionDiv.classList.add("search-result-item");
+		questionDiv.classList.add("flex");
+		questionDiv.classList.add("flex-row");
+		questionDiv.classList.add("border-b-2");
+		questionDiv.classList.add("px-1");
+		questionDiv.innerHTML = `
+					<div class="basis-2/3 my-4 mx-8 whitespace-normal basis-1/3>
+						<h4 class="pl-5 text-xs text-normal"><span class="ml-6">${
+							result.likes
+						} votes</span></h3>
+						<h4 class="pl-5 text-sm text-extralight text-slate-500"><span class="ml-1">${
+							result.comments.length
+						} answers</span></h3>
+					</div>	
+					<div class="basis-2/3 my-4 mx-0 h-auto whitespace-normals">
+						<h3 class="text-sky-600 text-lg font-semibold hover:text-sky-700" ><a href="/questions/${
+							result._id
+						}">${result.title}</a></h3>
+						<p class="text-slate-500 py-6 my-2 text-ellipsis overflow-hidden max-h-36">${
+							result.problemDetails
+						}</p>
+            <div>${result.tagsObj
+							.map(
+								(tag) =>
+									`<button class="tags rounded-md border-slate-900 outline-0 px-2 py-1 my-1 bg-sky-100 text-sky-600 text-sm font-semibold hover:bg-sky-200">${tag}</button>`
+							)
+							.join(" ")}</div>
+					</div>`;
+
+		container.appendChild(questionDiv);
+	});
+};
+
+const handleKeyUp = () => {
+	const searchInput = document.getElementById("search");
+	const questionsWrapper = document.getElementById("questionsWrapper1");
+
+	if (searchInput && questionsWrapper) {
+		if (searchInput.value === "") {
+			questionsWrapper.hidden = false;
+			const container = document.getElementById("searchResultsContainer");
+			container.hidden = true;
+		}
+	}
 };
