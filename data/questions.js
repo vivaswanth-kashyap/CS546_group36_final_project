@@ -18,17 +18,14 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 		for (let i of tags) {
 			tagsObj.push({ tag: i });
 		}
-		const likes = 0;
-		const disLikes = 0;
 		let newQuestion = {
+			userId: 1,
 			title,
 			problemDetails,
 			attemptDetails,
 			tagsObj,
 			createdAt,
-			likes,
-			disLikes,
-			votes: likes - disLikes,
+			votes: 0,
 			comments: [],
 		};
 
@@ -46,13 +43,21 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 	}
 };
 
-const findAllQuestions = async () => {
+const findAllQuestions = async (key = "latest") => {
 	const questionCollection = await questions();
-	const questionList = await questionCollection
-		.find({})
-		.sort({ createdAt: -1 })
-		.toArray();
-
+	let questionList;
+	if (key === "latest") {
+		questionList = await questionCollection
+			.find({})
+			.sort({ createdAt: -1 })
+			.toArray();
+	}
+	if (key === "top") {
+		questionList = await questionCollection
+			.find({})
+			.sort({ votes: 1 })
+			.toArray();
+	}
 	if (!questionList) {
 		throw "couldn't get all questions";
 	}
@@ -139,11 +144,11 @@ const upVote = async (questionId) => {
 		_id: new ObjectId(questionId),
 	});
 
-	question.likes += 1;
+	question.votes += 1;
 
 	const updateInfo = await questionCollection.findOneAndUpdate(
 		{ _id: new ObjectId(questionId) },
-		{ $set: { likes: question.likes } },
+		{ $set: { votes: question.votes } },
 		{ document: "after" }
 	);
 
@@ -158,11 +163,11 @@ const downVote = async (questionId) => {
 		_id: new ObjectId(questionId),
 	});
 
-	question.disLikes += 1;
+	question.votes -= 1;
 
 	const updateInfo = await questionCollection.findOneAndUpdate(
 		{ _id: new ObjectId(questionId) },
-		{ $set: { disLikes: question.disLikes } },
+		{ $set: { votes: question.votes } },
 		{ document: "after" }
 	);
 
@@ -173,12 +178,22 @@ const searchQuestions = async (searchTerm) => {
 	console.log("inside data searchQuestion");
 	console.log(searchTerm);
 	const questionCollection = await questions();
+
+	console.log(searchTerm);
+
+	searchTerm = searchTerm.toLowerCase();
+	const searchTerms = searchTerm.split(/\s+/);
+
+	const filteredSearchTerms = searchTerms.filter(
+		(term) => !helpers.stopWords.includes(term)
+	);
+
 	let query = {
-		$or: [
-			{ title: { $regex: searchTerm, $options: "i" } },
-			{ problemDetails: { $regex: searchTerm, $options: "i" } },
-			{ "tagsObj.tag": { $regex: searchTerm, $options: "i" } },
-		],
+		$or: filteredSearchTerms.flatMap((word) => [
+			{ title: { $regex: word, $options: "i" } },
+			{ problemDetails: { $regex: word, $options: "i" } },
+			{ "tagsObj.tag": { $regex: word, $options: "i" } },
+		]),
 	};
 
 	const results = await questionCollection.find(query).toArray();
@@ -188,6 +203,7 @@ const searchQuestions = async (searchTerm) => {
 	}
 	results.forEach((question) => (question._id = question._id.toString()));
 
+	console.log(results.length);
 	return results;
 };
 
