@@ -6,7 +6,14 @@ const router = Router();
 
 router.route("/").get(async (req, res) => {
 	try {
-		const questions = await questionData.findAllQuestions();
+		const keyword = xss(req.body.key);
+		let questions;
+		if (keyword) {
+			questions = await questionData.findAllQuestions(keyword);
+		} else {
+			questions = await questionData.findAllQuestions();
+		}
+
 		//console.log(questions);
 		return res.render("questions", {
 			title: "All Questions",
@@ -142,7 +149,6 @@ router.route("/question/edit/:id").put(async (req, res) => {
 				input.attemptDetails,
 				input.tags
 			);
-			//let votes = question.likes - question.disLikes;
 			//console.log(votes);
 			//console.log(question);
 			return res.redirect(`/questions/${question._id}`);
@@ -185,13 +191,11 @@ router.route("/:id").get(async (req, res) => {
 		let questionId = req.params.id;
 		questionId = helpers.checkId(questionId);
 		const question = await questionData.findQuestion(questionId);
-		let votes = question.likes - question.disLikes;
 
 		return res.render("question", {
 			title: question.title,
 			question: question,
 			bg: "bg-stone-50",
-			votes: votes,
 			css: "questions",
 			js: "questions",
 		});

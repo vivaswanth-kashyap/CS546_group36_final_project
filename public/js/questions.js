@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const votes = document.getElementById("votes");
 	const thumb_up = document.getElementById("thumb_up");
 	const thumb_down = document.getElementById("thumb_down");
+	const bookmark = document.getElementById("bookmark");
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
 	if (thumb_up) {
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			tempVotes += 1;
 			votes.textContent = tempVotes;
 			thumb_up.classList.add("selected");
+			thumb_down.classList.remove("selected");
 		});
 	}
 
@@ -25,6 +27,16 @@ document.addEventListener("DOMContentLoaded", () => {
 			let tempVotes = parseInt(votes.textContent);
 			tempVotes -= 1;
 			votes.textContent = tempVotes;
+			thumb_down.classList.add("selected");
+			thumb_up.classList.remove("selected");
+		});
+	}
+
+	if (bookmark) {
+		bookmark.addEventListener("click", (e) => {
+			e.preventDefault();
+			console.log("save clicked");
+			bookmark.classList.add("selected");
 		});
 	}
 
@@ -150,13 +162,13 @@ const displaySearchResults = (results) => {
 		questionDiv.innerHTML = `
 					<div class="basis-2/3 my-4 mx-8 whitespace-normal basis-1/3>
 						<h4 class="pl-5 text-xs text-normal"><span class="ml-6">${
-							result.likes
+							result.votes
 						} votes</span></h3>
 						<h4 class="pl-5 text-sm text-extralight text-slate-500"><span class="ml-1">${
 							result.comments.length
 						} answers</span></h3>
 					</div>	
-					<div class="basis-2/3 my-4 mx-0 h-auto whitespace-normals">
+					<div class="basis-2/3 my-4 w-fit ml-5 h-auto whitespace-normal text-ellipsis overflow-hidden">
 						<h3 class="text-sky-600 text-lg font-semibold hover:text-sky-700" ><a href="/questions/${
 							result._id
 						}">${result.title}</a></h3>
