@@ -35,6 +35,15 @@
   'opsz' 24
 }
 
+.flash_on_icon{
+  vertical-align: bottom;
+  font-variation-settings:
+  'FILL' 100,
+  'wght' 300,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 #questionTitle{
   resize: none;
   outline: none;

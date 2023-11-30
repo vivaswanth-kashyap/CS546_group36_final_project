@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const thumb_up = document.getElementById("thumb_up");
 	const thumb_down = document.getElementById("thumb_down");
 	const bookmark = document.getElementById("bookmark");
+	const mode_heat = document.getElementById("mode_heat");
+	const flash_on = document.getElementById("flash_on");
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
 	if (thumb_up) {
@@ -39,6 +41,18 @@ document.addEventListener("DOMContentLoaded", () => {
 			bookmark.classList.add("selected");
 		});
 	}
+
+	document.addEventListener("click", function (e) {
+		if (e.target && e.target.id === "flash_on") {
+			e.preventDefault();
+			console.log("filter latest fired");
+			handleSortLatest();
+		} else if (e.target && e.target.id === "mode_heat") {
+			e.preventDefault();
+			console.log("filter top fired");
+			handleTopSort();
+		}
+	});
 
 	if (editQuestion) {
 		editQuestion.addEventListener("click", (e) => {
@@ -197,5 +211,28 @@ const handleKeyUp = () => {
 			const container = document.getElementById("searchResultsContainer");
 			container.hidden = true;
 		}
+	}
+};
+const handleTopSort = async () => {
+	console.log("inside handleTopSort");
+	try {
+		let res = await axios.get("/questions/?key=top");
+		if (res.status === 200) {
+			document.querySelector(".bg-stone-50").innerHTML = res.data;
+		}
+	} catch (e) {
+		console.log(e);
+	}
+};
+
+const handleSortLatest = async () => {
+	console.log("inside handleSortLatest");
+	try {
+		let res = await axios.get("/questions/?key=latest");
+		if (res.status === 200) {
+			document.querySelector(".bg-stone-50").innerHTML = res.data;
+		}
+	} catch (e) {
+		console.error("Error fetching latest questions:", e);
 	}
 };

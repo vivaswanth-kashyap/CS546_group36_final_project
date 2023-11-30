@@ -44,6 +44,8 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 };
 
 const findAllQuestions = async (key = "latest") => {
+	console.log("inside data findAllQuestions");
+	console.log(key);
 	const questionCollection = await questions();
 	let questionList;
 	if (key === "latest") {
@@ -55,7 +57,7 @@ const findAllQuestions = async (key = "latest") => {
 	if (key === "top") {
 		questionList = await questionCollection
 			.find({})
-			.sort({ votes: 1 })
+			.sort({ votes: -1 })
 			.toArray();
 	}
 	if (!questionList) {
