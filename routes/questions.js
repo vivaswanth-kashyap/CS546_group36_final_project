@@ -5,10 +5,13 @@ import * as helpers from "../helpers/questionsHelper.js";
 const router = Router();
 
 router.route("/").get(async (req, res) => {
+	console.log("inside route findAll");
 	try {
-		const keyword = xss(req.body.key);
+		const keyword = xss(req.query.key);
+		console.log(keyword);
 		let questions;
 		if (keyword) {
+			console.log("top keyword recognized");
 			questions = await questionData.findAllQuestions(keyword);
 		} else {
 			questions = await questionData.findAllQuestions();
