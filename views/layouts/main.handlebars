@@ -1,0 +1,59 @@
+{{!--
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/public/css/comment.css">
+</head>
+
+<body>
+    <header>
+        <h1>{{title}}</h1>
+    </header>
+
+    <main>
+        {{{body}}}
+    </main>
+
+    <footer>
+        <p>&copy; comment for questions</p>
+    </footer>
+</body>
+
+</html> --}}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/comment.css">
+</head>
+
+<body class="{{bg}} min-h-screen flex flex-col justify-between">
+    <header class="bg-gray-200 py-4">
+        <h1 class="text-center text-2xl font-bold">{{title}}</h1>
+    </header>
+
+    <main class="flex-grow">
+        {{{body}}}
+    </main>
+
+    <footer class="bg-gray-200 py-4 text-center">
+        <p>&copy; comment for questions</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="/public/js/comment.js"></script>
+</body>
+
+</html>
