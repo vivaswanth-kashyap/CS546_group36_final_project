@@ -1,11 +1,11 @@
 
 body
 {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+margin: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
 }
 .navbar 
 {
@@ -49,6 +49,22 @@ transition: background-color 0.3s ease-in-out;
 .login-btn:hover 
 {
 background-color: #27ae60; 
+}
+
+.logout-btn 
+{
+background-color: #cc2e2e; 
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease-in-out;
+}
+
+.logout-btn:hover 
+{
+background-color: #ae2727; 
 }
 
 .footer 
