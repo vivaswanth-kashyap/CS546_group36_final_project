@@ -43,11 +43,22 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 	}
 };
 
-const findAllQuestions = async (key = "latest") => {
+const findAllQuestions = async (key = "latest", questionIds = []) => {
 	console.log("inside data findAllQuestions");
-	console.log(key);
+	console.log("list length", questionIds.length);
+	console.log("key", key);
 	const questionCollection = await questions();
+
 	let questionList;
+
+	if (questionIds.length) {
+		for (const id of questionIds) {
+			let question = await findQuestion(id);
+			questionList.push(question);
+		}
+		return questionList;
+	}
+
 	if (key === "latest") {
 		questionList = await questionCollection
 			.find({})
@@ -176,7 +187,9 @@ const downVote = async (questionId) => {
 	return updateInfo;
 };
 
-const searchQuestions = async (searchTerm) => {
+//https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+//a little help from chatGPT to properly construct the query
+const searchQuestions = async (searchTerm, questionIds = []) => {
 	console.log("inside data searchQuestion");
 	console.log(searchTerm);
 	const questionCollection = await questions();
@@ -190,6 +203,10 @@ const searchQuestions = async (searchTerm) => {
 		(term) => !helpers.stopWords.includes(term)
 	);
 
+	if (filteredSearchTerms.length === 0) {
+		return [];
+	}
+
 	let query = {
 		$or: filteredSearchTerms.flatMap((word) => [
 			{ title: { $regex: word, $options: "i" } },
@@ -197,6 +214,11 @@ const searchQuestions = async (searchTerm) => {
 			{ "tagsObj.tag": { $regex: word, $options: "i" } },
 		]),
 	};
+
+	if (questionIds.length > 0) {
+		const objectIdArray = questionIds.map((id) => new ObjectId(id));
+		query = { ...query, _id: { $in: objectIdArray } };
+	}
 
 	const results = await questionCollection.find(query).toArray();
 
