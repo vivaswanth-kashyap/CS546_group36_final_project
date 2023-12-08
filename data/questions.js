@@ -2,7 +2,13 @@ import { questions } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as helpers from "../helpers/questionsHelper.js";
 
-const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
+const createQuestion = async (
+	title,
+	problemDetails,
+	attemptDetails,
+	tags,
+	stevensEmail
+) => {
 	if (helpers.isValidQuestion(title, problemDetails, attemptDetails, tags)) {
 		title = title.trim();
 		problemDetails = problemDetails.trim();
@@ -19,7 +25,7 @@ const createQuestion = async (title, problemDetails, attemptDetails, tags) => {
 			tagsObj.push({ tag: i });
 		}
 		let newQuestion = {
-			userId: 1,
+			stevensEmail,
 			title,
 			problemDetails,
 			attemptDetails,
@@ -84,7 +90,7 @@ const findQuestion = async (questionId) => {
 	const question = await questionCollection.findOne({
 		_id: new ObjectId(questionId),
 	});
-
+	console.log(question.stevensEmail);
 	if (!question) {
 		throw "No question with the id";
 	}
@@ -203,9 +209,9 @@ const searchQuestions = async (searchTerm, questionIds = []) => {
 		(term) => !helpers.stopWords.includes(term)
 	);
 
-	if (filteredSearchTerms.length === 0) {
-		return [];
-	}
+	// if (filteredSearchTerms.length === 0) {
+	// 	return [];
+	// }
 
 	let query = {
 		$or: filteredSearchTerms.flatMap((word) => [

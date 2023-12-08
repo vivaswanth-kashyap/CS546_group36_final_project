@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const thumb_up = document.getElementById("thumb_up");
 	const thumb_down = document.getElementById("thumb_down");
 	const bookmark = document.getElementById("bookmark");
-	const mode_heat = document.getElementById("mode_heat");
-	const flash_on = document.getElementById("flash_on");
+	// const mode_heat = document.getElementById("mode_heat");
+	// const flash_on = document.getElementById("flash_on");
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
 	if (thumb_up) {

@@ -6,8 +6,16 @@
     <div class="nav-links text-slate-700">
       <a href="#" class="hover:text-sky-700">Communities</a>
       <a href="/questions" class="hover:text-sky-700">Questions</a>
+      {{#if user}}
+      <a href="/userActivity" class="hover:text-sky-700">{{user.stevensEmail}}</a>
+      {{/if}}
     </div>
-    <button class="login-btn">Login</button>
+      {{#if user}}
+      <button class="logout-btn">Logout</button>
+
+      {{else}}
+      <button class="login-btn">Login</button>
+      {{/if}}
   </nav>
 </header>
 
