@@ -3,6 +3,7 @@ import {users} from '../config/mongoCollections.js';
 import bcrypt from 'bcryptjs';
 import * as userActivity from "./userActivity.js";
 
+// Register and Login
 export const registerUser = async (
     firstName,
     lastName,
@@ -73,7 +74,103 @@ export const loginUser = async (stevensEmail, password) =>
     // Check password
     if (!bcrypt.compareSync(password, userInfo.password)) throw `Either the email address or password is invalid`;
 
+    delete userInfo._id;
     delete userInfo.password;
     return userInfo;
 };
 
+// Get methods
+export const getUser = async (stevensEmail) =>
+{
+    // Given a email fetch that user (only show basic info)
+
+    // Validate email
+    stevensEmail = helper.validString(stevensEmail);
+    stevensEmail = stevensEmail.toLowerCase();
+    if (!helper.validEmail(stevensEmail)) throw `${stevensEmail} is not a valid email`;
+
+    // Find and fetch
+    const userCollection = await users();
+    const userInfo = await userCollection.findOne({stevensEmail: stevensEmail});
+    
+    if (userInfo === null) throw `No user with the email ${stevensEmail}`;
+
+    delete userInfo._id;
+    delete userInfo.password;
+    return userInfo;
+};
+
+// Update methods
+export const updateFirstName = async (stevensEmail, newFirstName) =>
+{
+    // Validate
+    newFirstName = helper.validString(newFirstName);
+    newFirstName = newFirstName.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    let regex = /^[a-zA-Z]+$/;
+    if (!regex.test(newFirstName) || newFirstName.length < 2 || newFirstName.length > 25) throw `${newFirstName} is not a valid first name`;
+
+    stevensEmail = helper.validString(stevensEmail);
+    stevensEmail = stevensEmail.toLowerCase();
+    if (!helper.validEmail(stevensEmail)) throw `${stevensEmail} is not a valid email`;
+
+    // Update
+    const userCollection = await users();
+    const userInfo = await userCollection.updateOne(
+        {stevensEmail: stevensEmail},
+        {$set: {firstName: newFirstName}},
+        {returnDocument: 'after'});
+    
+    if (!userInfo)
+    throw `Update failed! Could not update firstName with email ${stevensEmail}`;
+    
+    return true; 
+};
+
+export const updateLastName = async (stevensEmail, newLastName) =>
+{
+    // Validate
+    newLastName = helper.validString(newLastName);
+    newLastName = newLastName.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    let regex = /^[a-zA-Z]+$/;
+    if (!regex.test(newLastName) || newLastName.length < 2 || newLastName.length > 25) throw `${newLastName} is not a valid last name`;
+
+    stevensEmail = helper.validString(stevensEmail);
+    stevensEmail = stevensEmail.toLowerCase();
+    if (!helper.validEmail(stevensEmail)) throw `${stevensEmail} is not a valid email`;
+
+    // Update
+    const userCollection = await users();
+    const userInfo = await userCollection.updateOne(
+        {stevensEmail: stevensEmail},
+        {$set: {lastName: newLastName}},
+        {returnDocument: 'after'});
+    
+    if (!userInfo)
+    throw `Update failed! Could not update lastName with email ${stevensEmail}`;
+    
+    return true; 
+};
+
+export const updateAcademicStatus = async (stevensEmail, newAcademicStatus) =>
+{
+    // Validate
+    newAcademicStatus = helper.validString(newAcademicStatus);
+    newAcademicStatus = newAcademicStatus.toLowerCase();
+    if (!helper.validStatus(newAcademicStatus)) throw `${newAcademicStatus} is not a valid academicStatus`;
+
+    stevensEmail = helper.validString(stevensEmail);
+    stevensEmail = stevensEmail.toLowerCase();
+    if (!helper.validEmail(stevensEmail)) throw `${stevensEmail} is not a valid email`;
+
+    // Update
+    const userCollection = await users();
+    const userInfo = await userCollection.updateOne(
+        {stevensEmail: stevensEmail},
+        {$set: {academicStatus: newAcademicStatus}},
+        {returnDocument: 'after'});
+    
+    if (!userInfo)
+    throw `Update failed! Could not update academicStatus with email ${stevensEmail}`;
+    
+    return true; 
+};

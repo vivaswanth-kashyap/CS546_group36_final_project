@@ -79,7 +79,6 @@ router
     try 
     {
       let output = await users.loginUser(emailAddress, password);
-      delete output._id;
       req.session.user = output;
       return res.redirect('/');
 
