@@ -73,11 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (search) {
 		search.addEventListener("input", (e) => {
 			e.preventDefault();
+			console.log(e.target.value);
 			console.log("search fired");
 			handleSearch(e.target.value);
 		});
 		search.addEventListener("keyup", (e) => {
 			e.preventDefault();
+			console.log(e.target.value);
 			console.log("key up");
 			handleKeyUp();
 		});
@@ -138,12 +140,19 @@ const handleDelete = async () => {
 };
 
 const handleSearch = async (searchTerm) => {
+	console.log("Search term:", searchTerm);
+	if (!searchTerm.trim()) {
+		console.log("Empty search term, clearing results");
+		displaySearchResults([]);
+		return;
+	}
 	try {
 		console.log("inside handleSearch");
 		let res = await axios.get(
 			`/questions/search/${encodeURIComponent(searchTerm)}`
 		);
 		console.log(res);
+		console.log("Response data:", res.data);
 		if (res.status == 200) {
 			res.data.forEach((result) => {
 				result.tagsObj = result.tagsObj.map((obj) => obj.tag);
@@ -156,37 +165,56 @@ const handleSearch = async (searchTerm) => {
 };
 
 const displaySearchResults = (results) => {
-	const pageWrapper = document.querySelector(".pageWrapper");
+	console.log("Rendering results:", results);
 	const container = document.getElementById("searchResultsContainer");
 	container.innerHTML = "";
+	container.hidden = false;
 
 	if (results.length === 0) {
 		container.innerHTML = "<p>No results found.</p>";
 		return;
 	}
+
 	document.getElementById("questionsWrapper1").hidden = true;
+
 	results.forEach((result) => {
 		console.log(result);
 		const questionDiv = document.createElement("div");
-		questionDiv.classList.add("search-result-item");
-		questionDiv.classList.add("flex");
-		questionDiv.classList.add("flex-row");
-		questionDiv.classList.add("border-b-2");
-		questionDiv.classList.add("px-1");
-		questionDiv.innerHTML = `
-					<div class="basis-2/3 my-4 mx-8 whitespace-normal basis-1/3>
-						<h4 class="pl-5 text-xs text-normal"><span class="ml-6">${
-							result.votes
-						} votes</span></h3>
-						<h4 class="pl-5 text-sm text-extralight text-slate-500"><span class="ml-1">${
-							result.comments.length
-						} answers</span></h3>
-					</div>	
-					<div class="basis-2/3 my-4 w-fit ml-5 h-auto whitespace-normal text-ellipsis overflow-hidden">
-						<h3 class="text-sky-600 text-lg font-semibold hover:text-sky-700" ><a href="/questions/${
+		questionDiv.classList.add(
+			"questionWrapper1",
+			"flex",
+			"flex-row",
+			"border-b-2",
+			"px-2"
+		);
+		const questionStatsDiv = document.createElement("div");
+		questionStatsDiv.classList.add(
+			"questionStats",
+			"my-4",
+			"ml-8",
+			"whitespace-normal",
+			"basis-1/3"
+		);
+		questionStatsDiv.innerHTML = `
+            <h4 class="pl-5 text-sm text-normal"><span class="ml-6">${result.votes} votes</span></h4>
+            <h4 class="pl-5 text-sm text-extralight text-slate-500"><span class="ml-1">${result.comments.length} answers</span></h4>`;
+		const questionDetailsDiv = document.createElement("div");
+		questionDetailsDiv.classList.add(
+			"question",
+			"basis-2/3",
+			"my-4",
+			"w-fit",
+			"ml-5",
+			"h-auto",
+			"whitespace-normal",
+			"text-ellipsis",
+			"overflow-hidden"
+		);
+		questionDetailsDiv.innerHTML = `
+            <h3 class="text-sky-600 text-lg font-semibold hover:text-sky-700"><a href="/questions/${
 							result._id
 						}">${result.title}</a></h3>
-						<p class="text-slate-500 py-6 my-2 text-ellipsis overflow-hidden max-h-36">${
+            <p class="text-slate-500 py-6 my-2 text-ellipsis overflow-hidden max-h-36">${
 							result.problemDetails
 						}</p>
             <div>${result.tagsObj
@@ -194,9 +222,9 @@ const displaySearchResults = (results) => {
 								(tag) =>
 									`<button class="tags rounded-md border-slate-900 outline-0 px-2 py-1 my-1 bg-sky-100 text-sky-600 text-sm font-semibold hover:bg-sky-200">${tag}</button>`
 							)
-							.join(" ")}</div>
-					</div>`;
-
+							.join(" ")}</div>`;
+		questionDiv.appendChild(questionStatsDiv);
+		questionDiv.appendChild(questionDetailsDiv);
 		container.appendChild(questionDiv);
 	});
 };

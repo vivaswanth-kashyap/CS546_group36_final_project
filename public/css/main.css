@@ -9,7 +9,6 @@ flex-direction: column;
 }
 .navbar 
 {
-background-color: #fff;
 padding: 15px;
 display: flex;
 justify-content: space-between;

@@ -1,23 +1,25 @@
-<header>
-  <nav class="navbar">
+<header class="bg-blue-900 text-white">
+  <nav class="flex items-center justify-between p-2">
     <a href="/">
-      <img src="/images/logo.png" alt="Logo" class="logo">
-    </a> 
-    <div class="nav-links text-slate-700">
-      <a href="#" class="hover:text-sky-700">Communities</a>
-      <a href="/questions" class="hover:text-sky-700">Questions</a>
+      <img src="/images/logo.png" alt="Logo" class="h-12">
+    </a>
+    <div class="flex ml-72 pl-72 space-x-16 ">
+      <div class="ml-48">
       {{#if user}}
-      <a href="/userActivity" class="hover:text-sky-700">{{user.stevensEmail}}</a>
+      <a href="/userActivity" class="hover:text-blue-300">{{user.stevensEmail}}</a>
       {{/if}}
+      </div>
+      <a href="#" class="hover:text-blue-300">Communities</a>
+      <a href="/questions" class="hover:text-blue-300">Questions</a>
     </div>
-      {{#if user}}
-      <button class="logout-btn">Logout</button>
-
-      {{else}}
-      <button class="login-btn">Login</button>
-      {{/if}}
+    {{#if user}}
+    <button class="logout-btn text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline">
+      Logout
+    </button>
+    {{else}}
+    <button class="login-btn bg-blue-600 hover:bg-sky-700 text-white font-bold py-2 px-4 mx-2 rounded focus:outline-none focus:shadow-outline">
+      Login
+    </button>
+    {{/if}}
   </nav>
 </header>
-
-
-
