@@ -9,6 +9,8 @@ flex-direction: column;
 }
 .navbar 
 {
+
+background-color: #fff;
 padding: 15px;
 display: flex;
 justify-content: space-between;
@@ -23,7 +25,6 @@ color: white;
 font-size: 24px;
 font-weight: bold;
 max-height: 10vh;
-
 }
 
 .nav-links a 

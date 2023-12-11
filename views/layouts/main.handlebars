@@ -4,23 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{title}}</title>
+  {{!-- Put all the prerequisite src first --}}
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    {{#if css}}
+  {{!-- Custom src --}}
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/main.js"></script>
+
+  {{#if css}}
   <link rel="stylesheet" href="/css/{{css}}.css">
   {{/if}}
 
   {{#if js}}
   <script type="module" src="/js/{{js}}.js"></script>
   {{/if}}
-  <link rel="stylesheet" href="/css/main.css">
-  <script src="/js/main.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body class="{{bg}}">
   <main>
@@ -29,4 +31,3 @@
   
 </body>
 </html>
-

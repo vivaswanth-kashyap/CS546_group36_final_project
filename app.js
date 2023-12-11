@@ -4,21 +4,23 @@ import path from "path";
 import { fileURLToPath } from "url";
 import configRoutes from "./routes/index.js";
 
+
 import * as middleWare from "./middleware.js";
 import session from "express-session";
+=======
+
 
 const app = express();
 
 // Session
 app.use(
-	session({
-		name: "UserState",
-		secret:
-			"For best practice, this should be a unique string which is changed periodically",
-		saveUninitialized: false,
-		resave: false,
-	})
-);
+    session({
+      name: 'UserState',
+      secret: "For best practice, this should be a unique string which is changed periodically",
+      saveUninitialized: false,
+      resave: false
+    })
+  );
 
 // Custom middleware
 app.use(middleWare.rewriteUnsupportedBrowserMethods);

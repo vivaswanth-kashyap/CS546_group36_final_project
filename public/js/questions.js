@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 		search.addEventListener("keyup", (e) => {
 			e.preventDefault();
+
 			console.log(e.target.value);
 			console.log("key up");
 			handleKeyUp();
@@ -140,6 +141,7 @@ const handleDelete = async () => {
 };
 
 const handleSearch = async (searchTerm) => {
+
 	console.log("Search term:", searchTerm);
 	if (!searchTerm.trim()) {
 		console.log("Empty search term, clearing results");
@@ -174,6 +176,7 @@ const displaySearchResults = (results) => {
 		container.innerHTML = "<p>No results found.</p>";
 		return;
 	}
+
 
 	document.getElementById("questionsWrapper1").hidden = true;
 
@@ -225,6 +228,7 @@ const displaySearchResults = (results) => {
 							.join(" ")}</div>`;
 		questionDiv.appendChild(questionStatsDiv);
 		questionDiv.appendChild(questionDetailsDiv);
+
 		container.appendChild(questionDiv);
 	});
 };
