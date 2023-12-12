@@ -3,7 +3,6 @@ import {users} from '../config/mongoCollections.js';
 import bcrypt from 'bcryptjs';
 import * as userActivity from "./userActivity.js";
 
-
 // Register and Login
 export const registerUser = async (
     firstName,
@@ -75,13 +74,10 @@ export const loginUser = async (stevensEmail, password) =>
     // Check password
     if (!bcrypt.compareSync(password, userInfo.password)) throw `Either the email address or password is invalid`;
 
-
     delete userInfo._id;
-
     delete userInfo.password;
     return userInfo;
 };
-
 
 // Get methods
 export const getUser = async (stevensEmail) =>
@@ -178,4 +174,3 @@ export const updateAcademicStatus = async (stevensEmail, newAcademicStatus) =>
     
     return true; 
 };
-

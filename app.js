@@ -3,11 +3,8 @@ import exphbs from "express-handlebars";
 import path from "path";
 import { fileURLToPath } from "url";
 import configRoutes from "./routes/index.js";
-
-
 import * as middleWare from "./middleware.js";
 import session from "express-session";
-=======
 
 
 const app = express();
