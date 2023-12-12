@@ -1,5 +1,12 @@
+
+
+
 <a href="/communities/{{_id}}">
   <h2>{{title}}</h2>
   <p>{{description}}</p>
-  <p>{{members}}</p>  
+  <p>
+    {{#each members}}
+      {{email}}
+    {{/each}} 
+  </p>
 </a>

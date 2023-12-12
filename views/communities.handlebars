@@ -1,3 +1,16 @@
+<form action="/communities/search" method="POST">
+
+ 
+  <label>Search:</label>
+  <input name="searchTerm" >
+  <br>
+
+  <button>Search</button>
+
+</form>
 {{#each communities}}
   {{> community-summary}}
 {{/each}}
+<nav>
+    <a href="/communities/create">Create Community</a>
+</nav> 

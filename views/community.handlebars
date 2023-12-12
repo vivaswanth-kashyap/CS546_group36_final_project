@@ -1,7 +1,10 @@
-<h1>{{name}}</h1>
+<h1>{{title}}</h1>
 
 <p>{{description}}</p>
 
 {{#each members}}
-  {{> member }}
+  {{email}}
 {{/each}}
+<nav>
+    <a href="/communities/join?id={{id}}">Join Community</a>
+</nav> 
