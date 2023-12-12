@@ -1,7 +1,7 @@
 import { questions } from "../config/mongoCollections.js";
 import { communities } from "../config/mongoCollections.js";
 import * as helpers from "../helpers/commHelper.js";
-
+import { ObjectId } from "mongodb";
 const createCommunity = async (title, email, description) => {
 	if (helpers.isValidCommunity(title,email,description)) {
 		title = title.trim();
@@ -18,6 +18,8 @@ const createCommunity = async (title, email, description) => {
 		};
 
 		const communityCollection = await communities();
+ 		const sameCommunity = await communityCollection.findOne({title:title});
+		if(sameCommunity) throw "community with same name found";
 		const insertInfo = await communityCollection.insertOne(newComminuty);
 		if (!insertInfo.acknowledged || !insertInfo.insertedId) {
 			throw "could not add a community";
@@ -40,9 +42,9 @@ const findAllCommunites = async () => {
 	return communityList;
 };
 const findMembers = async(communityId) =>{
-	communityId = helpers.checkId(communityId);
+	//communityId = helpers.checkId(communityId);
 	const communityCollection = await communities();
-	let community = await communityCollection.findOne({_id : communityId});
+	let community = await communityCollection.findOne({_id : new ObjectId(communityId)});
 	if (!community) {
 		throw "couldn't get community";
 	}
@@ -50,22 +52,46 @@ const findMembers = async(communityId) =>{
 	return memberList;
 }
 const findCommunity = async(communityId) =>{
-	communityId = helpers.checkId(communityId);
+	//communityId = helpers.checkId(communityId);
 	const communityCollection = await communities();
-	let community = await communityCollection.findOne({_id : communityId});
+	let community = await communityCollection.findOne({_id : new ObjectId(communityId)});
 	if (!community) {
 		throw "couldn't get community";
 	}
 	return community;
 }
+const joinCommunity = async(communityId, email) =>{
+	const communityCollection = await communities();
+	let community = await communityCollection.findOne({_id : new ObjectId(communityId)});
+	if (!community) {
+		throw "couldn't get community";
+	}
+	for (const member of community.members) {
+		if(member.email === email) throw 'same email address';
+	}
+	const newmember = {
+		email: email
+	};
+	const community1 = await communityCollection.findOneAndUpdate(
+		{_id: new ObjectId(communityId)},
+		{$addToSet : {members : newmember}},
+		{returnDocument: 'after'}
+	  );
+	  
+	  if (!community1) {
+		throw 'could not add member successfully';
+	  }
 
+	  const newCommunity = await findCommunity(communityId);
+
+	  return newCommunity;
+}
 const searchCommunities = async (keyword) => {
 	const communityCollection = await communities();
-
+	
 	const regex = new RegExp(keyword, 'i'); // Case-insensitive regex for the keyword
-    const result = await communityCollection.find({ name: regex }).toArray();
+    const result = await communityCollection.find({ title: regex }).toArray();
     
-
 	if (!result) {
 		throw "No communities found matching the search criteria";
 	}
@@ -78,5 +104,6 @@ export {
 	findAllCommunites,
 	findMembers,
 	findCommunity,
-	searchCommunities
+	searchCommunities,
+	joinCommunity
 };

@@ -18,7 +18,7 @@ router.route('/:id').get(async(req, res) => {
     try{
         const id = req.params.id;  
         const community = await communityData.findCommunity(id);
-        return res.render('community', {name:community.title,members:community.members});
+        return res.render('community', {name:community.title,member:community.members});
     }catch(e){
         return res.render("communities", {title: "Error",message: e.message});
     }
