@@ -18,3 +18,25 @@ export const rewriteUnsupportedBrowserMethods = (req, res, next) =>
     // let the next middleware run:
     next();
 };
+
+export const allowAuthenticatedUser = (req, res, next) => 
+{
+  if (!req.session.user) 
+  {
+    return res.redirect('/login');
+  }
+  else{
+    next();
+  }
+};
+
+export const rejectAuthenticatedUser = (req, res, next) => 
+{
+  if (req.session.user) 
+  {
+    return res.redirect('/');
+  }
+  else{
+    next();
+  }
+};

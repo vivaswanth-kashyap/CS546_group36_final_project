@@ -19,6 +19,7 @@ router
     let password = xss(req.body.passwordInput);
     let academicStatus = xss(req.body.academicStatusInput);
     let output = undefined;
+    let userInfo = {firstName, lastName, emailAddress, password, academicStatus};
     // Validate input 
     try
     {
@@ -42,7 +43,7 @@ router
 
     } catch (e)
     {
-      return res.status(400).render('register', {title:"Register", error:e, css: "users", js: "users"});
+      return res.status(400).render('register', {title:"Register", error:e, css: "users", js: "users", userInfo: userInfo});
     }
     if (output.insertedUser == true)
     {

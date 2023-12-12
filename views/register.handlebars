@@ -5,12 +5,12 @@
         <form id="registration-form" action="/register" method="POST">
             <h1 class="bigtext">REGISTER</h1>
             <label for="firstNameInput">First Name:</label>
-            <input type="text" id="firstNameInput" name="firstNameInput">
+            <input type="text" id="firstNameInput" name="firstNameInput" value={{userInfo.firstName}}>
             <p class="error" id="firstNameError" hidden>Please enter valid first name.</p>
             <br>
 
             <label for="lastNameInput">Last Name:</label>
-            <input type="text" id="lastNameInput" name="lastNameInput">
+            <input type="text" id="lastNameInput" name="lastNameInput" value={{userInfo.lastName}}>
             <p class="error" id="lastNameError" hidden>Please enter valid last name.</p>
             <br>
 
@@ -20,16 +20,19 @@
             <br>
 
             <label for="passwordInput">Password:</label>
-            <input type="password" id="passwordInput" name="passwordInput">
+            <input type="password" id="passwordInput" name="passwordInput"  value={{userInfo.password}}>
             <p class="error" id="passwordError" hidden>Please enter a password.</p>
             <p class="error" id="passwordInvalidError" hidden>Password must be atelast 8 chars long and must contain atleast 1 uppercase, 1 number and 1 special char.</p>
             <br>
 
             <label for="confirmPasswordInput">Confirm Password:</label>
-            <input type="password" id="confirmPasswordInput" name="confirmPasswordInput">
+            <input type="password" id="confirmPasswordInput" name="confirmPasswordInput" value={{userInfo.password}}>
             <p class="error" id="confirmPasswordError" hidden>Please enter confirm password.</p>    
             <p class="error" id="confirmPasswordMatchError" hidden>Passwords do not match.</p>
             <br>
+            
+            {{!-- The below inputs are hidden beacuse i need to pass the values to jQuery--}}
+            <input type="hidden" id="defaultStatus" value={{userInfo.academicStatus}}>
 
             <label for="academicStatusInput">Role:</label>
             <select id="academicStatusInput" name="academicStatusInput">
@@ -55,3 +58,4 @@
 
     </div>
 </div>
+{{>footer}}

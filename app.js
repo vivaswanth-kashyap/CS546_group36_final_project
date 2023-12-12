@@ -21,6 +21,11 @@ app.use(
 
 // Custom middleware
 app.use(middleWare.rewriteUnsupportedBrowserMethods);
+app.get('/login', middleWare.rejectAuthenticatedUser);
+app.get('/register', middleWare.rejectAuthenticatedUser);
+app.get('/logout', middleWare.allowAuthenticatedUser);
+app.get('/userActivity', middleWare.allowAuthenticatedUser);
+app.get('/userActivity/setting', middleWare.allowAuthenticatedUser);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

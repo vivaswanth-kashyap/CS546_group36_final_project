@@ -2,6 +2,11 @@
 // Register form
 $(document).ready(function() 
 {
+
+    // Set the default values
+    var defaultStatus = $("#defaultStatus").val();
+    $("#academicStatusInput").val(defaultStatus).prop("selected", true);
+
     $("#registration-form").submit(function(event) 
     {
         event.preventDefault();

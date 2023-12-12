@@ -21,11 +21,11 @@ try
 {
     user_1 = await user.registerUser("Anish",
                                 "Dhamelia",
-                                "adhemeli@stevens.edu",
+                                "adhameli@stevens.edu",
                                 "Abcd@1234",
                                 "graduate"
                                 );
-    user_1 = await user.getUser("adhemeli@stevens.edu");
+    user_1 = await user.getUser("adhameli@stevens.edu");
     console.log(user_1);
 }
 catch (e)
