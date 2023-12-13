@@ -1,18 +1,8 @@
-{{!-- <h1>{{title}}</h1>
-
-<p>{{description}}</p>
-
-{{#each members}}
-  {{email}}
-{{/each}}
-<nav>
-    <a href="/communities/join?id={{id}}">Join Community</a>
-</nav>  --}}
-{{>search}}
+{{>headerEmpty}}
 <div class="communityPageWrapper flex flex-row justify-around">
 
   <!-- Members Section -->
-  <div class="membersSection border-solid border-2 rounded-lg p-4 m-4">
+  <div class="membersSection border-solid border-2 rounded-lg p-4 m-4 flex-1">
     <h2 class="sectionTitle">Members</h2>
     <ul class="sectionList">
       {{#each members}}
@@ -22,7 +12,7 @@
   </div>
 
   <!-- Questions Section -->
-  <div class="questionsSection border-solid border-2 rounded-lg p-4 m-4">
+  <div class="questionsSection border-solid border-2 rounded-lg p-4 m-4 flex-2">
     <h2 class="sectionTitle">Questions</h2>
     <ul class="sectionList">
       {{#each questions}}
@@ -32,10 +22,12 @@
   </div>
 
   <!-- Other Community Details Section -->
-  <div class="otherDetailsSection border-solid border-2 rounded-lg p-4 m-4">
+  <div class="otherDetailsSection border-solid border-2 rounded-lg p-4 m-4 flex-1">
     <h2 class="sectionTitle">Community Details</h2>
     <p>Name: {{title}}</p>
     <p>Description: {{description}}</p>
+    {{!-- <p>Created on: {{createdAt}}</p> --}}
+    <br>
     <nav>
       <a href="/communities/join?id={{id}}" class="joinLink">Join Community</a>
     </nav>

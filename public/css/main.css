@@ -1,13 +1,15 @@
+
 body
 {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+margin: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
 }
 .navbar 
 {
+
 background-color: #fff;
 padding: 15px;
 display: flex;
@@ -23,7 +25,6 @@ color: white;
 font-size: 24px;
 font-weight: bold;
 max-height: 10vh;
-
 }
 
 .nav-links a 
@@ -50,6 +51,22 @@ transition: background-color 0.3s ease-in-out;
 background-color: #27ae60; 
 }
 
+.logout-btn 
+{
+background-color: #cc2e2e; 
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease-in-out;
+}
+
+.logout-btn:hover 
+{
+background-color: #ae2727; 
+}
+
 .footer 
 {
 background-color: #000000; 
@@ -66,25 +83,18 @@ justify-content: space-around;
 
 .footer-section 
 {
-flex: 1;
-padding: 0 20px;
+padding: 0 10px;
 }
 
 .footer-section h2 
 {
-font-size: 1.5em;
+font-size: 1.2em;
 margin-bottom: 15px;
 }
 
 .footer-section p 
 {
 font-size: 0.9em;
-}
-
-.footer-section ul 
-{
-list-style: none;
-padding: 0;
 }
 
 .footer-section a 

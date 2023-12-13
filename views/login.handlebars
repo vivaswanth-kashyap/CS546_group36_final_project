@@ -1,0 +1,30 @@
+
+{{>headerEmpty}}
+<div class="background-container">
+    <div class="overlay">
+        <form id="login-form" action="/login" method="POST">
+            <h1 class="bigtext">LOGIN</h1>
+            <label for="emailAddressInput">Email Address:</label>
+            <input type="email" id="emailAddressInput" name="emailAddressInput">
+            <p class="error" id="emailError" hidden>Please enter your Stevens email</p>
+            <br>
+
+            <label for="passwordInput">Password:</label>
+            <input type="password" id="passwordInput" name="passwordInput">
+            <p class="error" id="passwordError" hidden>Please enter a password.</p>
+
+            <br>
+            <button type="submit" class="registerButton block my-2 bg-green-500" id="register">Login</button>
+            <br>
+            {{#if error.length}}
+                <p class="error">{{error}}</p>
+            {{/if}}
+
+            <p><a href="/register">Not a user? Click here to register!</a></p>
+        </form>
+            
+
+    </div>
+</div>
+{{>footer}}
+

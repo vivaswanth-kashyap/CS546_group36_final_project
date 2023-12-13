@@ -3,8 +3,28 @@ import exphbs from "express-handlebars";
 import path from "path";
 import { fileURLToPath } from "url";
 import configRoutes from "./routes/index.js";
+import * as middleWare from "./middleware.js";
+import session from "express-session";
 
 const app = express();
+
+// Session
+app.use(
+    session({
+      name: 'UserState',
+      secret: "For best practice, this should be a unique string which is changed periodically",
+      saveUninitialized: false,
+      resave: false
+    })
+  );
+
+// Custom middleware
+app.use(middleWare.rewriteUnsupportedBrowserMethods);
+app.get('/login', middleWare.rejectAuthenticatedUser);
+app.get('/register', middleWare.rejectAuthenticatedUser);
+app.get('/logout', middleWare.allowAuthenticatedUser);
+app.get('/userActivity', middleWare.allowAuthenticatedUser);
+app.get('/userActivity/setting', middleWare.allowAuthenticatedUser);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,9 +43,27 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/data", express.static("path/to/data"));
+
+app.use("/questions/question/edit", async (req, res, next) => {
+	//console.log(req);
+	console.log("inside middleware");
+
+	if (req.method == "POST") {
+		req.method = "PUT";
+		// return res.redirect("/questions/question");
+	}
+	next();
+});
+
+// app.use("/questions/:id", async (req, res, next) => {
+// 	console.log("inside middleware");
+
+// 	if (req.method == "POST") {
+// 		req.method = "DELETE";
+// 	}
+// 	next();
+// });
 
 configRoutes(app);
 

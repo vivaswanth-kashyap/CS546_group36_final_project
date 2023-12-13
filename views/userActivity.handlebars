@@ -1,0 +1,32 @@
+{{>header}}
+<div id="activity-div" class="m-5 min-h-[70vh] bg-gray-300 flex flex-col">
+
+    <div id="topDiv" class="bg-blue-900 h-[7vh] w-full flex items-center justify-evenly">
+        <p class="bigText font-bold text-black text-lg">Name: {{user.firstName}} {{user.lastName}}</p>
+        <p class="bigText font-bold text-black text-lg">Stevens Email: {{user.stevensEmail}}</p>
+        <p class="bigText font-bold text-black text-lg">Academic Status: {{user.academicStatus}}</p>
+        <p id="rating" class="bigText font-bold text-lg text-yellow-500">Rating: {{activity.rating}}</p>
+        <a href="/userActivity/setting"><img src="/images/setting-icon.png" alt="setting-icon" class="setting-icon"></a> 
+    </div>
+
+    <div id="midDiv" class="bg-black flex items-center justify-evenly flex-wrap h-[7vh]">
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="communitiesCreated">Communities Created</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="questionsCreated">Questions Asked</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="commentsCreated">Comments Made</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="communitiesJoined">Communities Joined</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="questionsSaved">Saved Questions</p>
+    </div>
+
+    <div id="bottomDiv" class="bg-gray-300 flex-grow flex items-center justify-evenly flex-wrap">
+        {{#if activity.communitiesCreated.length}}
+            {{#each activity.communitiesCreated}}
+                <p>{{this}}</p>
+            {{/each}}
+        {{else}}
+        <p>No Communities Created</p>
+        {{/if}}
+    </div>
+
+</div>
+
+{{>footer}}

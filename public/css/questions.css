@@ -1,0 +1,58 @@
+.material-symbols-outlined {
+  font-family: 'Material Icons Outlined';
+  font-size: 24px;
+  color: #757575;
+}
+
+.thumb_up_icon.selected {
+  color: #4CAF50;
+}
+
+.thumb_down_icon.selected {
+  color: #F44336;
+}
+
+.bookmark_icon.selected {
+  color: black;
+  fill: 100%;
+}
+
+.mode_heat_icon {
+  color: #EF4F00;
+  vertical-align: top;
+}
+
+.flash_on_icon {
+  color: skyblue;
+  vertical-align: bottom;
+}
+
+#questionTitle,
+#problemDetails,
+#attemptDetails,
+#tags {
+  resize: none;
+  outline: none;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}
+
+.goodPractices,
+.fieldWrapper {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+#search {
+  resize: none;
+  outline: none;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}

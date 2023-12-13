@@ -1,0 +1,61 @@
+
+{{>headerEmpty}}
+<div class="background-container">
+    <div class="overlay">
+        <form id="registration-form" action="/register" method="POST">
+            <h1 class="bigtext">REGISTER</h1>
+            <label for="firstNameInput">First Name:</label>
+            <input type="text" id="firstNameInput" name="firstNameInput" value={{userInfo.firstName}}>
+            <p class="error" id="firstNameError" hidden>Please enter valid first name.</p>
+            <br>
+
+            <label for="lastNameInput">Last Name:</label>
+            <input type="text" id="lastNameInput" name="lastNameInput" value={{userInfo.lastName}}>
+            <p class="error" id="lastNameError" hidden>Please enter valid last name.</p>
+            <br>
+
+            <label for="emailAddressInput">Email Address:</label>
+            <input type="text" id="emailAddressInput" name="emailAddressInput">
+            <p class="error" id="emailError" hidden>Please enter a valid email address. (ends with stevens.edu)</p>
+            <br>
+
+            <label for="passwordInput">Password:</label>
+            <input type="password" id="passwordInput" name="passwordInput"  value={{userInfo.password}}>
+            <p class="error" id="passwordError" hidden>Please enter a password.</p>
+            <p class="error" id="passwordInvalidError" hidden>Password must be atelast 8 chars long and must contain atleast 1 uppercase, 1 number and 1 special char.</p>
+            <br>
+
+            <label for="confirmPasswordInput">Confirm Password:</label>
+            <input type="password" id="confirmPasswordInput" name="confirmPasswordInput" value={{userInfo.password}}>
+            <p class="error" id="confirmPasswordError" hidden>Please enter confirm password.</p>    
+            <p class="error" id="confirmPasswordMatchError" hidden>Passwords do not match.</p>
+            <br>
+            
+            {{!-- The below inputs are hidden beacuse i need to pass the values to jQuery--}}
+            <input type="hidden" id="defaultStatus" value={{userInfo.academicStatus}}>
+
+            <label for="academicStatusInput">Role:</label>
+            <select id="academicStatusInput" name="academicStatusInput">
+                {{!-- ["undergraduate", "graduate", "doctoral", "non-degree", "certificate-programs", "teacher", "other"] --}}
+                <option value="undergraduate">undergraduate</option>
+                <option value="graduate">graduate</option>
+                <option value="doctoral">doctoral</option>
+                <option value="non-degree">non-degree</option>
+                <option value="certificate-programs">certificate-programs</option>
+                <option value="teacher">teacher</option>
+                <option value="other">other</option>
+            </select>
+            <p class="error" id="academicStatusError" hidden>Please select a role.</p>
+            <br>
+            <br>
+            <button type="submit" class="registerButton block my-2 bg-green-500" id="register">Register</button>
+            {{#if error.length}}
+                <p class="error">{{error}}</p>
+            {{/if}}
+
+            <p><a href="/login">Already have an account? Click here to log-in</a></p>
+        </form>
+
+    </div>
+</div>
+{{>footer}}
