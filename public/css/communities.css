@@ -6,79 +6,199 @@
     'opsz' 24
   }
   
-  .mode_heat_icon{
-    color: rgb(237, 79, 0);
-    vertical-align: top;
-    font-variation-settings:
-    'FILL' 100,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
+ 
+#search {
+  resize: none;
+  outline: none;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}
+
+  .createCommunityButton {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
   }
   
-  .flash_on_icon{
-    vertical-align: bottom;
-    font-variation-settings:
-    'FILL' 100,
-    'wght' 300,
-    'GRAD' 0,
-    'opsz' 24
+  .createCommunityButton:hover {
+    background-color: #2980b9;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
   
-  #questionTitle{
-    resize: none;
-    outline: none;
+  body, html {
+    height: 100%;
   }
   
-  #problemDetails{
-    resize: none;
-    outline: none;
+  .communityPageWrapper {
+    display: flex;
+    height: 100%;
   }
   
-  #attemptDetails{
-    resize: none;
-    outline: none;
+  .membersSection,
+  .questionsSection,
+  .otherDetailsSection {
+    flex: 1;
+    height: 100vh;
+  }
+
+  .communitiesWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
   }
   
-  #tags{
-    resize: none;
-    outline: none;
+  
+  .communitySquare {
+    flex: 0 0 calc(33.333% - 20px); 
+    max-width: calc(33.333% - 20px);; 
+    background-color: #3498db;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .communityTitle {
+    font-weight: bold;
+    font-size: 1.2em;
   }
   
-  #questionTitle:focus{
-    resize: none;
-    outline: none;
+  /* Styles for community description */
+  .communityDescription {
+    margin-top: 10px;
+  }
+  .formWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
   
-  #problemDetails:focus{
-    resize: none;
-    outline: none;
+  /* Form styles */
+  .communityForm {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
   
-  #attemptDetails:focus{
-    resize: none;
-    outline: none;
+  .communityForm label {
+    display: block;
+    margin-bottom: 5px;
   }
   
-  #tags:focus{
-    resize: none;
-    outline: none;
+  .communityForm input[type="text"],
+  .communityForm input[type="email"],
+  .communityForm textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
   }
   
-  .goodPractices{
-    border-width: 1px;
+  .communityForm button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
-  .fieldWrapper{
-    border-width: 1px;
+  .communityForm button:hover {
+    background-color: #2980b9;
+  }
+  .joinFormWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
   
-  #search{
-    resize: none;
-    outline: none;
+  /* Form styles */
+  .joinForm {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
   
-  #search:focus{
-    resize: none;
-    outline: none;
+  .joinForm label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .joinForm input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .joinForm button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .joinForm button:hover {
+    background-color: #2980b9;
+  }
+
+  .sectionTitle {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #3498db;
+    margin-bottom: 10px;
+  }
+  
+  .sectionList {
+    list-style: none;
+    padding: 0;
+  }
+
+  .joinLink {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+  
+  .joinLink:hover {
+    background-color: #2980b9;
+  }
+  .sectionList li {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+ 
+  .sectionList li:hover {
+    background-color: #e0e0e0;
   }

@@ -1,4 +1,4 @@
-<form action="/communities/search" method="POST">
+{{!-- <form action="/communities/search" method="POST">
 
  
   <label>Search:</label>
@@ -7,10 +7,17 @@
 
   <button>Search</button>
 
-</form>
-{{#each communities}}
-  {{> community-summary}}
-{{/each}}
+</form> --}}
+{{>search}}
 <nav>
-    <a href="/communities/create">Create Community</a>
-</nav> 
+  <a href="/communities/create" class="createCommunityButton">Create Community</a>
+</nav>
+<div class="communitiesWrapper flex flex-wrap justify-around">
+  {{#each communities}}
+    <div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">
+      <a href="/communities/{{_id}}" class="communityTitle">{{title}}</a>
+      <p class="communityDescription">{{description}}</p>
+    </div>
+  {{/each}}
+</div>
+
