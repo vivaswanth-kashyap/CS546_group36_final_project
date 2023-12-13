@@ -205,9 +205,22 @@
     display: inline-block;
     transition: background-color 0.3s ease;
   }
-  
+
   .joinLink:hover {
     background-color: #2980b9;
+  }
+
+  .joinedLink {
+    padding: 10px 20px;
+    background-color: #55db34;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+  .joinedLink:hover {
+    background-color: #277414;
   }
   .sectionList li {
     margin-bottom: 8px;

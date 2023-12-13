@@ -61,20 +61,21 @@ const findCommunity = async(communityId) =>{
 	return community;
 }
 const joinCommunity = async(communityId, email) =>{
+	if (!helpers.isValidString(email)) throw `${email} is invalid`;
+	email = email.trim();
+
 	const communityCollection = await communities();
 	let community = await communityCollection.findOne({_id : new ObjectId(communityId)});
 	if (!community) {
 		throw "couldn't get community";
 	}
 	for (const member of community.members) {
-		if(member.email === email) throw 'same email address';
+		if(member === email) throw 'same email address';
 	}
-	const newmember = {
-		email: email
-	};
+	community.members.push(email);
 	const community1 = await communityCollection.findOneAndUpdate(
 		{_id: new ObjectId(communityId)},
-		{$addToSet : {members : newmember}},
+		{$set: {members : community.members}},
 		{returnDocument: 'after'}
 	  );
 	  

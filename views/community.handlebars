@@ -1,12 +1,13 @@
-{{>headerEmpty}}
+{{>header}}
 <div class="communityPageWrapper flex flex-row justify-around">
 
   <!-- Members Section -->
   <div class="membersSection border-solid border-2 rounded-lg p-4 m-4 flex-1">
     <h2 class="sectionTitle">Members</h2>
     <ul class="sectionList">
+        <li>{{creater}} (Community Leader)</li>
       {{#each members}}
-        <li>{{email}}</li>
+        <li>{{this}}</li>
       {{/each}}
     </ul>
   </div>
@@ -29,7 +30,13 @@
     {{!-- <p>Created on: {{createdAt}}</p> --}}
     <br>
     <nav>
-      <a href="/communities/join?id={{id}}" class="joinLink">Join Community</a>
+      {{#if user}}
+          {{#if joined}}
+          <a href="/communities/{{id}}" class="joinedLink">Joined</a> 
+          {{else}}
+          <a href="/communities/join?id={{id}}" class="joinLink">Join Community</a>
+          {{/if}}
+      {{/if}}
     </nav>
   </div>
 </div>
