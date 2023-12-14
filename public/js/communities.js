@@ -1,26 +1,11 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     const searchInput = document.getElementById('search');
-  
-//     if (searchInput) {
-//       searchInput.addEventListener('keypress', function(event) {
-//         if (event.key === 'Enter') {
-//           const searchValue = searchInput.value.trim();
-//           if (searchValue !== '') {
-//             window.location.href = `/communities/search/${encodeURIComponent(searchValue)}`;
-//           } else {
-//             // Handle case when search value is empty
-//             alert('Please enter a search query.');
-//           }
-//         }
-//       });
-//     }
-//   });
+
 document.addEventListener('DOMContentLoaded', function() {
   const communityForm = document.getElementById('communityForm');
 
   if (communityForm) {
     communityForm.addEventListener('submit', function(event) {
       event.preventDefault();
+
       const title = document.getElementById('title').value;
       const description = document.getElementById('description').value;
 

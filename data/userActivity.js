@@ -162,3 +162,66 @@ export const addQuestionsSaved = async(stevensEmail, questionId) =>
     
     return true; 
 };
+
+// Delete methods
+export const deleteCommunitiesCreated = async(stevensEmail, communityId) =>
+{   
+    // Validate communityId
+    communityId = helper.validString(communityId);
+    if (!ObjectId.isValid(communityId)) throw `${communityId} is not a valid id`;
+
+    // Don't validate email since we are calling getUserActivity
+    let currUser = await getUserActivity(stevensEmail);
+    let index = 0;
+    for (let i of currUser.commentsCreated)
+    {
+        if (i == communityId) break;
+        index += 1;
+    }
+    if (index == currUser.communitiesJoined.length) throw `${stevensEmail} is not the creater of this community`;
+
+    currUser.communitiesCreated.splice(index, 1);
+    let updatedcommunitiesCreated = currUser.communitiesCreated;
+
+    // Add
+    const activityCollection = await userActivity();
+    const activityInfo = await activityCollection.updateOne(
+        {stevensEmail: stevensEmail},
+        {$set: {communitiesCreated: updatedcommunitiesCreated}},
+        {returnDocument: 'after'});
+    
+    if (!activityInfo) throw `Update failed! Could not update communitiesCreated with email ${stevensEmail}`;
+    
+    return true; 
+};
+
+export const deleteCommunitiesjoined = async(stevensEmail, communityId) =>
+{   
+    // Validate communityId
+    communityId = helper.validString(communityId);
+    if (!ObjectId.isValid(communityId)) throw `${communityId} is not a valid id`;
+
+    // Don't validate email since we are calling getUserActivity
+    let currUser = await getUserActivity(stevensEmail);
+    let index = 0;
+    for (let i of currUser.commentsCreated)
+    {
+        if (i == communityId) break;
+        index += 1;
+    }
+    if (index == currUser.communitiesJoined.length) throw `${stevensEmail} is not joined to this community`;
+
+    currUser.communitiesJoined.splice(index, 1);
+    let updatedcommunitiesJoined = currUser.communitiesJoined;
+
+    // Add
+    const activityCollection = await userActivity();
+    const activityInfo = await activityCollection.updateOne(
+        {stevensEmail: stevensEmail},
+        {$set: {communitiesJoined: updatedcommunitiesJoined}},
+        {returnDocument: 'after'});
+    
+    if (!activityInfo) throw `Update failed! Could not update communitiesJoined with email ${stevensEmail}`;
+    
+    return true; 
+};

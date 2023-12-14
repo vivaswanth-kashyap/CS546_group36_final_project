@@ -44,8 +44,8 @@ export const isValidCommunity = (
 	if(title.trim().length <3 || title.trim().length >15){
 		throw "title must be 3 to 15 characters long";
 	}
-	if(description.trim().length <3 || description.trim().length >15){
-		throw "description must be 3 to 15 characters long";
+	if(description.trim().length <10 || description.trim().length >100){
+		throw "Description should be between 10 and 100 characters.";
 	}
     if(!isvalidEmail(email)){
         throw "email is not valid";

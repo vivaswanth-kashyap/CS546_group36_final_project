@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as communityData from "../data/communities.js";
 import * as helpers from "../helpers/commHelper.js";
+import * as userActivity from "../data/userActivity.js";
 import xss from 'xss';
 const router = Router();
 
@@ -21,7 +22,7 @@ router.route("/").get(async(req, res) => {
 router
 .route('/create')
 .get(async(req, res) => {
-    return res.render('newCommunity',{title: "add a new Community", css:"communities", js:"communities"});
+    return res.render('newCommunity',{title: "add a new Community", css:"communities", js:"communities", user: req.session.user});
 })
 .post(async(req, res) => {
     let title = xss(req.body.title);
@@ -32,9 +33,11 @@ router
             throw "Enter Valid Data";
         }
         const newCommunity = await communityData.createCommunity(title,  req.session.user.stevensEmail, description);
+        // Added to the userActivity here
+        await userActivity.addCommunitiesCreated(req.session.user.stevensEmail, newCommunity._id.toString());
         return res.redirect(`/communities/${newCommunity._id}`);
     }catch(e){
-        return res.render("communities", {title: "Error",message: e.message});
+        return res.render("newCommunity", {title: "add a new Community", message: e, css:"communities", js:"communities", user: req.session.user});
     }
 });
 router
@@ -45,9 +48,11 @@ router
     try
     {
         const newCommunity = await communityData.joinCommunity(id, req.session.user.stevensEmail);
+        // Added to the userActivity here
+        await userActivity.addCommunitiesJoined(req.session.user.stevensEmail, newCommunity._id.toString());
         return res.redirect(`/communities/${newCommunity._id}`);
     }catch(e){
-        return res.render("error", {title: "Error", error: e.message});
+        return res.render("error", {title: "Error", error: e});
     }
 });
 router
@@ -58,9 +63,11 @@ router
     try
     {
         const newCommunity = await communityData.unjoinCommunity(id, req.session.user.stevensEmail);
+        // Deleted to the userActivity here
+        await userActivity.deleteCommunitiesjoined(req.session.user.stevensEmail, newCommunity._id.toString());
         return res.redirect(`/communities/${newCommunity._id}`);
     }catch(e){
-        return res.render("error", {title: "Error", error: e.message});
+        return res.render("error", {title: "Error", error: e});
     }
 });
 // GET single community
@@ -74,16 +81,17 @@ router.route('/:id').get(async(req, res) => {
             id = helpers.checkId(id);
             let members = await communityData.findMembers(id);
             let joined = false;
+            let isUserCreater = false;
             if (members.includes(req.session.user.stevensEmail))
             {
                 joined = true;
             }
             const community = await communityData.findCommunity(id);
-            if (community.email == req.session.user.stevensEmail) joined = true;
+            if (req.session.user.stevensEmail == community.email) isUserCreater = true;
 
-            return res.render('community', {title:community.title,description:community.description,members:community.members, creater: community.email, id:community._id, js:"communitites", css:"communities", user: req.session.user, joined: joined});
+            return res.render('community', {title:community.title,description:community.description,members:community.members, creater: community.email, id:community._id, js:"communitites", css:"communities", user: req.session.user, joined: joined, isUserCreater: isUserCreater});
         }catch(e){
-            return res.render("communities", {title: "Error",message: e.message});
+            return res.render("communities", {title: "Error",message: e});
         }
     }
     // User not logged in
@@ -93,7 +101,7 @@ router.route('/:id').get(async(req, res) => {
             const community = await communityData.findCommunity(id);
             return res.render('community', {title:community.title,description:community.description,members:community.members, creater: community.email, id:community._id, js:"communitites", css:"communities"});
         }catch(e){
-            return res.render("communities", {title: "Error",message: e.message});
+            return res.render("communities", {title: "Error",message: e});
         }     
     }
 
@@ -105,7 +113,7 @@ router.route("/search/:searchterm").get(async (req, res) => {
 		const results = await communityData.searchCommunities(searchValue);
         return res.render('communities', {title: "All Communities",communities: results, js:"communitites", css:"communities"});
 	} catch (e) {
-		return res.render("communities", {title: "Error",message: e.message});
+		return res.render("communities", {title: "Error",message: e});
 	}
 });
  

@@ -14,6 +14,10 @@ let user_3 = undefined;
 let user_4 = undefined;
 let user_5 = undefined;
 
+// Create 2 Comminities
+let comm_1 = undefined;
+let comm_2 = undefined;
+
 
 
 // Create users
@@ -129,12 +133,13 @@ catch (e)
     console.log(e);
 }
 
-// Update UserActivity
-console.log("\n----------------- Update UserActivity -----------------------");
+// Create Community
+console.log("\n----------------- Create Communities -----------------------");
 try 
 {
-    console.log("\n----------------- Update addCommunitiesCreated -----------------------");
-    await userActivity.addCommunitiesCreated(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+    console.log("\n----------------- Create First Community -----------------------");
+    comm_1 = await communityData.createCommunity("First", user_1.stevensEmail, "First description");
+    await userActivity.addCommunitiesCreated(user_1.stevensEmail, comm_1._id.toString());
     let a = await userActivity.getUserActivity(user_1.stevensEmail);
     console.log(a);
 }
@@ -144,41 +149,9 @@ catch (e)
 }
 try 
 {
-    console.log("\n----------------- Update addQuestionsCreated -----------------------");
-    await userActivity.addQuestionsCreated(user_1.stevensEmail, "656fa0d8549455916693cbb2");
-    let a = await userActivity.getUserActivity(user_1.stevensEmail);
-    console.log(a);
-}
-catch (e)
-{
-    console.log(e);
-}
-try 
-{
-    console.log("\n----------------- Update addCommentsCreated -----------------------");
-    await userActivity.addCommentsCreated(user_1.stevensEmail, "656fa0d8549455916693cbb2");
-    let a = await userActivity.getUserActivity(user_1.stevensEmail);
-    console.log(a);
-}
-catch (e)
-{
-    console.log(e);
-}
-try 
-{
-    console.log("\n----------------- Update addCommunitiesJoined -----------------------");
-    await userActivity.addCommunitiesJoined(user_1.stevensEmail, "656fa0d8549455916693cbb2");
-    let a = await userActivity.getUserActivity(user_1.stevensEmail);
-    console.log(a);
-}
-catch (e)
-{
-    console.log(e);
-}
-try 
-{
-    console.log("\n----------------- Update addQuestionsSaved -----------------------");
-    await userActivity.addQuestionsSaved(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+    console.log("\n----------------- Create Second Community -----------------------");
+    comm_2 = await communityData.createCommunity("Second", user_1.stevensEmail, "Second description");
+    await userActivity.addCommunitiesCreated(user_1.stevensEmail, comm_2._id.toString());
     let a = await userActivity.getUserActivity(user_1.stevensEmail);
     console.log(a);
 }
@@ -187,7 +160,20 @@ catch (e)
     console.log(e);
 }
 
-
+// Join Community
+console.log("\n----------------- Join Communities -----------------------");
+try 
+{
+    console.log("\n----------------- Join first Community -----------------------");
+    await communityData.joinCommunity(comm_1._id.toString(), user_2.stevensEmail);
+    await userActivity.addCommunitiesJoined(user_2.stevensEmail, comm_1._id.toString());
+    let a = await userActivity.getUserActivity(user_2.stevensEmail);
+    console.log(a);
+}
+catch (e)
+{
+    console.log(e);
+}
 
 
 
@@ -246,5 +232,63 @@ await closeConnection();
 //     let m3 = await communityData.findMembers(c2._id);
 //     console.log(m3);
 // }catch(e){
+//     console.log(e);
+// }
+
+// Update UserActivity
+// console.log("\n----------------- Update UserActivity -----------------------");
+// try 
+// {
+//     console.log("\n----------------- Update addCommunitiesCreated -----------------------");
+//     await userActivity.addCommunitiesCreated(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+//     let a = await userActivity.getUserActivity(user_1.stevensEmail);
+//     console.log(a);
+// }
+// catch (e)
+// {
+//     console.log(e);
+// }
+// try 
+// {
+//     console.log("\n----------------- Update addQuestionsCreated -----------------------");
+//     await userActivity.addQuestionsCreated(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+//     let a = await userActivity.getUserActivity(user_1.stevensEmail);
+//     console.log(a);
+// }
+// catch (e)
+// {
+//     console.log(e);
+// }
+// try 
+// {
+//     console.log("\n----------------- Update addCommentsCreated -----------------------");
+//     await userActivity.addCommentsCreated(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+//     let a = await userActivity.getUserActivity(user_1.stevensEmail);
+//     console.log(a);
+// }
+// catch (e)
+// {
+//     console.log(e);
+// }
+// try 
+// {
+//     console.log("\n----------------- Update addCommunitiesJoined -----------------------");
+//     await userActivity.addCommunitiesJoined(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+//     let a = await userActivity.getUserActivity(user_1.stevensEmail);
+//     console.log(a);
+// }
+// catch (e)
+// {
+//     console.log(e);
+// }
+// try 
+// {
+//     console.log("\n----------------- Update addQuestionsSaved -----------------------");
+//     await userActivity.addQuestionsSaved(user_1.stevensEmail, "656fa0d8549455916693cbb2");
+//     let a = await userActivity.getUserActivity(user_1.stevensEmail);
+//     console.log(a);
+// }
+// catch (e)
+// {
 //     console.log(e);
 // }

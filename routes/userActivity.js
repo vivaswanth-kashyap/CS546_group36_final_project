@@ -4,6 +4,8 @@ import * as helper from "../helpers/usersHelper.js";
 import express from 'express';
 import xss from 'xss';
 
+import * as communityData from "../data/communities.js";
+
 const router = express.Router();
 
 router

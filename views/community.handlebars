@@ -32,9 +32,13 @@
     <nav>
       {{#if user}}
           {{#if joined}}
-          <a href="/communities/unjoin?id={{id}}" class="joinedLink">Exit</a> 
+          <a href="/communities/unjoin?id={{id}}" class="joinedLink">Leave Community</a>
           {{else}}
-          <a href="/communities/join?id={{id}}" class="joinLink">Join Community</a>
+            {{#if isUserCreater}}
+            <a href="/communities/{{id}}" class="joinedLink">You are the leader</a>
+            {{else}}
+            <a href="/communities/join?id={{id}}" class="joinLink">Join Community</a>
+            {{/if}}
           {{/if}}
       {{/if}}
     </nav>

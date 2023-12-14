@@ -2,6 +2,7 @@ import { questions } from "../config/mongoCollections.js";
 import { communities } from "../config/mongoCollections.js";
 import * as helpers from "../helpers/commHelper.js";
 import { ObjectId } from "mongodb";
+
 const createCommunity = async (title, email, description) => {
 	if (helpers.isValidCommunity(title,email,description)) {
 		title = title.trim();
