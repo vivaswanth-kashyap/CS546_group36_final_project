@@ -41,6 +41,12 @@ export const isValidCommunity = (
 	if ( !isValidString(title) || !isValidString(description) || !isValidString(email)){
 		throw "expected strings to be provided";
 	}
+	if(title.trim().length <3 || title.trim().length >15){
+		throw "title must be 3 to 15 characters long";
+	}
+	if(description.trim().length <3 || description.trim().length >15){
+		throw "description must be 3 to 15 characters long";
+	}
     if(!isvalidEmail(email)){
         throw "email is not valid";
     }

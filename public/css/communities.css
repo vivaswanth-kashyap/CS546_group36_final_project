@@ -5,6 +5,7 @@
     'GRAD' 0,
     'opsz' 24
   }
+
   
  
 #search {
@@ -239,4 +240,10 @@
     justify-content: center;
     align-items: center;
     height: 100px; /* Adjust the height as needed */
+  }
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
   }

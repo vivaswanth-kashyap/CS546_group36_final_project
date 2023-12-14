@@ -50,7 +50,19 @@ router
         return res.render("error", {title: "Error", error: e.message});
     }
 });
+router
+.route('/unjoin')
+.get(async (req, res) => {
 
+    let id = xss(req.query.id);
+    try
+    {
+        const newCommunity = await communityData.unjoinCommunity(id, req.session.user.stevensEmail);
+        return res.redirect(`/communities/${newCommunity._id}`);
+    }catch(e){
+        return res.render("error", {title: "Error", error: e.message});
+    }
+});
 // GET single community
 router.route('/:id').get(async(req, res) => {
     let id = xss(req.params.id);

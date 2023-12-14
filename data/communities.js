@@ -90,7 +90,7 @@ const joinCommunity = async(communityId, email) =>{
 const searchCommunities = async (keyword) => {
 	const communityCollection = await communities();
 	
-	const regex = new RegExp(keyword, 'i'); // Case-insensitive regex for the keyword
+	const regex = new RegExp(keyword, 'i'); 
     const result = await communityCollection.find({ title: regex }).toArray();
     
 	if (!result) {
@@ -99,12 +99,49 @@ const searchCommunities = async (keyword) => {
 	result.forEach((community) => (community._id = community._id.toString()));
 	return result;
 };
+const unjoinCommunity = async (communityId, email) => {
+    if (!helpers.isValidString(email)) throw `${email} is invalid`;
+    email = email.trim();
 
+    const communityCollection = await communities();
+    let community = await communityCollection.findOne({ _id: new ObjectId(communityId) });
+    if (!community) {
+        throw "Couldn't get community";
+    }
+
+    let isMember = false;
+    for (let i = 0; i < community.members.length; i++) {
+        if (community.members[i] === email) {
+            community.members.splice(i, 1);
+            isMember = true;
+            break;
+        }
+    }
+
+    if (!isMember) {
+        throw 'Email address is not a member of this community';
+    }
+
+    const updatedCommunity = await communityCollection.findOneAndUpdate(
+        { _id: new ObjectId(communityId) },
+        { $set: { members: community.members } },
+        { returnDocument: 'after' }
+    );
+
+    if (!updatedCommunity) {
+        throw 'Could not remove member successfully';
+    }
+
+    const newCommunity = await findCommunity(communityId);
+
+    return newCommunity;
+}
 export {
 	createCommunity,
 	findAllCommunites,
 	findMembers,
 	findCommunity,
 	searchCommunities,
-	joinCommunity
+	joinCommunity,
+	unjoinCommunity
 };
