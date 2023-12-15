@@ -137,6 +137,48 @@ const unjoinCommunity = async (communityId, email) => {
 
     return newCommunity;
 }
+const addQuestionToCommunity = async(communityId, questionId) => {
+	const communityCollection = await communities();
+	const updatedCommunity = await communityCollection.findOneAndUpdate(
+		{ _id : new ObjectId(communityId)},
+		{ $push: {questions: questionId}},
+		{ returnDocument: 'after'}
+	);
+	if(!updatedCommunity){
+		throw "Could not add question to the community";
+	}
+	return updatedCommunity;
+}
+const deleteQuestionFromCommunity = async(communityId, questionId) => {
+	const communityCollection = await communities();
+	const updatedCommunity = await communityCollection.findOneAndUpdate(
+		{_id : new ObjectId(communityId)},
+		{$pull : {questions: questionId}},
+		{returnDocument: 'after'}
+	);
+	if(!updatedCommunity){
+		throw 'Could not delete question from the community';
+	}
+	return updatedCommunity;
+}
+const getQuestionFromCommunity = async(communityId) =>{
+	const community = findCommunity(communityId);
+	const questionCollection = await questions();
+
+	const questionIds = community.questions;
+	const questionList = [];
+
+	for(const questionId of questionIds){
+		const question = await questionCollection.findOne(
+			{_id: new ObjectId(questionId)}, 
+			{projection: {title: 1}}
+		);
+		if(question){
+			questionList.push({id: questionId, title:question.title});
+		}
+	}
+	return questionList;
+};
 export {
 	createCommunity,
 	findAllCommunites,
@@ -144,5 +186,8 @@ export {
 	findCommunity,
 	searchCommunities,
 	joinCommunity,
-	unjoinCommunity
+	unjoinCommunity,
+	addQuestionToCommunity,
+	deleteQuestionFromCommunity,
+	getQuestionFromCommunity
 };
