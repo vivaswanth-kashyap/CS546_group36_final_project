@@ -211,12 +211,12 @@ router.route("/question/edit/:id").get(async (req, res) => {
 		questionId = helpers.checkId(questionId);
 
 		const question = await questionData.findQuestion(questionId);
-		//console.log(question);
+		console.log(question);
 
 		question.tagsObj = question.tagsObj.map((obj) => obj.tag.trim()).join(", ");
 		if (req.session.user) {
-			if (req.session.user == question.stevensEmail) {
-				return res.render("newQuestion", {
+			if (req.session.user.stevensEmail == question.stevensEmail) {
+				return res.status(200).render("newQuestion", {
 					title: "Ask a public question",
 					question: question,
 					bg: "bg-zinc-100",
@@ -225,7 +225,7 @@ router.route("/question/edit/:id").get(async (req, res) => {
 					user: req.session.user,
 				});
 			} else {
-				return res.render("error", {
+				return res.status(400).render("error", {
 					title: "error",
 					error: "you are not authorized to edit the message",
 					user: req.session.user,
@@ -277,11 +277,23 @@ router.route("/:id").delete(async (req, res) => {
 	console.log("inside route delete");
 	try {
 		const questionId = helpers.checkId(req.params.id);
-		const question = await questionData.removeQuestion(questionId);
 
-		if (question.deleted) {
-			console.log("deleted");
-			return res.status(200).json(question);
+		const exists = await questionData.findQuestion(questionId);
+		console.log("session", req.session.user.stevensEmail);
+		console.log("data", exists.stevensEmail);
+		if (req.session.user.stevensEmail == exists.stevensEmail) {
+			const question = await questionData.removeQuestion(questionId);
+
+			if (question.deleted) {
+				console.log("deleted");
+				return res.status(200).json(question);
+			}
+		} else {
+			return res.render("error", {
+				title: "error",
+				error: "you are not authorized to delete the message",
+				user: req.session.user,
+			});
 		}
 	} catch (e) {
 		return res.render("question", {

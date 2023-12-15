@@ -83,8 +83,7 @@ justify-content: space-around;
 
 .footer-section 
 {
-flex: 1;
-padding: 0 20px;
+padding: 0 10px;
 }
 
 .footer-section h2 
@@ -96,12 +95,6 @@ margin-bottom: 15px;
 .footer-section p 
 {
 font-size: 0.9em;
-}
-
-.footer-section ul 
-{
-list-style: none;
-padding: 0;
 }
 
 .footer-section a 
