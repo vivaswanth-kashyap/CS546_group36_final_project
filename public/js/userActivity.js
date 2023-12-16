@@ -36,4 +36,45 @@ $(document).ready(function()
         this.submit();
     });
 
+    // Show the user data according to the button pressed
+
+    // Function to handle the AJAX response and populate the list
+    function populateList(id, data) {
+        var ul =  $('#container');
+        data.forEach(function(item) {
+            ul.append(item);
+        });
+        // Reset
+        $('#bottomDiv').empty().append(ul);
+    }
+
+    $('#communitiesCreated').click(function() {
+        var clickedElementId = $(this).attr('id');
+
+        // Perform AJAX request
+        $.ajax({
+            url: 'http://localhost:3000/userActivity/api/communitiesCreated',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Populate the list with the response data
+                let content = [];
+                response.forEach(function(item)
+                {
+                   let x =  '<div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">' +
+                            '<a href="/communities/' + item._id + '">' +
+                            '<h2 class="communityTitle">' + item.title + '</h2>' +
+                            '<p class="communityDescription"> Description: ' + item.description + '</p>' +
+                            '</a>' +
+                            '</div>';
+                    content.push(x);
+                }); 
+                populateList(clickedElementId, content);
+            },
+            error: function() {
+                alert('Error fetching data');
+            }
+        });
+    });
+
 });
