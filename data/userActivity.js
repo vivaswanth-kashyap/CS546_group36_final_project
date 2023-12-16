@@ -8,7 +8,7 @@ export const createUserActivity = async (stevensEmail) => {
 
 	let newActivity = {
 		stevensEmail: stevensEmail,
-		rating: 5,
+		rating: 0,
 		communitiesCreated: [],
 		questionsCreated: [],
 		commentsCreated: [],

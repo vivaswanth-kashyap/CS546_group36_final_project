@@ -48,8 +48,10 @@ $(document).ready(function()
         $('#bottomDiv').empty().append(ul);
     }
 
+    // communitiesCreated
     $('#communitiesCreated').click(function() {
         var clickedElementId = $(this).attr('id');
+        $("#container").empty();
 
         // Perform AJAX request
         $.ajax({
@@ -59,6 +61,7 @@ $(document).ready(function()
             success: function(response) {
                 // Populate the list with the response data
                 let content = [];
+                content.push('<p class="communityTitle">Communities Created</p>');
                 response.forEach(function(item)
                 {
                    let x =  '<div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">' +
@@ -77,4 +80,38 @@ $(document).ready(function()
         });
     });
 
+    // communitiesJoined
+    $('#communitiesJoined').click(function() {
+        var clickedElementId = $(this).attr('id');
+        $("#container").empty();
+
+        // Perform AJAX request
+        $.ajax({
+            url: 'http://localhost:3000/userActivity/api/communitiesJoined',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Populate the list with the response data
+                let content = [];
+                content.push('<p class="communityTitle">Communities Joined</p>');
+                response.forEach(function(item)
+                {
+                    let x =  '<div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">' +
+                            '<a href="/communities/' + item._id + '">' +
+                            '<h2 class="communityTitle">' + item.title + '</h2>' +
+                            '<p class="communityDescription"> Description: ' + item.description + '</p>' +
+                            '</a>' +
+                            '</div>';
+                    content.push(x);
+                }); 
+                populateList(clickedElementId, content);
+            },
+            error: function() {
+                alert('Error fetching data');
+            }
+        });
+    });
+
+    // Keep this at the very bottom (this clicks the communitiesCreated by default)
+    $("#communitiesCreated").click();
 });
