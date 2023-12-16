@@ -169,6 +169,54 @@ export const addQuestionsSaved = async (stevensEmail, questionId) => {
 	return true;
 };
 
+export const addQuestionsLiked = async (stevensEmail, questionId) => {
+	// Validate questionId
+	questionId = helper.validString(questionId);
+	if (!ObjectId.isValid(questionId)) throw `${questionId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	currUser.questionsLiked.push(new ObjectId(questionId));
+	let updatedquestionsLiked = currUser.questionsLiked;
+
+	// Add
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { questionsLiked: updatedquestionsLiked } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update questionsLiked with email ${stevensEmail}`;
+
+	return true;
+};
+
+export const addCommentsLiked = async (stevensEmail, commentId) => {
+	// Validate commentId
+	commentId = helper.validString(commentId);
+	if (!ObjectId.isValid(commentId)) throw `${commentId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	currUser.commentsLiked.push(new ObjectId(commentId));
+	let updatedcommentsLiked = currUser.commentsLiked;
+
+	// Add
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { commentsLiked: updatedcommentsLiked } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update commentsLiked with email ${stevensEmail}`;
+
+	return true;
+};
+
 // Delete methods
 export const deleteCommunitiesCreated = async (stevensEmail, communityId) => {
 	// Validate communityId
@@ -188,7 +236,7 @@ export const deleteCommunitiesCreated = async (stevensEmail, communityId) => {
 	currUser.communitiesCreated.splice(index, 1);
 	let updatedcommunitiesCreated = currUser.communitiesCreated;
 
-	// Add
+	// Delete
 	const activityCollection = await userActivity();
 	const activityInfo = await activityCollection.updateOne(
 		{ stevensEmail: stevensEmail },
@@ -220,7 +268,7 @@ export const deleteCommunitiesjoined = async (stevensEmail, communityId) => {
 	currUser.communitiesJoined.splice(index, 1);
 	let updatedcommunitiesJoined = currUser.communitiesJoined;
 
-	// Add
+	// Delete
 	const activityCollection = await userActivity();
 	const activityInfo = await activityCollection.updateOne(
 		{ stevensEmail: stevensEmail },
@@ -230,6 +278,166 @@ export const deleteCommunitiesjoined = async (stevensEmail, communityId) => {
 
 	if (!activityInfo)
 		throw `Update failed! Could not update communitiesJoined with email ${stevensEmail}`;
+
+	return true;
+};
+
+export const deleteQuestionsSaved = async (stevensEmail, questionId) => {
+	// Validate questionId
+	questionId = helper.validString(questionId);
+	if (!ObjectId.isValid(questionId)) throw `${questionId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	let index = 0;
+	for (let i of currUser.questionsSaved) {
+		if (i == questionId) break;
+		index += 1;
+	}
+	if (index == currUser.questionsSaved.length)
+		throw `${stevensEmail} has not saved this question`;
+
+	currUser.questionsSaved.splice(index, 1);
+	let updatedquestionsSaved = currUser.questionsSaved;
+
+	// Delete
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { questionsSaved: updatedquestionsSaved } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update questionsSaved with email ${stevensEmail}`;
+
+	return true;
+};
+
+export const deleteQuestionsCreated = async (stevensEmail, questionId) => {
+	// Validate questionId
+	questionId = helper.validString(questionId);
+	if (!ObjectId.isValid(questionId)) throw `${questionId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	let index = 0;
+	for (let i of currUser.questionsCreated) {
+		if (i == questionId) break;
+		index += 1;
+	}
+	if (index == currUser.questionsCreated.length)
+		throw `${stevensEmail} has not created this question`;
+
+	currUser.questionsCreated.splice(index, 1);
+	let updatedquestionsCreated = currUser.questionsCreated;
+
+	// Delete
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { questionsCreated: updatedquestionsCreated } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update questionsCreated with email ${stevensEmail}`;
+
+	return true;
+};
+
+export const deleteCommentsCreated = async (stevensEmail, commentId) => {
+	// Validate commentId
+	commentId = helper.validString(commentId);
+	if (!ObjectId.isValid(commentId)) throw `${commentId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	let index = 0;
+	for (let i of currUser.commentsCreated) {
+		if (i == commentId) break;
+		index += 1;
+	}
+	if (index == currUser.commentsCreated.length)
+		throw `${stevensEmail} has not created this comment`;
+
+	currUser.commentsCreated.splice(index, 1);
+	let updatedcommentsCreated = currUser.commentsCreated;
+
+	// Delete
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { commentsCreated: updatedcommentsCreated } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update commentsCreated with email ${stevensEmail}`;
+
+	return true;
+};
+
+export const deleteQuestionsLiked = async (stevensEmail, questionId) => {
+	// Validate questionId
+	questionId = helper.validString(questionId);
+	if (!ObjectId.isValid(questionId)) throw `${questionId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	let index = 0;
+	for (let i of currUser.questionsLiked) {
+		if (i == questionId) break;
+		index += 1;
+	}
+	if (index == currUser.questionsLiked.length)
+		throw `${stevensEmail} has not liked this question`;
+
+	currUser.questionsLiked.splice(index, 1);
+	let updatedquestionsLiked = currUser.questionsLiked;
+
+	// Delete
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { questionsLiked: updatedquestionsLiked } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update questionsLiked with email ${stevensEmail}`;
+
+	return true;
+};
+
+export const deleteCommentsLiked = async (stevensEmail, commentId) => {
+	// Validate commentId
+	commentId = helper.validString(commentId);
+	if (!ObjectId.isValid(commentId)) throw `${commentId} is not a valid id`;
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+	let index = 0;
+	for (let i of currUser.commentsLiked) {
+		if (i == commentId) break;
+		index += 1;
+	}
+	if (index == currUser.commentsLiked.length)
+		throw `${stevensEmail} has not liked this comment`;
+
+	currUser.commentsLiked.splice(index, 1);
+	let updatedcommentsLiked = currUser.commentsLiked;
+
+	// Delete
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { commentsLiked: updatedcommentsLiked } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update commentsLiked with email ${stevensEmail}`;
 
 	return true;
 };
