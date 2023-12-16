@@ -2,7 +2,7 @@ import { Router } from "express";
 import xss from "xss";
 import * as questionData from "../data/questions.js";
 import * as helpers from "../helpers/questionsHelper.js";
-
+import * as userActivity from "../data/userActivity.js";
 import * as communityData from "../data/communities.js";
 
 const router = Router();
@@ -107,6 +107,11 @@ router.route("/question").post(async (req, res) => {
 					input.attemptDetails,
 					input.tags,
 					req.session.user.stevensEmail
+				);
+				// Added to the userActivity here
+				await userActivity.addQuestionsCreated(
+					req.session.user.stevensEmail,
+					question._id
 				);
 				//console.log(votes);
 				//console.log(question);
@@ -336,6 +341,11 @@ router.route("/:id").delete(async (req, res) => {
 				console.log("deleted");
 				return res.status(200).json(question);
 			}
+			// Added to the userActivity here
+			await userActivity.deleteQuestionsCreated(
+				req.session.user.stevensEmail,
+				questionId
+			);
 		} else {
 			return res.render("error", {
 				title: "error",
