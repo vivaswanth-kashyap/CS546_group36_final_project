@@ -1,20 +1,20 @@
-<header>
-  <nav class="navbar">
+<header class="bg-blue-900 text-white">
+  <nav class="navbar flex items-center justify-between p-2">
     <a href="/">
-      <img src="/images/logo.png" alt="Logo" class="logo">
+      <img src="/images/logo.png" alt="Logo" class="logo h-12">
     </a>
-    <div class="search mr-10 ml-10">
-      <span class="material-symbols-outlined pb-2 mr-2 ml-5">search</span>
+    <div class="search ml-48">
+      <span class="material-symbols-outlined text-white">search</span>
       <textarea class="mr-10" name="search" id="search" cols="75" rows="1" placeholder="Enter keywords relevent to your search"></textarea>
     </div>
       {{#if user}}
         <a href="/userActivity" class="hover:text-sky-700">{{user.stevensEmail}}</a>
-      {{/if}}
-    </div>
-      {{#if user}}
-        <button class="logout-btn">Logout</button>
+        <a href="/communities" class="hover:text-sky-700">Communities</a>
+        <button class="logout-btn mx-2">Logout</button>
+
       {{else}}
-        <button class="login-btn">Login</button>
+        <a href="/communities" class="hover:text-sky-700">Communities</a>
+        <button class="login-btn bg-sky-600 hover:bg-sky-700 mr-6">Login</button>
       {{/if}}
   </nav>
 </header>

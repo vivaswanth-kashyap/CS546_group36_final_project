@@ -8,6 +8,24 @@ document.addEventListener("DOMContentLoaded", () => {
 	// const flash_on = document.getElementById("flash_on");
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
+
+	const communityForm = document.getElementById("communitySelector");
+
+	// if (communityForm) {
+	// 	const questionId = document.getElementById(
+	// 		"questionIdSelectCommunity"
+	// 	).textContent;
+	// 	communityForm.addEventListener("submit", (e) => {
+	// 		e.preventDefault();
+	// 		const selectedOption = document.querySelector(
+	// 			'input[name="communityOption"]:checked'
+	// 		);
+	// 		if (selectedOption) {
+	// 			const communityId = selectedOption.value;
+	// 			handleCommunitySelect(questionId, communityId);
+	// 		}
+	// 	});
+	// }
 	if (thumb_up) {
 		thumb_up.addEventListener("click", (e) => {
 			e.preventDefault();
@@ -264,3 +282,17 @@ const handleSortLatest = async () => {
 		console.error("Error fetching latest questions:", e);
 	}
 };
+
+// const handleCommunitySelect = async (questionId, communityId) => {
+// 	try {
+// 		let res = await axios.post(`/questions/selectCommunity/${questionId}`, {
+// 			communityId: communityId,
+// 		});
+
+// 		if (res.status === 200) {
+// 			window.location.href = `/questions/${questionId}`;
+// 		}
+// 	} catch (e) {
+// 		console.log(e);
+// 	}
+// };

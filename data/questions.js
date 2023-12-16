@@ -55,7 +55,7 @@ const findAllQuestions = async (key = "latest", questionIds = []) => {
 	console.log("key", key);
 	const questionCollection = await questions();
 
-	let questionList;
+	let questionList = [];
 
 	if (questionIds.length) {
 		for (const id of questionIds) {
@@ -80,6 +80,7 @@ const findAllQuestions = async (key = "latest", questionIds = []) => {
 	if (!questionList) {
 		throw "couldn't get all questions";
 	}
+	console.log(questionList);
 	return questionList;
 };
 

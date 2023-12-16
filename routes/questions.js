@@ -2,6 +2,9 @@ import { Router } from "express";
 import xss from "xss";
 import * as questionData from "../data/questions.js";
 import * as helpers from "../helpers/questionsHelper.js";
+
+import * as communityData from "../data/communities.js";
+
 const router = Router();
 
 router.route("/").get(async (req, res) => {
@@ -107,9 +110,10 @@ router.route("/question").post(async (req, res) => {
 				);
 				//console.log(votes);
 				//console.log(question);
-				return res.redirect(`/questions/${question._id}`);
+				return res.redirect(`/questions/selectCommunity/${question._id}`);
 			}
 		} else {
+			console.log("inside else");
 			return res.render("question", {
 				title: "Error",
 				message: "You have to login first to ask a question",
@@ -119,6 +123,7 @@ router.route("/question").post(async (req, res) => {
 			});
 		}
 	} catch (e) {
+		console.log("inside catch");
 		return res.render("question", {
 			title: "Error",
 			message: e.message,
@@ -126,6 +131,49 @@ router.route("/question").post(async (req, res) => {
 			css: "questions",
 			js: "questions",
 		});
+	}
+});
+
+router.route("/selectCommunity/:id").get(async (req, res) => {
+	console.log("inside select Community");
+	try {
+		let questionId = xss(req.params.id);
+		questionId = helpers.checkId(questionId);
+		if (req.session.user) {
+			let communities = await communityData.findAllCommunites();
+			console.log(communities);
+			return res.render("selectCommunity", {
+				title: "Join the Conversation - Pick a Community to Post In",
+				communities: communities,
+				questionId: questionId,
+				bg: "bg-stone-50",
+				user: req.session.user,
+				css: "questions",
+			});
+		}
+	} catch (e) {
+		console.log(e);
+		return res.render("selectCommunity", { title: "error", error: e.message });
+	}
+});
+
+router.route("/selectCommunity/:id").post(async (req, res) => {
+	console.log("inside select post");
+	console.log("request body: ", req.body);
+	try {
+		let questionId = xss(req.params.id);
+		questionId = helpers.checkId(questionId);
+		let communityId = xss(req.body.communityId);
+		if (req.session.user) {
+			const inputInfo = await communityData.addQuestionToCommunity(
+				communityId,
+				questionId
+			);
+			console.log(inputInfo);
+			return res.redirect(`/questions/${questionId}`);
+		}
+	} catch (e) {
+		return res.render("selectCommunity", { title: "error", error: e });
 	}
 });
 

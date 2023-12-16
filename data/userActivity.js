@@ -444,7 +444,6 @@ export const deleteCommentsLiked = async (stevensEmail, commentId) => {
 
 // Special methods
 export const updateRating = async (stevensEmail) => {
-
 	// Don't validate email since we are calling getUserActivity
 	let currUser = await getUserActivity(stevensEmail);
 
@@ -456,11 +455,12 @@ export const updateRating = async (stevensEmail) => {
 	// For every dislike received in your question or comment (-5 points)
 	// For every Accepted comment (+20 points)
 
-	currUser.rating = (currUser.communitiesCreated.length * 10)
-					+ (currUser.questionsCreated.length * 5)
-					+ (currUser.commentsCreated.length * 5)
-					+ (currUser.communitiesJoined.length * 1); // Need to add more
-	
+	currUser.rating =
+		currUser.communitiesCreated.length * 10 +
+		currUser.questionsCreated.length * 5 +
+		currUser.commentsCreated.length * 5 +
+		currUser.communitiesJoined.length * 1; // Need to add more
+
 	let updatedrating = currUser.rating;
 	// Update
 	const activityCollection = await userActivity();
@@ -473,5 +473,5 @@ export const updateRating = async (stevensEmail) => {
 	if (!activityInfo)
 		throw `Update failed! Could not update rating with email ${stevensEmail}`;
 
-	return true;	
+	return true;
 };

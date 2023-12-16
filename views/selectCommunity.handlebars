@@ -1,0 +1,37 @@
+{{>header}}
+
+{{#if communities}}
+<div class="communitySelector place-self-center container mx-auto box-border box-content flex flex-col md:flex-row">
+  <div class="basis-1/5">
+    <!-- empty space -->
+  </div>
+
+  <div class="selectorWrapper h-auto py-8 basis-full md:basis-3/5 p-4">
+    <div class="selectorContainer mx-auto my-16 p-6 w-fit bg-white rounded-lg shadow-md">
+      <h1 class="text-center text-3xl font-semibold mb-6">{{title}}</h1>
+      <form id="communitySelector" action="/questions/selectCommunity/{{questionId}}" method="post">
+        <div class="flex flex-col space-y-4">
+          {{#each communities}}
+            <label class="flex items-center space-x-3">
+              <input type="radio" name="communityId" value="{{_id}}" class="form-radio h-5 w-5 text-sky-600">
+              <span class="text-gray-700">{{title}}</span>
+            </label>
+          {{/each}}
+        </div>
+        <div class="text-center mt-6">
+          <button class="rounded-lg px-4 py-2 bg-sky-600 text-white hover:bg-sky-700" type="submit" value="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="basis-1/5">
+    <!-- empty space -->
+  </div>
+</div>
+{{else}}
+<div class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+  <h1 class="text-center text-3xl font-semibold mb-4">{{title}}</h1>
+  <h2 class="text-center text-xl text-gray-600">{{error}}</h2>
+</div>
+{{/if}}
