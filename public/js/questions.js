@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
 
-	const communityForm = document.getElementById("communitySelector");
+	// const communityForm = document.getElementById("communitySelector");
 
 	// if (communityForm) {
 	// 	const questionId = document.getElementById(
@@ -26,6 +26,52 @@ document.addEventListener("DOMContentLoaded", () => {
 	// 		}
 	// 	});
 	// }
+	const newQuestionForm = document.getElementById("createQuestionForm");
+	const titleInput = document.getElementById("questionTitle");
+	const titleError = document.getElementById("titleError");
+	const problemDetailsInput = document.getElementById("problemDetails");
+	const problemDetailsError = document.getElementById("problemDetailsError");
+	const attemptDetailsInput = document.getElementById("attemptDetails");
+	const attemptDetailsError = document.getElementById("attemptDetailsError");
+	const tagsInput = document.getElementById("tags");
+	const tagsError = document.getElementById("tagsError");
+
+	if (newQuestionForm) {
+		newQuestionForm.addEventListener("submit", function (event) {
+			let valid = true;
+			titleError.textContent = "";
+			problemDetailsError.textContent = "";
+			attemptDetailsError.textContent = "";
+			tagsError.textContent = "";
+
+			if (titleInput.value.trim().length === 0) {
+				titleError.textContent = "Title shouldn't be empty";
+				valid = false;
+			}
+
+			if (problemDetailsInput.value.trim().length < 20) {
+				problemDetailsError.textContent =
+					"Problem Details should be at least 20 characters long.";
+				valid = false;
+			}
+
+			if (attemptDetailsInput.value.trim().length < 20) {
+				attemptDetailsError.textContent =
+					"Attempt Details should be at least 20 characters long.";
+				valid = false;
+			}
+
+			if (tagsInput.value.trim().length === 0) {
+				tagsError.textContent = "Please add at least one tag.";
+				valid = false;
+			}
+
+			if (!valid) {
+				event.preventDefault();
+			}
+		});
+	}
+
 	if (thumb_up) {
 		thumb_up.addEventListener("click", (e) => {
 			e.preventDefault();

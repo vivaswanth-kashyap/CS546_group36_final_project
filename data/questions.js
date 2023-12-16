@@ -210,9 +210,9 @@ const searchQuestions = async (searchTerm, questionIds = []) => {
 		(term) => !helpers.stopWords.includes(term)
 	);
 
-	// if (filteredSearchTerms.length === 0) {
-	// 	return [];
-	// }
+	if (filteredSearchTerms.length === 0) {
+		return [];
+	}
 
 	let query = {
 		$or: filteredSearchTerms.flatMap((word) => [
