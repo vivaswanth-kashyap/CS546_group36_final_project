@@ -116,11 +116,14 @@ router.route("/:id").get(async (req, res) => {
 			if (members.includes(req.session.user.stevensEmail)) {
 				joined = true;
 			}
+			let questions;
 			const community = await communityData.findCommunity(id);
-			const questions = await questionsData.findAllQuestions(
-				"latest",
-				community.questions
-			);
+			if (community.questions.length) {
+				questions = await questionsData.findAllQuestions(
+					"latest",
+					community.questions
+				);
+			}
 
 			console.log("questions", questions);
 			if (req.session.user.stevensEmail == community.email)
