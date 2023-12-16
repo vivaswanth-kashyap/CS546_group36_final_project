@@ -203,5 +203,37 @@ router.route("/api/questionsCreated").get(async (req, res) =>
 	}
 
 });
+
+router.route("/api/questionsSaved").get(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+			let allQuestions = await questionData.findAllQuestions();
+			let userData = await userActivity.getUserActivity(req.session.user.stevensEmail);
+			let output = [];
+
+			for (let i of allQuestions)
+			{
+				for (let j of userData.questionsSaved)
+				{
+					if (i._id.toString() === j.toString()) output.push(i);
+				}
+			}
+			return res.json(output);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
 //export router
 export default router;

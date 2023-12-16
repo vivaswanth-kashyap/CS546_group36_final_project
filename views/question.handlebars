@@ -30,6 +30,9 @@
       <div class="emptyDivQuestion basis-1/7" hidden>
         I am a hidden div only contributing to style
       </div>
+      {{#if user}}
+        <p id="user" hidden>{{user.stevensEmail}}</p>
+      {{/if}}
     </div>
   </div>
 {{else}}

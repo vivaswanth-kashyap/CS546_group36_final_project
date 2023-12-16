@@ -168,6 +168,44 @@ $(document).ready(function () {
 		});
 	});
 
+	// questionsSaved
+	$("#questionsSaved").click(function () {
+		var clickedElementId = $(this).attr("id");
+		$("#container").empty();
+
+		// Perform AJAX request
+		$.ajax({
+			url: "http://localhost:3000/userActivity/api/questionsSaved",
+			method: "GET",
+			dataType: "json",
+			success: function (response) {
+				// Populate the list with the response data
+				let content = [];
+				content.push('<p class="communityTitle">Questions Saved</p>');
+				response.forEach(function (item) {
+					let x =
+						'<div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">' +
+						'<a href="/questions/' +
+						item._id +
+						'">' +
+						'<h2 class="communityTitle">' +
+						item.title +
+						"</h2>" +
+						'<p class="communityDescription"> Details: ' +
+						item.problemDetails +
+						"</p>" +
+						"</a>" +
+						"</div>";
+					content.push(x);
+				});
+				populateList(clickedElementId, content);
+			},
+			error: function () {
+				alert("Error fetching data");
+			},
+		});
+	});
+
 	// Keep this at the very bottom (this clicks the communitiesCreated by default)
 	$("#communitiesCreated").click();
 });

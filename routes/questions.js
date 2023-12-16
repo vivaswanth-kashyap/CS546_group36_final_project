@@ -384,4 +384,70 @@ router.route("/:id").delete(async (req, res) => {
 	}
 });
 
+// Ajax routes
+// questionsSaved
+router.route("/api/questionsSaved").get(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+			let userData = await userActivity.getUserActivity(req.session.user.stevensEmail);
+			return res.json(userData.questionsSaved);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
+
+router.route("/api/questionsSaved").post(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+			await userActivity.addQuestionsSaved(req.session.user.stevensEmail, req.body.questionId);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
+
+router.route("/api/deleteQuestionsSaved").post(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+			await userActivity.deleteQuestionsSaved(req.session.user.stevensEmail, req.body.questionId);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
+
 export default router;

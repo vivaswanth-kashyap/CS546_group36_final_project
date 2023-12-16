@@ -329,6 +329,77 @@ const handleSortLatest = async () => {
 	}
 };
 
+// Ajax Requests
+$(document).ready(function () {
+
+	let questionId = window.location.href;
+	questionId = questionId.split("questions/")[1];
+	if (questionId)
+	{
+		// Check if user has already saved this
+		let saved = false;
+		$.ajax({
+			url: "http://localhost:3000/questions/api/questionsSaved",
+			method: "GET",
+			dataType: "json",
+			success: function (response) {
+				response.forEach(function (item) {
+					console.log(item.toString() == questionId.toString());
+					if (item.toString() == questionId.toString()) saved = true;
+				});
+				if (saved)
+				{
+					$("#bookmark").css("color", "red");
+					// Add a listener if the user has saved it
+					// deleteQuestionsSaved
+					$("#bookmark").click(function () {
+						$("#bookmark").css("color", "black");
+						// Perform AJAX request
+						$.ajax({
+							url: "http://localhost:3000/questions/api/deleteQuestionsSaved",
+							method: "POST",
+							dataType: "json",
+							data: {questionId: questionId},
+							success: function (response) {
+								console.log("success");
+							},
+							error: function () {
+								alert("Error fetching data");
+							},
+						});
+						location.reload();
+					});
+				}
+				else
+				{
+					// Add a listener only if the user has not saved it
+					// questionsSaved
+					$("#bookmark").click(function () {
+						$("#bookmark").css("color", "red");
+						// Perform AJAX request
+						$.ajax({
+							url: "http://localhost:3000/questions/api/questionsSaved",
+							method: "POST",
+							dataType: "json",
+							data: {questionId: questionId},
+							success: function (response) {
+								console.log("success");
+							},
+							error: function () {
+								alert("Error fetching data");
+							},
+						});
+						location.reload();
+					});
+				}
+			},
+			error: function () {
+				alert("Error fetching data");
+			},
+		});
+	}
+});
+
 // const handleCommunitySelect = async (questionId, communityId) => {
 // 	try {
 // 		let res = await axios.post(`/questions/selectCommunity/${questionId}`, {
