@@ -441,3 +441,37 @@ export const deleteCommentsLiked = async (stevensEmail, commentId) => {
 
 	return true;
 };
+
+// Special methods
+export const updateRating = async (stevensEmail) => {
+
+	// Don't validate email since we are calling getUserActivity
+	let currUser = await getUserActivity(stevensEmail);
+
+	// For every communitiesCreated (+10 points)
+	// For every questionsCreated (+5 points)
+	// For every commentsCreated (+5 points)
+	// For every communitiesJoined (+1 points)
+	// For every like received in your question or your comment (+2 points)
+	// For every dislike received in your question or comment (-5 points)
+	// For every Accepted comment (+20 points)
+
+	currUser.rating = (currUser.communitiesCreated.length * 10)
+					+ (currUser.questionsCreated.length * 5)
+					+ (currUser.commentsCreated.length * 5)
+					+ (currUser.communitiesJoined.length * 1); // Need to add more
+	
+	let updatedrating = currUser.rating;
+	// Update
+	const activityCollection = await userActivity();
+	const activityInfo = await activityCollection.updateOne(
+		{ stevensEmail: stevensEmail },
+		{ $set: { rating: updatedrating } },
+		{ returnDocument: "after" }
+	);
+
+	if (!activityInfo)
+		throw `Update failed! Could not update rating with email ${stevensEmail}`;
+
+	return true;	
+};

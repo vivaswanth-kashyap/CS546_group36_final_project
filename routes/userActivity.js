@@ -14,6 +14,7 @@ router.route("/").get(async (req, res) => {
 		activity = await userActivity.getUserActivity(
 			req.session.user.stevensEmail
 		);
+		await userActivity.updateRating(req.session.user.stevensEmail);
 	} catch (e) {
 		return res
 			.status(400)
