@@ -337,15 +337,37 @@ router.route("/:id").delete(async (req, res) => {
 		if (req.session.user.stevensEmail == exists.stevensEmail) {
 			const question = await questionData.removeQuestion(questionId);
 
-			if (question.deleted) {
-				console.log("deleted");
-				return res.status(200).json(question);
-			}
-			// Added to the userActivity here
+			// Deleted to the userActivity here
 			await userActivity.deleteQuestionsCreated(
 				req.session.user.stevensEmail,
 				questionId
 			);
+			// deleted to the communities here
+			// Find the community id of that question
+			let allCommunities = await communityData.findAllCommunites();
+			let communityId = undefined;
+			for (let i of allCommunities)
+			{
+				for (let j of i.questions)
+				{
+					if (questionId == j.toString())
+					{
+						communityId = i._id.toString();
+						break;
+					}
+				}
+			}
+			if (communityId == undefined) throw `${questionId} does not belong to any community`;
+
+			await communityData.deleteQuestionFromCommunity(
+				communityId,
+				questionId
+			);
+			
+			if (question.deleted) {
+				console.log("deleted");
+				return res.status(200).json(question);
+			}
 		} else {
 			return res.render("error", {
 				title: "error",
