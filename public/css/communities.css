@@ -98,7 +98,6 @@
     margin-top: 10px;
   }
   .formInside {
-    /* Example styles for form */
     width: 600px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -239,7 +238,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px; /* Adjust the height as needed */
+    height: 100px;
   }
   .error {
     color: red;

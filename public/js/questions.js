@@ -88,14 +88,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 	//likes initialization
 	if (thumb_down || thumb_up) {
 		let questionId = document.getElementById("questionId").value;
+		let user = document.getElementById("user");
+		console.log(user);
 		try {
-			const voteStatus = await axios.get("/questionVotes", {
-				params: { questionId: questionId },
-			});
-			console.group("votes");
-			console.log(voteStatus);
-			if (voteStatus.status === 200 && voteStatus.data) {
-				updateVoteUI(voteStatus.data.voteType);
+			if (user) {
+				const voteStatus = await axios.get("/questionVotes", {
+					params: { questionId: questionId },
+				});
+				console.group("votes");
+				console.log(voteStatus);
+				if (voteStatus.status === 200 && voteStatus.data) {
+					updateVoteUI(voteStatus.data.voteType);
+				}
 			}
 		} catch (error) {
 			console.error(
@@ -197,54 +201,57 @@ const handleDownVote = async () => {
 const handleVote = async (voteType) => {
 	console.log("inside handleVote");
 	let questionId = document.getElementById("questionId").value;
-	try {
-		let voteStatus = await axios.get("/questionVotes", {
-			params: { questionId: questionId },
-		});
-
-		let hasVoted = voteStatus.status === 200 && voteStatus.data;
-
-		if (!hasVoted) {
-			await axios.post("/questionVotes", {
-				questionId: questionId,
-				voteType: voteType,
+	let user = document.getElementById("user").textContent;
+	if (user) {
+		try {
+			let voteStatus = await axios.get("/questionVotes", {
+				params: { questionId: questionId },
 			});
 
-			if (voteType == "up") {
-				let tempVotes = parseInt(votes.textContent);
-				tempVotes += 1;
-				votes.textContent = tempVotes;
-				handleUpVote();
+			let hasVoted = voteStatus.status === 200 && voteStatus.data;
+
+			if (!hasVoted) {
+				await axios.post("/questionVotes", {
+					questionId: questionId,
+					voteType: voteType,
+				});
+
+				if (voteType == "up") {
+					let tempVotes = parseInt(votes.textContent);
+					tempVotes += 1;
+					votes.textContent = tempVotes;
+					handleUpVote();
+				}
+				if (voteType == "down") {
+					let tempVotes = parseInt(votes.textContent);
+					tempVotes -= 1;
+					votes.textContent = tempVotes;
+					handleDownVote();
+				}
+			} else if (hasVoted && voteStatus.data.voteType !== voteType) {
+				console.log("trying patch");
+				await axios.patch("/questionVotes", {
+					questionId: questionId,
+					voteType: voteType,
+				});
+				if (voteType == "up") {
+					let tempVotes = parseInt(votes.textContent);
+					tempVotes += 2;
+					votes.textContent = tempVotes;
+					handleUpVote();
+				}
+				if (voteType == "down") {
+					let tempVotes = parseInt(votes.textContent);
+					tempVotes -= 2;
+					votes.textContent = tempVotes;
+					handleDownVote();
+				}
 			}
-			if (voteType == "down") {
-				let tempVotes = parseInt(votes.textContent);
-				tempVotes -= 1;
-				votes.textContent = tempVotes;
-				handleDownVote();
-			}
-		} else if (hasVoted && voteStatus.data.voteType !== voteType) {
-			console.log("trying patch");
-			await axios.patch("/questionVotes", {
-				questionId: questionId,
-				voteType: voteType,
-			});
-			if (voteType == "up") {
-				let tempVotes = parseInt(votes.textContent);
-				tempVotes += 2;
-				votes.textContent = tempVotes;
-				handleUpVote();
-			}
-			if (voteType == "down") {
-				let tempVotes = parseInt(votes.textContent);
-				tempVotes -= 2;
-				votes.textContent = tempVotes;
-				handleDownVote();
-			}
+
+			updateVoteUI(voteType);
+		} catch (error) {
+			console.error("Error while fetching vote status:", error.response.data);
 		}
-
-		updateVoteUI(voteType);
-	} catch (error) {
-		console.error("Error while fetching vote status:", error.response.data);
 	}
 };
 
