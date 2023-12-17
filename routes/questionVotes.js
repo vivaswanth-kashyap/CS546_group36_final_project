@@ -21,7 +21,7 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/").post(async (req, res) => {
-	console.log("inside post votes route");
+	//console.log("inside post votes route");
 	try {
 		let questionId = req.body.questionId;
 		let vote = req.body.voteType;
@@ -31,7 +31,7 @@ router.route("/").post(async (req, res) => {
 				questionId,
 				vote
 			);
-			console.log("insert info vote", insertInfo);
+			//console.log("insert info vote", insertInfo);
 			return res.status(200).json(insertInfo);
 		} else {
 			return res.status(400).json({ error: "Login to cast a vote" });
@@ -42,11 +42,11 @@ router.route("/").post(async (req, res) => {
 });
 
 router.route("/").patch(async (req, res) => {
-	console.log("inside patch");
+	//console.log("inside patch");
 	try {
 		let questionId = req.body.questionId;
 		let vote = req.body.voteType;
-		console.log(questionId, vote);
+		//console.log(questionId, vote);
 		if (req.session.user) {
 			let updateInfo = await questionVotesData.updateVote(
 				req.session.user.stevensEmail,
@@ -56,10 +56,10 @@ router.route("/").patch(async (req, res) => {
 			let updateVoteCount;
 			if (vote == "up") {
 				updateVoteCount = await questionData.upVote(questionId);
-				console.log(updateVoteCount);
+				//console.log(updateVoteCount);
 			} else if (vote == "down") {
 				updateVoteCount = await questionData.downVote(questionId);
-				console.log(updateVoteCount);
+				//console.log(updateVoteCount);
 			}
 			return res.status(200).json(updateInfo);
 		} else {

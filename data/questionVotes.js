@@ -3,12 +3,12 @@ import { ObjectId } from "mongodb";
 import * as questionsHelper from "../helpers/questionsHelper.js";
 
 const addVote = async (stevensEmail, questionId, vote) => {
-	console.log("inside data add Vote");
-	console.group("params");
-	console.log(stevensEmail);
-	console.log(questionId);
-	console.log(vote);
-	console.groupEnd();
+	//console.log("inside data add Vote");
+	//console.group("params");
+	//console.log(stevensEmail);
+	//console.log(questionId);
+	//console.log(vote);
+	//console.groupEnd();
 	if (!stevensEmail || !questionId || !vote) {
 		throw "stevensEmail, vote and questionId required";
 	}
@@ -33,13 +33,13 @@ const addVote = async (stevensEmail, questionId, vote) => {
 		throw "could not add vote";
 	}
 
-	console.group("insert Info");
-	console.log(insertInfo);
+	//console.group("insert Info");
+	//console.log(insertInfo);
 	const newId = insertInfo.insertedId.toString();
 	const currVote = await findVote(stevensEmail, questionId);
 
-	console.log(currVote);
-	console.groupEnd();
+	//console.log(currVote);
+	//console.groupEnd();
 
 	return currVote;
 };
