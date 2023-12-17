@@ -334,7 +334,8 @@ $(document).ready(function () {
 
 	let questionId = window.location.href;
 	questionId = questionId.split("questions/")[1];
-	if (questionId)
+	var userEmail = $("#user").text();
+	if (questionId && userEmail)
 	{
 		// Check if user has already saved this
 		let saved = false;
