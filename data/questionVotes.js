@@ -66,8 +66,8 @@ const findVote = async (stevensEmail, questionId) => {
 };
 
 const updateVote = async (stevensEmail, questionId, vote) => {
-	console.log("inside update vote data");
-	console.log(stevensEmail, questionId, vote);
+	//console.log("inside update vote data");
+	//console.log(stevensEmail, questionId, vote);
 	if (!stevensEmail || !questionId || !vote) {
 		throw "stevensEmail, vote, and questionId required";
 	}
