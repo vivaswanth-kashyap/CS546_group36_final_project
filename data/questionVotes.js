@@ -3,11 +3,11 @@ import { ObjectId } from "mongodb";
 import * as questionsHelper from "../helpers/questionsHelper.js";
 
 const addVote = async (stevensEmail, questionId, vote) => {
-	//console.log("inside data add Vote");
+	// console.log("inside data add Vote");
 	//console.group("params");
 	//console.log(stevensEmail);
 	//console.log(questionId);
-	//console.log(vote);
+	// console.log(vote);
 	//console.groupEnd();
 	if (!stevensEmail || !questionId || !vote) {
 		throw "stevensEmail, vote and questionId required";
@@ -77,6 +77,9 @@ const updateVote = async (stevensEmail, questionId, vote) => {
 	) {
 		throw "Invalid email or vote, expected strings";
 	}
+	if (vote == "null") {
+		vote = null;
+	}
 
 	questionId = questionsHelper.checkId(questionId);
 
@@ -102,4 +105,24 @@ const updateVote = async (stevensEmail, questionId, vote) => {
 	return { updated: true };
 };
 
-export { addVote, findVote, updateVote };
+const deleteVote = async (stevensEmail, questionId) => {
+	if (!stevensEmail || !questionId) {
+		throw "stevensEmail, vote and questionId required";
+	}
+	if (!questionsHelper.isValidString(stevensEmail)) {
+		throw "invalid email or vote, expected strings";
+	}
+	const questionVotesCollection = await questionVotes();
+	const deletionInfo = await questionVotesCollection.findOneAndDelete({
+		user: stevensEmail,
+		question: questionId,
+	});
+
+	if (!deletionInfo) {
+		throw "couldn't delete the vote";
+	}
+
+	//console.log(deletionInfo);
+	return { deleted: true };
+};
+export { addVote, findVote, updateVote, deleteVote };

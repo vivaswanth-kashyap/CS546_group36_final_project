@@ -2,6 +2,7 @@ import * as communityData from "./data/communities.js";
 import { dbConnection, closeConnection } from "./config/mongoConnection.js";
 import * as user from "./data/users.js";
 import * as userActivity from "./data/userActivity.js";
+import * as questionData from "./data/questions.js";
 
 const db = await dbConnection();
 await db.dropDatabase();
@@ -172,7 +173,16 @@ try {
 console.log("---------------------Adding demo questions--------------------");
 try {
 	console.log("\n-------------firstQuestion--------------");
-} catch (e) {}
+	let question1 = await questionData.createQuestion(
+		"centering a div",
+		"I am working on a web frontend project which requires me to style the content well for which I have to center a div ",
+		"I have tried using various methods like 'align:center', etc., but nothing is working",
+		"css,div,center"
+	);
+	console.log(question1);
+} catch (e) {
+	console.log(e);
+}
 
 console.log("Done seeding database");
 await closeConnection();

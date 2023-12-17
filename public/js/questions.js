@@ -208,6 +208,7 @@ const handleVote = async (voteType) => {
 				params: { questionId: questionId },
 			});
 
+			window.location.reload();
 			let hasVoted = voteStatus.status === 200 && voteStatus.data;
 
 			if (!hasVoted) {
@@ -218,15 +219,33 @@ const handleVote = async (voteType) => {
 
 				if (voteType == "up") {
 					let tempVotes = parseInt(votes.textContent);
-					tempVotes += 1;
+					// tempVotes += 1;
 					votes.textContent = tempVotes;
 					handleUpVote();
+					window.location.reload();
 				}
 				if (voteType == "down") {
 					let tempVotes = parseInt(votes.textContent);
-					tempVotes -= 1;
+					// tempVotes -= 1;
 					votes.textContent = tempVotes;
 					handleDownVote();
+					window.location.reload();
+				}
+			} else if (hasVoted && voteStatus.data.voteType == voteType) {
+				console.log("removing vote");
+				console.warn(questionId);
+				await axios.delete("/questionVotes", {
+					params: { questionId: questionId, voteType: voteType },
+				});
+				console.log(voteType);
+				if (voteType == "up") {
+					console.log(thumb_up.classList);
+					document.getElementById("thumb_up").classList.remove("selected");
+					window.location.reload();
+				} else if (voteType == "down") {
+					console.log(thumb_down.classList);
+					document.getElementById("thumb_down").classList.remove("selected");
+					window.location.reload();
 				}
 			} else if (hasVoted && voteStatus.data.voteType !== voteType) {
 				console.log("trying patch");
@@ -236,15 +255,17 @@ const handleVote = async (voteType) => {
 				});
 				if (voteType == "up") {
 					let tempVotes = parseInt(votes.textContent);
-					tempVotes += 2;
+					// tempVotes += 2;
 					votes.textContent = tempVotes;
 					handleUpVote();
+					window.location.reload();
 				}
 				if (voteType == "down") {
 					let tempVotes = parseInt(votes.textContent);
-					tempVotes -= 2;
+					// tempVotes -= 2;
 					votes.textContent = tempVotes;
 					handleDownVote();
+					window.location.reload();
 				}
 			}
 

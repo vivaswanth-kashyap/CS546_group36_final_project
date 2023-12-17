@@ -34,7 +34,7 @@ router.route("/").post(async (req, res) => {
 			//console.log("insert info vote", insertInfo);
 			return res.status(200).json(insertInfo);
 		} else {
-			return res.status(400).json({ error: "Login to cast a vote" });
+			return res.redirect("/login");
 		}
 	} catch (e) {
 		return res.json(e);
@@ -63,7 +63,34 @@ router.route("/").patch(async (req, res) => {
 			}
 			return res.status(200).json(updateInfo);
 		} else {
-			return res.status(400).json({ error: "Login to cast a vote" });
+			return res.redirect("/login");
+		}
+	} catch (e) {
+		return res.json(e);
+	}
+});
+
+router.route("/").delete(async (req, res) => {
+	try {
+		//console.log("delete");
+		let questionId = req.query.questionId;
+		let vote = req.query.voteType;
+		//console.log(questionId, vote);
+		if (req.session.user) {
+			let deleteVote = await questionVotesData.deleteVote(
+				req.session.user.stevensEmail,
+				questionId
+			);
+			//console.log("delete vote", deleteVote);
+			let updateVoteCount;
+			if (vote == "up") {
+				updateVoteCount = await questionData.downVote(questionId);
+			} else if (vote == "down") {
+				updateVoteCount = await questionData.upVote(questionId);
+			}
+			return res.status(200).json(deleteVote);
+		} else {
+			return res.redirect("/login");
 		}
 	} catch (e) {
 		return res.json(e);
