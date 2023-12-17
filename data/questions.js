@@ -50,9 +50,9 @@ const createQuestion = async (
 };
 
 const findAllQuestions = async (key = "latest", questionIds = []) => {
-	console.log("inside data findAllQuestions");
-	console.log("list length", questionIds.length);
-	console.log("key", key);
+	//console.log("inside data findAllQuestions");
+	//console.log("list length", questionIds.length);
+	//console.log("key", key);
 	const questionCollection = await questions();
 
 	let questionList = [];
@@ -80,7 +80,7 @@ const findAllQuestions = async (key = "latest", questionIds = []) => {
 	if (!questionList) {
 		throw "couldn't get all questions";
 	}
-	console.log(questionList);
+	//console.log(questionList);
 	return questionList;
 };
 
@@ -91,7 +91,7 @@ const findQuestion = async (questionId) => {
 	const question = await questionCollection.findOne({
 		_id: new ObjectId(questionId),
 	});
-	console.log(question.stevensEmail);
+	//console.log(question.stevensEmail);
 	if (!question) {
 		throw "No question with the id";
 	}
@@ -101,7 +101,7 @@ const findQuestion = async (questionId) => {
 };
 
 const removeQuestion = async (questionId) => {
-	console.log("inside data delete");
+	//console.log("inside data delete");
 	questionId = helpers.checkId(questionId);
 	const questionCollection = await questions();
 
@@ -197,11 +197,11 @@ const downVote = async (questionId) => {
 //https://www.mongodb.com/docs/manual/reference/operator/query/regex/
 //a little help from chatGPT to properly construct the query
 const searchQuestions = async (searchTerm, questionIds = []) => {
-	console.log("inside data searchQuestion");
-	console.log(searchTerm);
+	//console.log("inside data searchQuestion");
+	//console.log(searchTerm);
 	const questionCollection = await questions();
 
-	console.log(searchTerm);
+	//console.log(searchTerm);
 
 	searchTerm = searchTerm.toLowerCase();
 	const searchTerms = searchTerm.split(/\s+/);
@@ -234,7 +234,7 @@ const searchQuestions = async (searchTerm, questionIds = []) => {
 	}
 	results.forEach((question) => (question._id = question._id.toString()));
 
-	console.log(results.length);
+	//console.log(results.length);
 	return results;
 };
 const addComment = async( questionId, commentId) => {

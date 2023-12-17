@@ -1,30 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	const search = document.getElementById("search");
 	const votes = document.getElementById("votes");
 	const thumb_up = document.getElementById("thumb_up");
 	const thumb_down = document.getElementById("thumb_down");
 	const bookmark = document.getElementById("bookmark");
-	// const mode_heat = document.getElementById("mode_heat");
-	// const flash_on = document.getElementById("flash_on");
+
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
-	// const communityForm = document.getElementById("communitySelector");
-
-	// if (communityForm) {
-	// 	const questionId = document.getElementById(
-	// 		"questionIdSelectCommunity"
-	// 	).textContent;
-	// 	communityForm.addEventListener("submit", (e) => {
-	// 		e.preventDefault();
-	// 		const selectedOption = document.querySelector(
-	// 			'input[name="communityOption"]:checked'
-	// 		);
-	// 		if (selectedOption) {
-	// 			const communityId = selectedOption.value;
-	// 			handleCommunitySelect(questionId, communityId);
-	// 		}
-	// 	});
-	// }
+	//question creation validation
 	const newQuestionForm = document.getElementById("createQuestionForm");
 	const titleInput = document.getElementById("questionTitle");
 	const titleError = document.getElementById("titleError");
@@ -71,16 +54,20 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	//other events
+
+	//votes
 	if (thumb_up) {
 		thumb_up.addEventListener("click", (e) => {
 			e.preventDefault();
 			console.log("upvote clicked");
-			handleUpVote();
-			let tempVotes = parseInt(votes.textContent);
-			tempVotes += 1;
-			votes.textContent = tempVotes;
-			thumb_up.classList.add("selected");
-			thumb_down.classList.remove("selected");
+			handleVote("up");
+			// handleUpVote();
+			// let tempVotes = parseInt(votes.textContent);
+			// tempVotes += 1;
+			// votes.textContent = tempVotes;
+			// thumb_up.classList.add("selected");
+			// thumb_down.classList.remove("selected");
 		});
 	}
 
@@ -88,14 +75,37 @@ document.addEventListener("DOMContentLoaded", () => {
 		thumb_down.addEventListener("click", (e) => {
 			e.preventDefault();
 			console.log("downvote clicked");
-			handleDownVote();
-			let tempVotes = parseInt(votes.textContent);
-			tempVotes -= 1;
-			votes.textContent = tempVotes;
-			thumb_down.classList.add("selected");
-			thumb_up.classList.remove("selected");
+			handleVote("down");
+			// handleDownVote();
+			// let tempVotes = parseInt(votes.textContent);
+			// tempVotes -= 1;
+			// votes.textContent = tempVotes;
+			// thumb_down.classList.add("selected");
+			// thumb_up.classList.remove("selected");
 		});
 	}
+
+	//likes initialization
+	if (thumb_down || thumb_up) {
+		let questionId = document.getElementById("questionId").value;
+		try {
+			const voteStatus = await axios.get("/questionVotes", {
+				params: { questionId: questionId },
+			});
+			console.group("votes");
+			console.log(voteStatus);
+			if (voteStatus.status === 200 && voteStatus.data) {
+				updateVoteUI(voteStatus.data.voteType);
+			}
+		} catch (error) {
+			console.error(
+				"Error while fetching initial vote status:",
+				error.response.data
+			);
+		}
+	}
+
+	//saving question
 	if (bookmark) {
 		bookmark.addEventListener("click", (e) => {
 			e.preventDefault();
@@ -104,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	//filtering questions based on condition
 	document.addEventListener("click", function (e) {
 		if (e.target && e.target.id === "flash_on") {
 			e.preventDefault();
@@ -116,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
+	//editing question
 	if (editQuestion) {
 		editQuestion.addEventListener("click", (e) => {
 			e.preventDefault();
@@ -124,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	//deleting question
 	if (deleteQuestion) {
 		deleteQuestion.addEventListener("click", (e) => {
 			e.preventDefault();
@@ -132,6 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	//search function
 	if (search) {
 		search.addEventListener("input", (e) => {
 			e.preventDefault();
@@ -178,6 +192,70 @@ const handleDownVote = async () => {
 	} catch (e) {
 		console.log(e);
 	}
+};
+
+const handleVote = async (voteType) => {
+	console.log("inside handleVote");
+	let questionId = document.getElementById("questionId").value;
+	try {
+		let voteStatus = await axios.get("/questionVotes", {
+			params: { questionId: questionId },
+		});
+
+		let hasVoted = voteStatus.status === 200 && voteStatus.data;
+
+		if (!hasVoted || voteStatus.data.voteType !== voteType) {
+			await axios.post("/questionVotes", {
+				questionId: questionId,
+				voteType: voteType,
+			});
+
+			if (voteType == "up") {
+				let tempVotes = parseInt(votes.textContent);
+				tempVotes += 1;
+				votes.textContent = tempVotes;
+				handleUpVote();
+			}
+			if (voteType == "down") {
+				let tempVotes = parseInt(votes.textContent);
+				tempVotes -= 1;
+				votes.textContent = tempVotes;
+				handleDownVote();
+			}
+		}
+		if (hasVoted && voteStatus.data.voteType !== voteType) {
+			await axios.patch("/questionVotes", {
+				questionId: questionId,
+				voteType: voteType,
+			});
+			if (voteType == "up") {
+				let tempVotes = parseInt(votes.textContent);
+				tempVotes += 1;
+				votes.textContent = tempVotes;
+				handleUpVote();
+			}
+			if (voteType == "down") {
+				let tempVotes = parseInt(votes.textContent);
+				tempVotes -= 1;
+				votes.textContent = tempVotes;
+				handleDownVote();
+			}
+		}
+
+		updateVoteUI(voteType);
+	} catch (error) {
+		console.error("Error while fetching vote status:", error.response.data);
+	}
+};
+
+const updateVoteUI = (voteType) => {
+	console.log("inside updateVoteUI", voteType);
+	document
+		.getElementById("thumb_up")
+		.classList.toggle("selected", voteType === "up");
+	document
+		.getElementById("thumb_down")
+		.classList.toggle("selected", voteType === "down");
 };
 
 const handleEdit = () => {
@@ -345,9 +423,9 @@ const handleLike = async () => {
 	// 	}
 	// }
 	console.log("in handle like");
-  };
+};
 
-  const handleDislike = async () => {
+const handleDislike = async () => {
 	// let id = document.getElementById("questionId").value;
 	// try {
 	// 	let res = await axios.patch("/questions/question", {
@@ -362,12 +440,10 @@ const handleLike = async () => {
 };
 // Ajax Requests
 $(document).ready(function () {
-
 	let questionId = window.location.href;
 	questionId = questionId.split("questions/")[1];
 	var userEmail = $("#user").text();
-	if (questionId && userEmail)
-	{
+	if (questionId && userEmail) {
 		// Check if user has already saved this
 		let saved = false;
 		$.ajax({
@@ -379,8 +455,7 @@ $(document).ready(function () {
 					console.log(item.toString() == questionId.toString());
 					if (item.toString() == questionId.toString()) saved = true;
 				});
-				if (saved)
-				{
+				if (saved) {
 					$("#bookmark").css("color", "red");
 					// Add a listener if the user has saved it
 					// deleteQuestionsSaved
@@ -391,7 +466,7 @@ $(document).ready(function () {
 							url: "http://localhost:3000/questions/api/deleteQuestionsSaved",
 							method: "POST",
 							dataType: "json",
-							data: {questionId: questionId},
+							data: { questionId: questionId },
 							success: function (response) {
 								console.log("success");
 							},
@@ -401,9 +476,7 @@ $(document).ready(function () {
 						});
 						location.reload();
 					});
-				}
-				else
-				{
+				} else {
 					// Add a listener only if the user has not saved it
 					// questionsSaved
 					$("#bookmark").click(function () {
@@ -413,7 +486,7 @@ $(document).ready(function () {
 							url: "http://localhost:3000/questions/api/questionsSaved",
 							method: "POST",
 							dataType: "json",
-							data: {questionId: questionId},
+							data: { questionId: questionId },
 							success: function (response) {
 								console.log("success");
 							},
@@ -430,19 +503,4 @@ $(document).ready(function () {
 			},
 		});
 	}
-	
 });
-
-// const handleCommunitySelect = async (questionId, communityId) => {
-// 	try {
-// 		let res = await axios.post(`/questions/selectCommunity/${questionId}`, {
-// 			communityId: communityId,
-// 		});
-
-// 		if (res.status === 200) {
-// 			window.location.href = `/questions/${questionId}`;
-// 		}
-// 	} catch (e) {
-// 		console.log(e);
-// 	}
-// };

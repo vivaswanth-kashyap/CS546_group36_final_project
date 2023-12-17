@@ -125,7 +125,7 @@ router.route("/:id").get(async (req, res) => {
 				);
 			}
 
-			console.log("questions", questions);
+			//console.log("questions", questions);
 			if (req.session.user.stevensEmail == community.email)
 				isUserCreater = true;
 

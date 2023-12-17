@@ -14,7 +14,7 @@ router.route("/").get(async (req, res) => {
 	console.log("inside route findAll");
 	try {
 		const keyword = xss(req.query.key);
-		console.log(keyword);
+		//console.log(keyword);
 		let questions;
 		if (keyword) {
 			console.log("top keyword recognized");
@@ -146,7 +146,7 @@ router.route("/selectCommunity/:id").get(async (req, res) => {
 		questionId = helpers.checkId(questionId);
 		if (req.session.user) {
 			let communities = await communityData.findAllCommunites();
-			console.log(communities);
+			//console.log(communities);
 			return res.render("selectCommunity", {
 				title: "Join the Conversation - Pick a Community to Post In",
 				communities: communities,
@@ -157,14 +157,14 @@ router.route("/selectCommunity/:id").get(async (req, res) => {
 			});
 		}
 	} catch (e) {
-		console.log(e);
+		//console.log(e);
 		return res.render("selectCommunity", { title: "error", error: e.message });
 	}
 });
 
 router.route("/selectCommunity/:id").post(async (req, res) => {
-	console.log("inside select post");
-	console.log("request body: ", req.body);
+	//console.log("inside select post");
+	//console.log("request body: ", req.body);
 	try {
 		let questionId = xss(req.params.id);
 		questionId = helpers.checkId(questionId);
@@ -174,7 +174,7 @@ router.route("/selectCommunity/:id").post(async (req, res) => {
 				communityId,
 				questionId
 			);
-			console.log(inputInfo);
+			//console.log(inputInfo);
 			return res.redirect(`/questions/${questionId}`);
 		}
 	} catch (e) {
@@ -264,7 +264,7 @@ router.route("/question/edit/:id").get(async (req, res) => {
 		questionId = helpers.checkId(questionId);
 
 		const question = await questionData.findQuestion(questionId);
-		console.log(question);
+		//console.log(question);
 
 		question.tagsObj = question.tagsObj.map((obj) => obj.tag.trim()).join(", ");
 		if (req.session.user) {
@@ -311,7 +311,7 @@ router.route("/:id").get(async (req, res) => {
 			}
 		}
 		if (req.session.user) {
-			console.log(req.session.user);
+			//console.log(req.session.user);
 			return res.render("question", {
 				title: question.title,
 				question: question,
@@ -344,8 +344,8 @@ router.route("/:id").delete(async (req, res) => {
 		const questionId = helpers.checkId(req.params.id);
 
 		const exists = await questionData.findQuestion(questionId);
-		console.log("session", req.session.user.stevensEmail);
-		console.log("data", exists.stevensEmail);
+		//console.log("session", req.session.user.stevensEmail);
+		//console.log("data", exists.stevensEmail);
 		if (req.session.user.stevensEmail == exists.stevensEmail) {
 			const question = await questionData.removeQuestion(questionId);
 
@@ -393,68 +393,52 @@ router.route("/:id").delete(async (req, res) => {
 
 // Ajax routes
 // questionsSaved
-router.route("/api/questionsSaved").get(async (req, res) => 
-{
+router.route("/api/questionsSaved").get(async (req, res) => {
 	// Check if User is logged in
-	if (req.session.user)
-	{
-		try
-		{
-			let userData = await userActivity.getUserActivity(req.session.user.stevensEmail);
+	if (req.session.user) {
+		try {
+			let userData = await userActivity.getUserActivity(
+				req.session.user.stevensEmail
+			);
 			return res.json(userData.questionsSaved);
-
-		} catch (e)
-		{
+		} catch (e) {
 			return res.status(500).render("error", { title: "Error", error: e });
 		}
-	}
-	else
-	{
+	} else {
 		return res.redirect("/login");
 	}
-
 });
 
-router.route("/api/questionsSaved").post(async (req, res) => 
-{
+router.route("/api/questionsSaved").post(async (req, res) => {
 	// Check if User is logged in
-	if (req.session.user)
-	{
-		try
-		{
-			await userActivity.addQuestionsSaved(req.session.user.stevensEmail, req.body.questionId);
-
-		} catch (e)
-		{
+	if (req.session.user) {
+		try {
+			await userActivity.addQuestionsSaved(
+				req.session.user.stevensEmail,
+				req.body.questionId
+			);
+		} catch (e) {
 			return res.status(500).render("error", { title: "Error", error: e });
 		}
-	}
-	else
-	{
+	} else {
 		return res.redirect("/login");
 	}
-
 });
 
-router.route("/api/deleteQuestionsSaved").post(async (req, res) => 
-{
+router.route("/api/deleteQuestionsSaved").post(async (req, res) => {
 	// Check if User is logged in
-	if (req.session.user)
-	{
-		try
-		{
-			await userActivity.deleteQuestionsSaved(req.session.user.stevensEmail, req.body.questionId);
-
-		} catch (e)
-		{
+	if (req.session.user) {
+		try {
+			await userActivity.deleteQuestionsSaved(
+				req.session.user.stevensEmail,
+				req.body.questionId
+			);
+		} catch (e) {
 			return res.status(500).render("error", { title: "Error", error: e });
 		}
-	}
-	else
-	{
+	} else {
 		return res.redirect("/login");
 	}
-
 });
 
 export default router;
