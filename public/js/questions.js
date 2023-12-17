@@ -471,6 +471,10 @@ $(document).ready(function () {
 	let questionId = window.location.href;
 	questionId = questionId.split("questions/")[1];
 	var userEmail = $("#user").text();
+			
+	// Hide the comment container by default
+	$(".newCommentWrapper").hide();
+	
 	if (questionId && userEmail) {
 		// Check if user has already saved this
 		let saved = false;
@@ -530,5 +534,52 @@ $(document).ready(function () {
 				alert("Error fetching data");
 			},
 		});
+	
+		// Attach a click event to the Comment button
+		$("#addCommentButton").click(function (event) {
+			// Prevent the default link behavior
+			event.preventDefault();
+
+			// Toggle the visibility of the comment container
+			$(".newCommentWrapper").slideToggle();
+		});
+
+	    $('#commentForm').submit(async function (event) {
+			event.preventDefault();
+	
+			const commenter = $('#commenter').val();
+			const commentText = $('#commentText').val();
+	
+			try {
+				const response = await $.ajax({
+					url: '/comments/comment',
+					method: 'POST',
+					data: { commenter, commentText },
+					dataType: 'json'
+				});
+	
+				if (response.success) {
+					$('#commentsSection').prepend(`
+						<div class="comment">
+							<h3>${response.data.commenter}</h3>
+							<p>${response.data.commentText}</p>
+							<button class="reply-btn">Reply</button>
+							<button class="edit-btn">Edit</button>
+							<button class="delete-comment-btn">Delete</button>
+						</div>
+					`);
+					$('#commenter').val('');
+					$('#commentText').val('');
+				} else {
+					console.error('Failed to add comment:', response.error);
+				}
+			} catch (error) {
+				console.error('Error occurred:', error);
+			}
+		});
+
+
+
+
 	}
 });

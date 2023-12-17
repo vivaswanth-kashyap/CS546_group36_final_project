@@ -43,7 +43,7 @@ router.route('/comment').get(async (req, res) => {
 router.post('/comment', async (req, res) => {
   try {
     const input = req.body;
-    console.log(input);
+    console.log(`${input} this ------------`);
     if (!input || Object.keys(input).length === 0) {
       return res.status(400).json({
         error: "Enter valid data",

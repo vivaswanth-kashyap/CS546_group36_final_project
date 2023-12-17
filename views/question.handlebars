@@ -29,6 +29,37 @@
           <span class="hover:text-sky-700 hover:cursor-pointer " id="deleteQuestion">delete</span>  
         </div>
         {{/if}}
+
+        {{!--- Comment Section ---}}
+        {{#if user}}
+        <div>
+          <a href="/questions/{{question._id}}/comments/comment" id="addCommentButton" class="addCommentButton mt-4 px-2 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">Comment</a>
+        </div>
+        {{/if}}
+        <div class="newCommentWrapper container mx-auto py-8 box-border box-content">
+        <div class="pl-8 ml-8 pt-8 flex flex-col">
+        <div class="basis-3/4">
+            <form action="/comments/comment" method="post">
+
+                <input type="hidden" name="questionId" value="{{questionId}}">
+                <input type="hidden" name="user" value="{{user}}">
+
+                <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid rounded-lg">
+                    <label class="ml-5 text-sm font-semibold" for="commentText">Comment</label><br>
+                    <textarea class="ml-5 mt-2 focus:decoration-wavy" name="commentText" id="commentText" cols="75"
+                        rows="6" required></textarea><br>
+                </div>
+
+                <!-- Any other fields for the comment form can be added here -->
+
+                <button name="submit" value="SUBMIT" id="createCommentBtn"
+                    class="rounded-lg px-2 py-2 bg-sky-600 text-white hover:bg-sky-700">SUBMIT</button><br>
+            </form>
+                </div>
+            </div>
+        </div>
+
+
         <div class="commentsSection">
           <h2 class="text-xl font-semibold mt-8">Comments</h2>
           {{#each comment}}
@@ -46,10 +77,6 @@
               </div>
             </div>
           {{/each}}
-        </div>
-
-        <div>
-          <a href="/questions/{{question._id}}/comments/comment" class="addCommentButton mt-4 px-2 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">Comment</a>
         </div>
 
       </div>
