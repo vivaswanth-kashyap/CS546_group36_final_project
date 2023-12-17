@@ -306,7 +306,7 @@ router.route("/:id").get(async (req, res) => {
 			for(const commentId of commentIds){
 				const comment = await commentData.getComment(commentId)
 				if(comment){
-					commentList.push({id: comment._id, commentText:comment.commentText, commenter: comment.commenter, createdAt: comment.createdAt});
+					commentList.push({id: comment._id, commentText:comment.commentText, commenter: comment.commenter, createdAt: comment.createdAt, likes: comment.likes, disLikes: comment.disLikes});
 				}
 			}
 		}

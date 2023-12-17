@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	// const flash_on = document.getElementById("flash_on");
 	const editQuestion = document.getElementById("editQuestion");
 	const deleteQuestion = document.getElementById("deleteQuestion");
-
 	// const communityForm = document.getElementById("communitySelector");
 
 	// if (communityForm) {
@@ -97,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			thumb_up.classList.remove("selected");
 		});
 	}
-
 	if (bookmark) {
 		bookmark.addEventListener("click", (e) => {
 			e.preventDefault();
@@ -329,6 +327,39 @@ const handleSortLatest = async () => {
 	}
 };
 
+const handleLike = async () => {
+	// let id = document.getElementById("questionId").value;
+	// try {
+	// 	let res = await axios.patch("/questions/question", { id: id, key: "up" });
+
+	// 	//console.log(return res.data);
+	// } catch (e) {
+	// 	if (e.response) {
+	// 		console.log(e.response.data);
+	// 		console.log(e.response.status);
+	// 		console.log(e.response.headers);
+	// 	} else if (e.request) {
+	// 		console.log(e.request);
+	// 	} else {
+	// 		console.log("Error", e.message);
+	// 	}
+	// }
+	console.log("in handle like");
+  };
+
+  const handleDislike = async () => {
+	// let id = document.getElementById("questionId").value;
+	// try {
+	// 	let res = await axios.patch("/questions/question", {
+	// 		id: id,
+	// 		key: "down",
+	// 	});
+	// 	//console.log(return res.data);
+	// } catch (e) {
+	// 	console.log(e);
+	// }
+	console.log("in handle dislike");
+};
 // Ajax Requests
 $(document).ready(function () {
 
@@ -399,6 +430,7 @@ $(document).ready(function () {
 			},
 		});
 	}
+	
 });
 
 // const handleCommunitySelect = async (questionId, communityId) => {

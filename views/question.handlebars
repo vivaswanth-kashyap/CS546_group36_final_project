@@ -27,8 +27,19 @@
             <div class="comment flex flex-col my-4 mx-4">
               <p class="text-sm">{{this.commentText}}</p>
               <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+              <div class="buttonGroup mt-2">
+                
+                <button class="likeButton mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}">
+                  <i class="fas fa-thumbs-up"></i> <span class="likeCount" id="like" value="{{this.likes}}">({{this.likes}})</span>
+                </button>
+                <button class="dislikeButton px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}" >
+                  <i class="fas fa-thumbs-down"></i> <span class="disLikeCount" id="dislike" value="{{this.disLikes}}">({{this.disLikes}})</span>
+                </button>
+              </div>
             </div>
           {{/each}}
+        </div>
+        <div>
           <a href="/questions/{{question._id}}/comments/comment" class="addCommentButton mt-4 px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">Add a Comment</a>
         </div>
         <div class="operations my-4 mx-4 text-sm font-light">

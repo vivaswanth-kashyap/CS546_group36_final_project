@@ -13,10 +13,7 @@
             <form action="/comments/comment" method="post">
 
                 <input type="hidden" name="questionId" value="{{questionId}}">
-                <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid rounded-lg">
-                    <label class="ml-5 text-sm font-semibold" for="commenter">Commenter</label><br>
-                    <input type="text" class="ml-5 mt-2" name="commenter" id="commenter" required><br>
-                </div>
+                <input type="hidden" name="user" value="{{user}}">
 
                 <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid rounded-lg">
                     <label class="ml-5 text-sm font-semibold" for="commentText">Comment</label><br>

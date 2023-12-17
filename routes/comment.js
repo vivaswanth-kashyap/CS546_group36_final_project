@@ -43,18 +43,19 @@ router.route('/comment').get(async (req, res) => {
 router.post('/comment', async (req, res) => {
   try {
     const input = req.body;
+    console.log(input);
     if (!input || Object.keys(input).length === 0) {
       return res.status(400).json({
         error: "Enter valid data",
       });
     }
-    if (!helper.isValidComment(input.commenter, input.commentText)) {
+    if (!helper.isValidComment(input.user, input.commentText)) {
       return res.status(400).json({
         error: "Invalid comment data",
       });
     }
     const comment = await commentData.createComment(
-      input.commenter,
+      input.user,
       input.commentText
     );
     const question = await questionData.addComment(
@@ -147,12 +148,20 @@ router.put('/comment/:commentId', async (req, res) => {
   }
 });
 
-
+router.patch('/like', async(req,res) =>{
+  try{
+    const commentId = req.body.commentId;
+    const comment = await commentData.upVoteComment(commentId);
+  
+  }catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
 
 
 
 //like dislike
-router.patch('/comment/:commentId', async (req, res) => {
+router.post('/comment/:commentId', async (req, res) => {
   try {
     const commentId = req.params.commentId;
     const event = req.body.event;
