@@ -170,7 +170,7 @@ const handleUpVote = async () => {
 	let id = document.getElementById("questionId").value;
 	try {
 		let res = await axios.patch("/questions/question", { id: id, key: "up" });
-
+		window.location.reload();
 		//console.log(return res.data);
 	} catch (e) {
 		if (e.response) {
@@ -192,6 +192,7 @@ const handleDownVote = async () => {
 			id: id,
 			key: "down",
 		});
+		window.location.reload();
 		//console.log(return res.data);
 	} catch (e) {
 		console.log(e);
