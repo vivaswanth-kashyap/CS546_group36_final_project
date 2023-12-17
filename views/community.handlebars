@@ -25,11 +25,9 @@
           <div class="question basis-2/3 my-4 w-fit ml-5 h-auto whitespace-normal text-ellipsis overflow-hidden">
             <h3 class="text-sky-600 text-lg font-semibold hover:text-sky-700"><a href="/questions/{{_id}}">{{title}}</a></h3>
             <p class="text-slate-500 py-6 my-2 text-ellipsis overflow-hidden max-h-36">{{problemDetails}}</p>
-            <ul>
             {{#each tagsObj}}
               <button class="tags rounded-md border-slate-900 outline-0 px-2 py-1 my-1 bg-sky-100 text-sky-600 text-sm font-semibold hover:bg-sky-200" value="{{tag}}">{{tag}}</button>
             {{/each}}
-            </ul>
           </div>
         </div>
     {{/each}}
