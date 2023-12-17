@@ -311,6 +311,7 @@ router.route("/:id").get(async (req, res) => {
 			}
 		}
 		if (req.session.user) {
+			console.log(req.session.user);
 			return res.render("question", {
 				title: question.title,
 				question: question,
@@ -357,24 +358,19 @@ router.route("/:id").delete(async (req, res) => {
 			// Find the community id of that question
 			let allCommunities = await communityData.findAllCommunites();
 			let communityId = undefined;
-			for (let i of allCommunities)
-			{
-				for (let j of i.questions)
-				{
-					if (questionId == j.toString())
-					{
+			for (let i of allCommunities) {
+				for (let j of i.questions) {
+					if (questionId == j.toString()) {
 						communityId = i._id.toString();
 						break;
 					}
 				}
 			}
-			if (communityId == undefined) throw `${questionId} does not belong to any community`;
+			if (communityId == undefined)
+				throw `${questionId} does not belong to any community`;
 
-			await communityData.deleteQuestionFromCommunity(
-				communityId,
-				questionId
-			);
-			
+			await communityData.deleteQuestionFromCommunity(communityId, questionId);
+
 			if (question.deleted) {
 				console.log("deleted");
 				return res.status(200).json(question);
