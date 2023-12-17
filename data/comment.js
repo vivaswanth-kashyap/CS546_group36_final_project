@@ -1,7 +1,7 @@
 import { comments } from "../config/mongoCollections.js";
+import { questions } from "../config/mongoCollections.js";
 import { ObjectId } from 'mongodb';
 import * as helpers from "../helpers/commentHelper.js";
-
 
 // const createComment = async (questionId, commentText) => {
 //   commentText = commentText.trim();
@@ -41,7 +41,34 @@ const createComment = async (commenter, commentText) => {
     likes: 0,
     disLikes: 0,
   };
+  // let newComment ={
+  //   commenter,
+  //   commentText
+  // }
   const commentCollection = await comments();
+  // const questionCollection = await questions();
+  // const existingInfo = await questionCollection.findOne({
+  //   _id: new ObjectId(questionId),
+  // });
+
+  // if (!existingInfo) {
+  //   throw "no question found with id";
+  // }
+  // existingInfo.comments.push(newComment);
+  // const updationInfo = await questionCollection.findOneAndUpdate(
+  //   { _id: new ObjectId(questionId) },
+  //   { $set:{comments : existingInfo.comments} },
+  //   { returnDocument: "after" }
+  // );
+
+  // if (!updationInfo) {
+  //   throw "update unsuccessful";
+  // }
+
+  // updationInfo._id = updationInfo._id.toString();
+
+  // return updationInfo;
+
   const insertInfo = await commentCollection.insertOne(newComment);
   if (!insertInfo.acknowledged || !insertInfo.insertedId) {
     throw "Could not add a comment";
@@ -53,18 +80,19 @@ const createComment = async (commenter, commentText) => {
 
 //get one commentbyId
 const getComment = async (commentId) => {
-  const trimmedCommentId = commentId.trim();
+  // const trimmedCommentId = commentId.trim();
 
-  const objectIdPattern = /^[0-9a-fA-F]{24}$/;
-  if (!objectIdPattern.test(trimmedCommentId)) {
-    throw new Error('ID is not a valid ObjectId.');
-  }
-
+  // const objectIdPattern = /^[0-9a-fA-F]{24}$/;
+  // if (!objectIdPattern.test(trimmedCommentId)) {
+  //   throw new Error('ID is not a valid ObjectId.');
+  // }
+  console.log(commentId);
   const commentCollection = await comments();
   const comment = await commentCollection.findOne({ _id: new ObjectId(commentId) });
   if (!comment) {
     throw new Error('No comment exists with that ID.');
   }
+  console.log(comment);
   comment._id = comment._id.toString();
   return comment;
 };
@@ -242,4 +270,4 @@ const downVoteComment = async (commentId) => {
 };
 
 
-export { createComment, findAllComments, removeComment, editComment, createReply, upVoteComment, downVoteComment }
+export { createComment, findAllComments, removeComment, editComment, createReply, upVoteComment, downVoteComment,getComment }

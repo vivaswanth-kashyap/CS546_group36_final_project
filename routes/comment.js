@@ -1,5 +1,6 @@
 import express from 'express';
 import * as commentData from '../data/comment.js';
+import * as questionData from '../data/questions.js';
 import * as helper from '../helpers/commentHelper.js';
 import { ObjectId } from 'mongodb';
 import { comments } from '../config/mongoCollections.js';
@@ -56,9 +57,12 @@ router.post('/comment', async (req, res) => {
       input.commenter,
       input.commentText
     );
-    //console.log(comment);
-    return res.status(200).json(comment);
-    // res.redirect(`/questions/${comment._id}`);
+    const question = await questionData.addComment(
+      input.questionId,
+      comment._id,
+    )
+
+    res.redirect(`/questions/${question._id}`);
   } catch (e) {
     res.status(500).json({
       error: e.message || "Failed to create a new comment",

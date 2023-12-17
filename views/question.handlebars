@@ -21,6 +21,16 @@
             <button class="tags rounded-md border-slate-900 outline-0 mx-1 px-2 py-1 bg-sky-100 text-sky-600 text-sm font-bold hover:bg-sky-200" value="{{tag}}">{{tag}}</button>
           {{/each}}
         </div>
+        <div class="commentsSection">
+          <h2 class="text-xl font-semibold mt-8">Comments</h2>
+          {{#each comment}}
+            <div class="comment flex flex-col my-4 mx-4">
+              <p class="text-sm">{{this.commentText}}</p>
+              <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+            </div>
+          {{/each}}
+          <a href="/questions/{{question._id}}/comments/comment" class="addCommentButton mt-4 px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">Add a Comment</a>
+        </div>
         <div class="operations my-4 mx-4 text-sm font-light">
           <span class="hover:text-sky-700 hover:cursor-pointer " id="editQuestion">edit &nbsp;</span>&nbsp;
           <span class="hover:text-sky-700 hover:cursor-pointer " id="deleteQuestion">delete</span>

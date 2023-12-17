@@ -237,7 +237,18 @@ const searchQuestions = async (searchTerm, questionIds = []) => {
 	console.log(results.length);
 	return results;
 };
-
+const addComment = async( questionId, commentId) => {
+	const questionCollection = await questions();
+	const updatedQuestion = await questionCollection.findOneAndUpdate(
+		{ _id : new ObjectId(questionId)},
+		{ $push: {comments:commentId}},
+		{ returnDocument: 'after'}
+	);
+	if(!updatedQuestion){
+		throw "Could not add comment to question";
+	}
+	return updatedQuestion;
+}
 export {
 	createQuestion,
 	findAllQuestions,
@@ -247,4 +258,5 @@ export {
 	searchQuestions,
 	upVote,
 	downVote,
+	addComment
 };

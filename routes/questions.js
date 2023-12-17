@@ -4,7 +4,7 @@ import * as questionData from "../data/questions.js";
 import * as helpers from "../helpers/questionsHelper.js";
 import * as userActivity from "../data/userActivity.js";
 import * as communityData from "../data/communities.js";
-
+import * as commentData from "../data/comment.js";
 const router = Router();
 
 router.route("/").get(async (req, res) => {
@@ -300,10 +300,21 @@ router.route("/:id").get(async (req, res) => {
 		let questionId = req.params.id;
 		questionId = helpers.checkId(questionId);
 		const question = await questionData.findQuestion(questionId);
+		let commentList = [];
+		if(question.comments.length){
+			const commentIds = question.comments;
+			for(const commentId of commentIds){
+				const comment = await commentData.getComment(commentId)
+				if(comment){
+					commentList.push({id: comment._id, commentText:comment.commentText, commenter: comment.commenter, createdAt: comment.createdAt});
+				}
+			}
+		}
 		if (req.session.user) {
 			return res.render("question", {
 				title: question.title,
 				question: question,
+				comment:commentList,
 				bg: "bg-stone-50",
 				css: "questions",
 				js: "questions",
