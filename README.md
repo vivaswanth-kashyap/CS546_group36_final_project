@@ -18,6 +18,7 @@ Technologies Used
 
 Frontend:\
 HTML5\
+tailwindcss\
 CSS3\
 JavaScript\
 Jquery
