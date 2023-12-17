@@ -301,21 +301,40 @@ router.route("/:id").get(async (req, res) => {
 		questionId = helpers.checkId(questionId);
 		const question = await questionData.findQuestion(questionId);
 		let commentList = [];
-		if(question.comments.length){
+		if (question.comments.length) {
 			const commentIds = question.comments;
-			for(const commentId of commentIds){
-				const comment = await commentData.getComment(commentId)
-				if(comment){
-					commentList.push({id: comment._id, commentText:comment.commentText, commenter: comment.commenter, createdAt: comment.createdAt, likes: comment.likes, disLikes: comment.disLikes});
+			for (const commentId of commentIds) {
+				const comment = await commentData.getComment(commentId);
+				if (comment) {
+					commentList.push({
+						id: comment._id,
+						commentText: comment.commentText,
+						commenter: comment.commenter,
+						createdAt: comment.createdAt,
+						likes: comment.likes,
+						disLikes: comment.disLikes,
+					});
 				}
 			}
 		}
 		if (req.session.user) {
 			//console.log(req.session.user);
+			if (req.session.user.stevensEmail == question.stevensEmail) {
+				return res.render("question", {
+					title: question.title,
+					question: question,
+					comment: commentList,
+					bg: "bg-stone-50",
+					css: "questions",
+					js: "questions",
+					user: req.session.user,
+					owner: true,
+				});
+			}
 			return res.render("question", {
 				title: question.title,
 				question: question,
-				comment:commentList,
+				comment: commentList,
 				bg: "bg-stone-50",
 				css: "questions",
 				js: "questions",
