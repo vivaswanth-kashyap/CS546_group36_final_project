@@ -17,3 +17,4 @@ export const users = getCollectionFn("users");
 export const userActivity = getCollectionFn("userActivity");
 export const questions = getCollectionFn("questions");
 export const communities = getCollectionFn("communities");
+export const comments = getCollectionFn('comments');
