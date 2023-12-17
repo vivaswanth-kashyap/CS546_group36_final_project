@@ -169,6 +169,11 @@ try {
 	console.log(e);
 }
 
+console.log("---------------------Adding demo questions--------------------");
+try {
+	console.log("\n-------------firstQuestion--------------");
+} catch (e) {}
+
 console.log("Done seeding database");
 await closeConnection();
 
