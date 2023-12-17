@@ -10,8 +10,8 @@ const router = Router();
 
 router.route("/").get(async (req, res) => {
 	try {
-		let stevensEmail = req.session.user.stevensEmail;
-		let questionId = req.query.questionId;
+		let stevensEmail = xss(req.session.user.stevensEmail);
+		let questionId = xss(req.query.questionId);
 		let voteInfo = await questionVotesData.findVote(stevensEmail, questionId);
 
 		return res.status(200).json(voteInfo);
@@ -23,8 +23,8 @@ router.route("/").get(async (req, res) => {
 router.route("/").post(async (req, res) => {
 	//console.log("inside post votes route");
 	try {
-		let questionId = req.body.questionId;
-		let vote = req.body.voteType;
+		let questionId = xss(req.body.questionId);
+		let vote = xss(req.body.voteType);
 		if (req.session.user) {
 			let insertInfo = await questionVotesData.addVote(
 				req.session.user.stevensEmail,
@@ -44,8 +44,8 @@ router.route("/").post(async (req, res) => {
 router.route("/").patch(async (req, res) => {
 	//console.log("inside patch");
 	try {
-		let questionId = req.body.questionId;
-		let vote = req.body.voteType;
+		let questionId = xss(req.body.questionId);
+		let vote = xss(req.body.voteType);
 		//console.log(questionId, vote);
 		if (req.session.user) {
 			let updateInfo = await questionVotesData.updateVote(
@@ -73,8 +73,8 @@ router.route("/").patch(async (req, res) => {
 router.route("/").delete(async (req, res) => {
 	try {
 		//console.log("delete");
-		let questionId = req.query.questionId;
-		let vote = req.query.voteType;
+		let questionId = xss(req.query.questionId);
+		let vote = xss(req.query.voteType);
 		//console.log(questionId, vote);
 		if (req.session.user) {
 			let deleteVote = await questionVotesData.deleteVote(

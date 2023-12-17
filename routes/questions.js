@@ -101,11 +101,16 @@ router.route("/question").post(async (req, res) => {
 					input.tags
 				)
 			) {
+				const sanitizedTitle = xss(input.title);
+				const sanitizedProblemDetails = xss(input.problemDetails);
+				const sanitizedAttemptDetails = xss(input.attemptDetails);
+				const sanitizedTags = xss(input.tags);
+
 				const question = await questionData.createQuestion(
-					input.title,
-					input.problemDetails,
-					input.attemptDetails,
-					input.tags,
+					sanitizedTitle,
+					sanitizedProblemDetails,
+					sanitizedAttemptDetails,
+					sanitizedTags,
 					req.session.user.stevensEmail
 				);
 				// Added to the userActivity here
