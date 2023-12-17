@@ -204,7 +204,7 @@ const handleVote = async (voteType) => {
 
 		let hasVoted = voteStatus.status === 200 && voteStatus.data;
 
-		if (!hasVoted || voteStatus.data.voteType !== voteType) {
+		if (!hasVoted) {
 			await axios.post("/questionVotes", {
 				questionId: questionId,
 				voteType: voteType,
@@ -222,21 +222,21 @@ const handleVote = async (voteType) => {
 				votes.textContent = tempVotes;
 				handleDownVote();
 			}
-		}
-		if (hasVoted && voteStatus.data.voteType !== voteType) {
+		} else if (hasVoted && voteStatus.data.voteType !== voteType) {
+			console.log("trying patch");
 			await axios.patch("/questionVotes", {
 				questionId: questionId,
 				voteType: voteType,
 			});
 			if (voteType == "up") {
 				let tempVotes = parseInt(votes.textContent);
-				tempVotes += 1;
+				tempVotes += 2;
 				votes.textContent = tempVotes;
 				handleUpVote();
 			}
 			if (voteType == "down") {
 				let tempVotes = parseInt(votes.textContent);
-				tempVotes -= 1;
+				tempVotes -= 2;
 				votes.textContent = tempVotes;
 				handleDownVote();
 			}

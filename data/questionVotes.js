@@ -66,6 +66,8 @@ const findVote = async (stevensEmail, questionId) => {
 };
 
 const updateVote = async (stevensEmail, questionId, vote) => {
+	console.log("inside update vote data");
+	console.log(stevensEmail, questionId, vote);
 	if (!stevensEmail || !questionId || !vote) {
 		throw "stevensEmail, vote, and questionId required";
 	}
@@ -81,7 +83,7 @@ const updateVote = async (stevensEmail, questionId, vote) => {
 	const questionVotesCollection = await questionVotes();
 	const voteInfo = await questionVotesCollection.findOne({
 		user: stevensEmail,
-		question: new ObjectId(questionId),
+		question: questionId,
 	});
 
 	if (!voteInfo) {
