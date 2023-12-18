@@ -95,7 +95,7 @@ router.route("/unjoin").get(async (req, res) => {
 		// Deleted to the userActivity here
 		await userActivity.deleteCommunitiesjoined(
 			req.session.user.stevensEmail,
-			newCommunity._id.toString()
+			id.toString()
 		);
 		return res.redirect(`/communities/${newCommunity._id}`);
 	} catch (e) {

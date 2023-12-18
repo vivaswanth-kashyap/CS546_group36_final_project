@@ -245,7 +245,6 @@ router.route("/api/commentsCreated").get(async (req, res) =>
 		try
 		{
 			const allComments = await commentData.findAllComments();
-			console.log(allComments);
 			let userData = await userActivity.getUserActivity(req.session.user.stevensEmail);
 			let output = [];
 
