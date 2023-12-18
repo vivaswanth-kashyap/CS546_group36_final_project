@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (thumb_up) {
         thumb_up.addEventListener("click", async (e) => {
             e.preventDefault();
-            console.log("Upvote clicked");
+            //console.log("Upvote clicked");
             await handleUpVote();
             let tempVotes = parseInt(votes.textContent);
             tempVotes += 1;
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (thumb_down) {
         thumb_down.addEventListener("click", async (e) => {
             e.preventDefault();
-            console.log("Downvote clicked");
+            //console.log("Downvote clicked");
             await handleDownVote();
             let tempVotes = parseInt(votes.textContent);
             tempVotes -= 1;
@@ -30,16 +30,16 @@ const handleUpVote = async () => {
     let commentId = document.getElementById("commentId").value;
     try {
         let res = await axios.patch("/comments/comment", { id: commentId, event: "up" });
-        console.log(res.data);
+        //console.log(res.data);
     } catch (e) {
         if (e.response) {
-            console.log(e.response.data);
-            console.log(e.response.status);
-            console.log(e.response.headers);
+            // console.log(e.response.data);
+            // console.log(e.response.status);
+            // console.log(e.response.headers);
         } else if (e.request) {
-            console.log(e.request);
+            // console.log(e.request);
         } else {
-            console.log("Error", e.message);
+            // console.log("Error", e.message);
         }
     }
 };

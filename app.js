@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/questions/question/edit", async (req, res, next) => {
 	//console.log(req);
-	console.log("inside middleware");
+	// console.log("inside middleware");
 
 	if (req.method == "POST") {
 		req.method = "PUT";
