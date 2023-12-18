@@ -31,7 +31,7 @@ app.get("/communities/join", middleWare.allowAuthenticatedUser);
 app.get("/communities/unjoin", middleWare.allowAuthenticatedUser);
 app.get('/questions/:id/comments/comment', (req, res) => {
 	let questionId = req.params.id;
-	let user = req.session.user.firstName;
+	let user = req.session.user.stevensEmail;
     res.render('newcomment',{questionId , user});
 });
 const __filename = fileURLToPath(import.meta.url);

@@ -473,9 +473,6 @@ $(document).ready(function () {
 	questionId = questionId.split("questions/")[1];
 	var userEmail = $("#user").text();
 			
-	// Hide the comment container by default
-	$(".newCommentWrapper").hide();
-	
 	if (questionId && userEmail) {
 		// Check if user has already saved this
 		let saved = false;
@@ -535,52 +532,27 @@ $(document).ready(function () {
 				alert("Error fetching data");
 			},
 		});
-	
-		// Attach a click event to the Comment button
-		$("#addCommentButton").click(function (event) {
-			// Prevent the default link behavior
-			event.preventDefault();
-
-			// Toggle the visibility of the comment container
-			$(".newCommentWrapper").slideToggle();
+		
+		$(document).on('click', '#acceptButtonDiv', function() {
+			// Get the data-comment-id attribute value
+			var commentId = $(this).find('.acceptButton').data('comment-id');
+			console.log(`${commentId} this one`);
+	  
+			// Make AJAX call
+			$.ajax({
+			  type: 'POST', // or 'GET' depending on your server route
+			  url: "http://localhost:3000/comments/api/commentAccepted",
+			  data: {commentId: commentId},
+			  success: function(response) {
+				console.log('AJAX call successful', response);
+				$(this).find('.acceptButton').remove();
+				$(this).append('<p class="selected">Selected Text</p>');
+			  },
+			  error: function(error) {
+				console.error('AJAX call failed', error);
+			  }
+			});
 		});
-
-	    $('#commentForm').submit(async function (event) {
-			event.preventDefault();
-	
-			const commenter = $('#commenter').val();
-			const commentText = $('#commentText').val();
-	
-			try {
-				const response = await $.ajax({
-					url: '/comments/comment',
-					method: 'POST',
-					data: { commenter, commentText },
-					dataType: 'json'
-				});
-	
-				if (response.success) {
-					$('#commentsSection').prepend(`
-						<div class="comment">
-							<h3>${response.data.commenter}</h3>
-							<p>${response.data.commentText}</p>
-							<button class="reply-btn">Reply</button>
-							<button class="edit-btn">Edit</button>
-							<button class="delete-comment-btn">Delete</button>
-						</div>
-					`);
-					$('#commenter').val('');
-					$('#commentText').val('');
-				} else {
-					console.error('Failed to add comment:', response.error);
-				}
-			} catch (error) {
-				console.error('Error occurred:', error);
-			}
-		});
-
-
-
 
 	}
 });

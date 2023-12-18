@@ -38,6 +38,7 @@ const createComment = async (commenter, commentText) => {
     commenter,
     commentText,
     createdAt,
+    accepted: false,
     likes: 0,
     disLikes: 0,
   };
@@ -86,13 +87,13 @@ const getComment = async (commentId) => {
   // if (!objectIdPattern.test(trimmedCommentId)) {
   //   throw new Error('ID is not a valid ObjectId.');
   // }
-  console.log(commentId);
+  //console.log(commentId);
   const commentCollection = await comments();
   const comment = await commentCollection.findOne({ _id: new ObjectId(commentId) });
   if (!comment) {
     throw new Error('No comment exists with that ID.');
   }
-  console.log(comment);
+  //console.log(comment);
   comment._id = comment._id.toString();
   return comment;
 };
@@ -269,5 +270,25 @@ const downVoteComment = async (commentId) => {
   return updateInfo;
 };
 
+const toggleAccepted = async(commentId) =>
+{
+  commentId = helpers.checkId(commentId);
 
-export { createComment, findAllComments, removeComment, editComment, createReply, upVoteComment, downVoteComment,getComment }
+  let comment = await getComment(commentId);
+  if (comment.accepted == true) comment.accepted = false;
+  else comment.accepted = true;
+
+  // Toggle
+  const commentCollection = await comments();
+  const updateInfo = await commentCollection.findOneAndUpdate(
+    { _id: new ObjectId(commentId) },
+    { $set: { accepted: comment.accepted } },
+    { returnDocument: "after" }
+  );
+  
+  console.log(`${comment.accepted} for ${commentId}`);
+  return updateInfo;
+}
+
+
+export { createComment, findAllComments, removeComment, editComment, createReply, upVoteComment, downVoteComment,getComment, toggleAccepted}

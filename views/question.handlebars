@@ -36,30 +36,34 @@
           <a href="/questions/{{question._id}}/comments/comment" id="addCommentButton" class="addCommentButton mt-4 px-2 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">Comment</a>
         </div>
         {{/if}}
-        <div class="newCommentWrapper container mx-auto py-8 box-border box-content">
-        <div class="pl-8 ml-8 pt-8 flex flex-col">
-        <div class="basis-3/4">
-            <form action="/comments/comment" method="post">
 
-                <input type="hidden" name="questionId" value="{{questionId}}">
-                <input type="hidden" name="user" value="{{user}}">
+        {{#if owner}}
+        <div class="commentsSection">
+          <h2 class="text-xl font-semibold mt-8">Comments</h2>
+          {{#each comment}}
+            <div class="comment flex flex-col my-4 mx-4">
+              <p class="text-sm">{{this.commentText}}</p>
+              <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+              <div class="buttonGroup mt-2">
+                
+                <button class="likeButton mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}">
+                  <i class="fas fa-thumbs-up"></i> <span class="likeCount" id="like" value="{{this.likes}}">({{this.likes}})</span>
+                </button>
+                <button class="dislikeButton px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}" >
+                  <i class="fas fa-thumbs-down"></i> <span class="disLikeCount" id="dislike" value="{{this.disLikes}}">({{this.disLikes}})</span>
+                </button>
 
-                <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid rounded-lg">
-                    <label class="ml-5 text-sm font-semibold" for="commentText">Comment</label><br>
-                    <textarea class="ml-5 mt-2 focus:decoration-wavy" name="commentText" id="commentText" cols="75"
-                        rows="6" required></textarea><br>
+                <div id="acceptButtonDiv">
+                <button class="acceptButton mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400" id="acceptButton" data-comment-id="{{this.id}}">
+                  <i class="fas fa-check"></i>
+                </button>
                 </div>
 
-                <!-- Any other fields for the comment form can be added here -->
-
-                <button name="submit" value="SUBMIT" id="createCommentBtn"
-                    class="rounded-lg px-2 py-2 bg-sky-600 text-white hover:bg-sky-700">SUBMIT</button><br>
-            </form>
-                </div>
+              </div>
             </div>
+          {{/each}}
         </div>
-
-
+        {{else}}
         <div class="commentsSection">
           <h2 class="text-xl font-semibold mt-8">Comments</h2>
           {{#each comment}}
@@ -78,7 +82,7 @@
             </div>
           {{/each}}
         </div>
-
+        {{/if}}
       </div>
       <div class="emptyDivQuestion basis-1/7" hidden>
         I am a hidden div only contributing to style

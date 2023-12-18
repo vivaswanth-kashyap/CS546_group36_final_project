@@ -210,4 +210,50 @@ router.route('/:id').get(async (req, res) => {
 });
 
 
+// Ajax routes
+router.route("/api/commentAccepted").get(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+			let comment = await commentData.getComment(req.query.commentId);
+			return res.json(comment);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
+
+router.route("/api/commentAccepted").post(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+      console.log(req.body.commentId);
+			let accepted = await commentData.toggleAccepted(req.body.commentId);
+			return res.json(accepted);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
+
 export default router;
