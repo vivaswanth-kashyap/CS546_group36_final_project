@@ -4,6 +4,8 @@ import * as questionData from '../data/questions.js';
 import * as helper from '../helpers/commentHelper.js';
 import { ObjectId } from 'mongodb';
 import { comments } from '../config/mongoCollections.js';
+import xss from 'xss';
+import * as userActivity from "../data/userActivity.js";
 
 const router = express.Router();
 
@@ -63,6 +65,8 @@ router.post('/comment', async (req, res) => {
       comment._id,
     )
 
+    await userActivity.addCommentsCreated(comment.commenter, comment._id);
+    
     res.redirect(`/questions/${question._id}`);
   } catch (e) {
     res.status(500).json({
@@ -211,38 +215,22 @@ router.route('/:id').get(async (req, res) => {
 
 
 // Ajax routes
-router.route("/api/commentAccepted").get(async (req, res) => 
+router.route("/api/commentAccepted/:id").post(async (req, res) => 
 {
 	// Check if User is logged in
+  let commentId = xss(req.body.commentId);
+  let questionId = xss(req.params.id);
+  console.log(questionId);
 	if (req.session.user)
 	{
 		try
 		{
-			let comment = await commentData.getComment(req.query.commentId);
-			return res.json(comment);
-
-		} catch (e)
-		{
-			return res.status(500).render("error", { title: "Error", error: e });
-		}
-	}
-	else
-	{
-		return res.redirect("/login");
-	}
-
-});
-
-router.route("/api/commentAccepted").post(async (req, res) => 
-{
-	// Check if User is logged in
-	if (req.session.user)
-	{
-		try
-		{
-      console.log(req.body.commentId);
-			let accepted = await commentData.toggleAccepted(req.body.commentId);
-			return res.json(accepted);
+      if (!commentId)
+      {
+        return res.redirect(`/questions/${questionId}`);
+      }
+			let accepted = await commentData.toggleAccepted(commentId);
+			return res.redirect(`/questions/${questionId}`);
 
 		} catch (e)
 		{

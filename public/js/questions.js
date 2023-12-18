@@ -533,26 +533,26 @@ $(document).ready(function () {
 			},
 		});
 		
-		$(document).on('click', '#acceptButtonDiv', function() {
-			// Get the data-comment-id attribute value
-			var commentId = $(this).find('.acceptButton').data('comment-id');
-			console.log(`${commentId} this one`);
+		// $(document).on('click', '#acceptButtonDiv', function() {
+		// 	// Get the data-comment-id attribute value
+		// 	var commentId = $(this).find('.acceptButton').data('comment-id');
+		// 	console.log(`${commentId} this one`);
 	  
-			// Make AJAX call
-			$.ajax({
-			  type: 'POST', // or 'GET' depending on your server route
-			  url: "http://localhost:3000/comments/api/commentAccepted",
-			  data: {commentId: commentId},
-			  success: function(response) {
-				console.log('AJAX call successful', response);
-				$(this).find('.acceptButton').remove();
-				$(this).append('<p class="selected">Selected Text</p>');
-			  },
-			  error: function(error) {
-				console.error('AJAX call failed', error);
-			  }
-			});
-		});
+		// 	// Make AJAX call
+		// 	$.ajax({
+		// 	  type: 'POST',
+		// 	  url: "http://localhost:3000/comments/api/commentAccepted",
+		// 	  data: {commentId: commentId},
+		// 	  success: function(response) {
+		// 		console.log('AJAX call successful', response);
+		// 		$(this).find('.acceptButton').remove();
+		// 		$(this).append('<p class="selected">Selected Text</p>');
+		// 	  },
+		// 	  error: function(error) {
+		// 		console.error('AJAX call failed', error);
+		// 	  }
+		// 	});
+		// });
 
 	}
 });

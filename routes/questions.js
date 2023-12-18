@@ -318,11 +318,54 @@ router.route("/:id").get(async (req, res) => {
 						createdAt: comment.createdAt,
 						likes: comment.likes,
 						disLikes: comment.disLikes,
+						accepted: comment.accepted,
 					});
 				}
 			}
 		}
+		let accepted = undefined;
+		let count = 0;
+
+		for (let i of commentList)
+		{
+			if (i.accepted == true)
+			{
+				accepted = i;
+				break;
+			}
+			count += 1;
+		}
+		commentList.splice(count, 1);
+
 		if (req.session.user) {
+			if (accepted)
+			{
+					//console.log(req.session.user);
+				if (req.session.user.stevensEmail == question.stevensEmail) {
+					return res.render("question", {
+						title: question.title,
+						question: question,
+						comment: commentList,
+						bg: "bg-stone-50",
+						css: "questions",
+						js: "questions",
+						user: req.session.user,
+						owner: true,
+						accepted: accepted,
+					});
+				}
+				return res.render("question", {
+					title: question.title,
+					question: question,
+					comment: commentList,
+					bg: "bg-stone-50",
+					css: "questions",
+					js: "questions",
+					user: req.session.user,
+					accepted: accepted,
+				});
+			}
+			else{
 			//console.log(req.session.user);
 			if (req.session.user.stevensEmail == question.stevensEmail) {
 				return res.render("question", {
@@ -345,6 +388,7 @@ router.route("/:id").get(async (req, res) => {
 				js: "questions",
 				user: req.session.user,
 			});
+		}
 		}
 		return res.render("question", {
 			title: question.title,

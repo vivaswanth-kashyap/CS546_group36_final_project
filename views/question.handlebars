@@ -37,9 +37,49 @@
         </div>
         {{/if}}
 
+        {{#if accepted}}
+        <div class="comment flex flex-col my-4 mx-4">
+              <p class="text-sm">{{accepted.commentText}}</p>
+              <p class="text-xs text-gray-500">{{accepted.commenter}} - {{accepted.createdAt}}</p>
+              <div class="buttonGroup mt-2">
+                
+                <button class="likeButton mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{accepted.id}}">
+                  <i class="fas fa-thumbs-up"></i> <span class="likeCount" id="like" value="{{accepted.likes}}">({{accepted.likes}})</span>
+                </button>
+                <button class="dislikeButton px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{accepted.id}}" >
+                  <i class="fas fa-thumbs-down"></i> <span class="disLikeCount" id="dislike" value="{{accepted.disLikes}}">({{accepted.disLikes}})</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="commentsSection">
+            <h2 class="text-xl font-semibold mt-8">Comments</h2>
+            {{#each comment}}
+              <div class="comment flex flex-col my-4 mx-4">
+                <p class="text-sm">{{this.commentText}}</p>
+                <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+                <div class="buttonGroup mt-2">
+                  
+                  <button class="likeButton mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}">
+                    <i class="fas fa-thumbs-up"></i> <span class="likeCount" id="like" value="{{this.likes}}">({{this.likes}})</span>
+                  </button>
+                  <button class="dislikeButton px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}" >
+                    <i class="fas fa-thumbs-down"></i> <span class="disLikeCount" id="dislike" value="{{this.disLikes}}">({{this.disLikes}})</span>
+                  </button>
+                </div>
+              </div>
+            {{/each}}
+            </div>
+        
+        {{else}}
         {{#if owner}}
         <div class="commentsSection">
           <h2 class="text-xl font-semibold mt-8">Comments</h2>
+
+          <form id="comment_selector" action="/comments/api/commentAccepted/{{question._id}}" method="post">
+        <div class="text-center mt-6">
+          <button class="rounded-lg px-4 py-2 bg-sky-600 text-white hover:bg-sky-700" type="submit" value="submit">Accept Answer</button>
+        </div>
           {{#each comment}}
             <div class="comment flex flex-col my-4 mx-4">
               <p class="text-sm">{{this.commentText}}</p>
@@ -52,16 +92,14 @@
                 <button class="dislikeButton px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"  data-comment-id="{{this.id}}" >
                   <i class="fas fa-thumbs-down"></i> <span class="disLikeCount" id="dislike" value="{{this.disLikes}}">({{this.disLikes}})</span>
                 </button>
-
-                <div id="acceptButtonDiv">
-                <button class="acceptButton mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400" id="acceptButton" data-comment-id="{{this.id}}">
-                  <i class="fas fa-check"></i>
-                </button>
-                </div>
-
+                <label for="commentId">
+                <i class="fas fa-check"></i>
+                <input type="radio" name="commentId" id="commentId" value="{{this.id}}" class="form-radio h-5 w-5 text-sky-600">
+                </label>
               </div>
             </div>
           {{/each}}
+          </form>
         </div>
         {{else}}
         <div class="commentsSection">
@@ -82,6 +120,7 @@
             </div>
           {{/each}}
         </div>
+        {{/if}}
         {{/if}}
       </div>
       <div class="emptyDivQuestion basis-1/7" hidden>

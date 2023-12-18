@@ -286,7 +286,6 @@ const toggleAccepted = async(commentId) =>
     { returnDocument: "after" }
   );
   
-  console.log(`${comment.accepted} for ${commentId}`);
   return updateInfo;
 }
 
