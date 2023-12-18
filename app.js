@@ -29,10 +29,10 @@ app.get("/userActivity/setting", middleWare.allowAuthenticatedUser);
 app.get("/communities/create", middleWare.allowAuthenticatedUser);
 app.get("/communities/join", middleWare.allowAuthenticatedUser);
 app.get("/communities/unjoin", middleWare.allowAuthenticatedUser);
-app.get('/questions/:id/comments/comment', (req, res) => {
+app.get("/questions/:id/comments/comment", (req, res) => {
 	let questionId = req.params.id;
 	let user = req.session.user.stevensEmail;
-    res.render('newcomment',{questionId , user});
+	res.render("newcomment", { title: "add a comment", questionId, user });
 });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
