@@ -1,0 +1,20 @@
+{{>header}}
+<div class="formWrapper">
+  <div class="formInside">
+    <form action="/communities/create" method="POST" class="communityForm" id="communityForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title">
+      <span class="error" id="titleError"></span>
+      <br>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description"></textarea>
+      <span class="error" id="descriptionError"></span> 
+      {{#if message.length}}
+        <p class="error">{{message}}</p>
+      {{/if}}
+      <br>
+      <button type="submit">Create</button>
+    </form>
+  </div>
+</div>
+{{>footer}}

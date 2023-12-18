@@ -1,0 +1,101 @@
+.material-symbols-outlined {
+  font-family: 'Material Icons Outlined';
+  font-size: 24px;
+  color: #757575;
+}
+
+.thumb_up_icon.selected {
+  color: #4CAF50;
+}
+
+.thumb_down_icon.selected {
+  color: #F44336;
+}
+
+.bookmark_icon.selected {
+  color:  black;
+}
+
+.mode_heat_icon {
+  color: #EF4F00;
+  vertical-align: top;
+}
+
+.flash_on_icon {
+  color: skyblue;
+  vertical-align: bottom;
+}
+
+#questionTitle,
+#problemDetails,
+#attemptDetails,
+#tags {
+  resize: none;
+  outline: none;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}
+
+.goodPractices,
+.fieldWrapper {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+#search {
+  resize: none;
+  outline: none;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+}
+.commentsSection {
+  margin-top: 20px;
+}
+
+.commentsSection h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.comment {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.comment p {
+  margin: 5px 0;
+}
+
+.comment p.text-sm {
+  font-size: 0.9rem;
+}
+
+.comment p.text-xs {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.addCommentButton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.addCommentButton:hover {
+  background-color: #2563eb;
+}

@@ -1,0 +1,83 @@
+{{!-- <main>
+    <div class="new-comment">
+        <h2>Add a Comment</h2>
+        <form id="commentForm" method="post" action="/comments/comment">
+            <label for="commenter">Enter your name:</label>
+            <input type="text" name="commenter" id="commenter" required>
+            <label for="commentText">Enter your comment:</label>
+            <textarea name="commentText" id="commentText" required></textarea>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    {{#each comments}}
+    <div class="comment">
+        <h3>{{this.commenter}}</h3>
+        <p>{{this.commentText}}</p>
+        <button class="reply-btn">Reply</button>
+        <button class="edit-btn">Edit</button>
+        <button class="delete-comment-btn">Delete</button>
+    </div>
+    {{/each}}
+</main>
+
+<footer>
+    <p>&copy; comment for questions</p>
+</footer>
+</body>
+
+</html> --}}
+
+
+
+
+
+
+
+{{!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <main class="max-w-4xl mx-auto py-8"> --}}
+
+        <div class="new-comment">
+            <h2 class="text-2xl font-bold mb-4">Add a Comment</h2>
+            <form id="commentForm" class="mb-8">
+                <div class="mb-4">
+                    <label for="commenter" class="block mb-1 font-semibold">Enter your name:</label>
+                    <input type="text" name="commenter" id="commenter" class="border rounded px-2 py-1 w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label for="commentText" class="block mb-1 font-semibold">Enter your comment:</label>
+                    <textarea name="commentText" id="commentText"
+                        class="border rounded px-2 py-1 w-full h-32 resize-none" required></textarea>
+                </div>
+                <button type="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Submit</button>
+            </form>
+        </div>
+        <div id="commentsSection">
+            {{#each comments}}
+            <div class="comment bg-white rounded shadow-md p-4 mb-4">
+                <h3 class="font-semibold text-lg">{{this.commenter}}</h3>
+                <p>{{this.commentText}}</p>
+                <!-- Other comment details/buttons -->
+            </div>
+            {{/each}}
+        </div>
+
+    {{!-- </main>
+
+    <footer class="bg-gray-200 py-4 text-center">
+        <p>&copy; comment for questions</p>
+    </footer>
+</body>
+
+</html> --}}

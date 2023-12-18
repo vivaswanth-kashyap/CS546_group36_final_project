@@ -1,0 +1,25 @@
+
+{{>header}}
+<nav class="navWrapper">
+  <div class="search mr-10 ml-10">
+      <span class="material-symbols-outlined pb-2 mr-2 ml-5">search</span>
+      <textarea class="mr-10" name="search" id="search" cols="75" rows="1" placeholder="Enter keywords relevent to your search"></textarea>
+  </div>
+  <div class="spacer"></div>
+  {{#if user}}
+  <a href="/communities/create" class="createCommunityButton">Create Community</a>
+  {{/if}}
+</nav>
+<div class="min-h-screen">
+  <div class="communitiesWrapper flex flex-wrap justify-around">
+        {{#each communities}}
+          <div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">
+          <a href="/communities/{{_id}}">
+            <h2 class="communityTitle">{{title}}</h2>
+            <p class="communityDescription"> Description: {{description}}</p>
+          </a>
+          </div>
+        {{/each}}
+  </div>
+</div>
+{{>footer}}

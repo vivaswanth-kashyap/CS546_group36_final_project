@@ -1,0 +1,31 @@
+<div class="newCommentWrapper container mx-auto py-8 box-border box-content">
+    <h1 class="ml-10 pl-6 text-2xl font-bold">{{title}}</h1>
+    <div class="pl-8 ml-8 pt-8 flex flex-col">
+        <div
+            class="goodPractices basis-1/4 bg-sky-50 py-6 px-6 pr-12 my-4 w-max border-sky-500 border-solid rounded-lg">
+            <h4 class="ml-5 text-lg">Writing a good comment</h4>
+            <p class="text-sm ml-5 mt-1">You are ready to add a comment and this form will guide you through the process
+            </p>
+            <!-- You can include specific steps or guidelines for writing comments -->
+        </div>
+
+        <div class="basis-3/4">
+            <form action="/comments/comment" method="post">
+
+                <input type="hidden" name="questionId" value="{{questionId}}">
+                <input type="hidden" name="user" value="{{user}}">
+
+                <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid rounded-lg">
+                    <label class="ml-5 text-sm font-semibold" for="commentText">Comment</label><br>
+                    <textarea class="ml-5 mt-2 focus:decoration-wavy" name="commentText" id="commentText" cols="75"
+                        rows="6" required></textarea><br>
+                </div>
+
+                <!-- Any other fields for the comment form can be added here -->
+
+                <button name="submit" value="SUBMIT" id="createCommentBtn"
+                    class="rounded-lg px-2 py-2 bg-sky-600 text-white hover:bg-sky-700">SUBMIT</button><br>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{{>header}}
+<div id="activity-div" class="m-5 min-h-[70vh] bg-gray-800 flex flex-col">
+
+    <div id="topDiv" class="bg-gray-800 h-[7vh] w-full flex items-center justify-evenly">
+        <p class="bigText font-bold text-white text-lg">Name: {{user.firstName}} {{user.lastName}}</p>
+        <p class="bigText font-bold text-white text-lg">Stevens Email: {{user.stevensEmail}}</p>
+        <p class="bigText font-bold text-white text-lg">Academic Status: {{user.academicStatus}}</p>
+        <p id="rating" class="bigText font-bold text-lg text-yellow-500">Duck Score: {{activity.rating}}</p>
+        <span class="material-symbols-outlined text-white text-4xl hover:cursor-pointer" onclick="location.href='/userActivity/setting'">settings</span>
+    </div>
+
+    <div id="midDiv" class="bg-black flex items-center justify-evenly flex-wrap h-[7vh]">
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="communitiesCreated">Communities Created</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="questionsCreated">Questions Asked</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="questionsSaved">Saved Questions</p>
+        <p class="activity-text bg-lightcoral text-white px-10 cursor-pointer" id="commentsCreated">Comments Made</p>
+    </div>
+
+    <div id="bottomDiv" class="bg-gray-600 flex-grow flex items-center justify-evenly flex-wrap">
+        <ul id="container"></ul>
+    </div>
+
+</div>
+
+{{>footer}}

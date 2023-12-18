@@ -1,0 +1,30 @@
+<header class="bg-gray-800 text-gray-100">
+  <nav class="flex items-center justify-between p-4">
+    <a href="/" class="flex items-center">
+      <img src="/images/logo.png" alt="Logo" class="h-12 mr-3">
+      <span class="font-light text-xl mr-1">stevens</span>
+      <span class="text-xl font-medium">overflow</span>
+    </a>
+    <div class="flex md:space-x-8">
+      {{#if user}}
+        <a href="/userActivity" class="hover:text-blue-400">{{user.stevensEmail}}</a>
+      {{/if}}
+      <a href="/communities" class="hover:text-blue-400">Communities</a>
+      <a href="/questions" class="hover:text-blue-400">Questions</a>
+    </div>
+    {{#if user}}
+      <button class="logout-btn bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Logout
+      </button>
+    {{else}}
+    <div class="authBtnContainer flex md:space-x-4">
+      <button class="login-btn bg-white hover:bg-sky-100 text-sky-600 hover:text-sky-700 font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Login
+      </button>
+      <button class="register-btn bg-sky-600 hover:bg-sky-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        SignUp
+      </button>
+    </div>
+    {{/if}}
+  </nav>
+</header>

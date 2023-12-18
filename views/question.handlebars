@@ -1,0 +1,108 @@
+{{>header}}
+{{#if question}}
+  <div class="questionWrapper1 flex flex-col mx-20">
+    <div class="flex flex-row basis-1/5 border-b-2 py-7">
+      <div class="basis-4/5"><h1 class="font-bold text-2xl text-slate-700">{{title}}</h1></div>
+      <div class="basis-1/5"><button class="rounded-lg px-2 py-2  bg-sky-600 text-white hover:bg-sky-700" value="Ask Question" onclick="location.href='/questions/question'">Ask Question</button></div>
+    </div>
+    <div class="basis-4/5 flex flex-row scroll-smooth min-h-screen overflow-scroll min-w-screen">
+      <div class="questionStats basis-2/7 my-4 mx-4">
+        <span class="material-symbols-outlined rounded-full hover:bg-orange-100 p-4 hover:cursor-pointer thumb_up_icon" id="thumb_up">thumb_up</span><br>
+        <span class="inline-block max-w-[1px] text-center my-2 mx-6 text-center" id="votes">{{question.votes}}</span><br>
+        <span class="material-symbols-outlined rounded-full hover:bg-orange-100 p-4 hover:cursor-pointer thumb_down_icon" id="thumb_down">thumb_down</span><br>
+        <button id="questionId" value="{{question._id}}" hidden>{{question._id}}</button><br>
+        <span class="material-symbols-outlined mx-4 hover:cursor-pointer bookmark_icon" id="bookmark">bookmark</span>
+      </div>
+      <div class="question basis-5/7 flex flex-col">
+        <div>
+          <p class="p-3 whitespace-pre-wrap text-sm">{{question.problemDetails}}</p>
+          <p class="p-3 whitespace-pre-wrap text-sm">{{question.attemptDetails}}</p>
+          {{#each question.tagsObj}}
+            <button class="tags rounded-md border-slate-900 outline-0 mx-1 px-2 py-1 bg-sky-100 text-sky-600 text-sm font-bold hover:bg-sky-200" value="{{tag}}">{{tag}}</button>
+          {{/each}}
+        </div>
+        <span class="text-xs font-light ml-96 mt-2 text-gray-500">asked by</span>
+        <span class="text-sm text-sky-600 ml-96">- {{question.stevensEmail}}</span>
+        {{#if owner}}
+        <div class="operations my-4 mx-4 text-sm font-light"> 
+          <span class="hover:text-sky-700 hover:cursor-pointer " id="editQuestion">edit &nbsp;</span>&nbsp;
+          <span class="hover:text-sky-700 hover:cursor-pointer " id="deleteQuestion">delete</span>  
+        </div>
+        {{/if}}
+
+        {{!--- Comment Section ---}}
+        {{#if user}}
+        <div>
+          <a href="/questions/{{question._id}}/comments/comment" id="addCommentButton" class="addCommentButton mt-4 px-2 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700">Comment</a>
+        </div>
+        {{/if}}
+
+        {{#if accepted}}
+        <p class="text-xl font-medium text-sky-600 mt-4 mx-4">Accepted comment</p>
+        <div class="comment flex flex-col space-my-4 mx-4 p-4">
+              <p class="text-sm">{{accepted.commentText}}</p>
+              <p class="text-xs text-gray-500">{{accepted.commenter}} - {{accepted.createdAt}}</p>
+            </div>
+
+            <div class="commentsSection mb-16">
+              <h2 class="text-xl font-semibold mt-8 ml-4">Comments</h2>
+              {{#each comment}} 
+                <div class="comment flex flex-col my-4 mx-4 p-4">
+                  <p class="text-sm">{{this.commentText}}</p>
+                  <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+                </div>
+              {{/each}}
+            </div>
+        
+        {{else}}
+        {{#if owner}}
+        <div class="commentsSection mb-16">
+          <h2 class="text-xl font-semibold mt-8 ml-4">Comments</h2>
+
+          <form id="comment_selector" action="/comments/api/commentAccepted/{{question._id}}" method="post">
+        <div class="mt-6 ml-4">
+          <button class="rounded-lg px-2 py-2 bg-sky-600 text-white hover:bg-sky-700" type="submit" value="submit">Accept Answer</button>
+        </div>
+          {{#each comment}}
+            <div class="comment flex flex-col my-4 mx-4 p-4">
+              <p class="text-sm">{{this.commentText}}</p>
+              <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+              <div class="buttonGroup mt-2">
+                
+                <label for="commentId">
+                <i class="fas fa-check"></i>
+                <input type="radio" name="commentId" id="commentId" value="{{this.id}}" class="form-radio h-5 w-5 text-sky-600 p-2"><span class="text-sm mx-2 font-light text-gray-500">accept</span>
+                </label>
+              </div>
+            </div>
+          {{/each}}
+          </form>
+        </div>
+        {{else}}
+        <div class="commentsSection mb-16">
+          <h2 class="text-xl font-semibold mt-8 ml-4">Comments</h2>
+          {{#each comment}}
+            <div class="comment flex flex-col my-4 mx-4">
+              <p class="text-sm">{{this.commentText}}</p>
+              <p class="text-xs text-gray-500">{{this.commenter}} - {{this.createdAt}}</p>
+            </div>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{/if}}
+      </div>
+      <div class="emptyDivQuestion basis-1/7" hidden>
+        I am a hidden div only contributing to style
+      </div>
+      {{#if user}}
+        <p id="user" hidden>{{user.stevensEmail}}</p>
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  <div class="error">
+    <h3>{{message}}</h3>
+  </div>
+{{/if}}
+
+{{>footer}}

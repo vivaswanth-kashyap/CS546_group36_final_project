@@ -1,0 +1,108 @@
+{{>header}}
+{{#if question}}
+<div class="newQuestionWrapper container mx-auto py-8 box-border box-content">
+  <h1 class="ml-10 pl-6 text-2xl font-bold ">{{title}}</h1>
+  <div class="pl-8 ml-8 pt-8 flex flex-col">
+    <div class="goodPractices basis-1/4 bg-sky-50 py-6 px-6 pr-12 my-4 w-max border-sky-500 border-solid rounded-lg">
+      <h4 class="ml-5 text-lg">Writing a good question</h4>
+      <p class="text-sm ml-5 mt-1">You are ready a ask a programming-related question and this form will guide you through the process</p>
+      <h6 class="ml-5 mt-2">Steps</h6>
+      <ul class="list-disc text-xs">
+        <li class="ml-12 font-light">Summarize your problem in a one-line title.</li>
+        <li class="ml-12 font-light">Describe your problem in more detail.</li>
+        <li class="ml-12 font-light">Describe what you tried and what you expected to happen.</li>
+        <li class="ml-12 font-light">Add “tags” which help surface your question to members of the community.</li>
+      </ul>
+    </div>
+
+    <div class="basis-3/4">
+      <form action="/questions/question/edit/{{question._id}}" method="post" id="createQuestionForm">
+
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="questionTitle">Title</label><br>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Be specific and imagine you’re asking a question to another person.</p>
+        <textarea class="ml-5 mt-2 focus:decoration-wavy" name="title" id="questionTitle" cols="75" rows="1">{{question.title}}</textarea><br>
+      </div>
+      
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="problemDetails">What are the details of your problem?</label><br>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
+        <p class="error-message text-red-500 text-xs ml-5" id="problemDetailsError"></p>
+        <textarea class="ml-5 mt-2 focus:decoration-wavy" name="problemDetails" id="problemDetails" cols="75" rows="6">{{question.problemDetails}}</textarea><br>
+      </div>
+
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="attemptDetails">What did you try and what where you expecting?</label><br>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters</p>
+        <p class="error-message text-red-500 text-xs ml-5" id="attemptDetailsError"></p>
+        <textarea class="ml-5 mt-2 focus:decoration-wavy" name="attemptDetails" id="attemptDetails" cols="75" rows="6">{{question.attemptDetails}}</textarea><br>
+      </div>
+
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="tags">tags</label>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Add Tags to desribe separated by a comma(,) to describe what your question is about. </p>
+        <p class="error-message text-red-500 text-xs ml-5" id="tagsError"></p>
+        <textarea class="ml-5 mt-2" name="tags" id="tags" cols="75" rows="1">{{question.tagsObj}}</textarea><br>
+      </div>
+      
+      <button name="submit" value="SUBMIT" id="createQuestionBtn" class="rounded-lg px-2 py-2 bg-sky-600 text-white hover:bg-sky-700">SUBMIT</button><br>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{{else}}
+<div class="newQuestionWrapper container mx-auto py-8 box-border box-content">
+  <h1 class="ml-10 pl-6 text-2xl font-bold ">{{title}}</h1>
+  <div class="pl-8 ml-8 pt-8 flex flex-col">
+    <div class="goodPractices basis-1/4 bg-sky-50 py-6 px-6 pr-12 my-4 w-max border-sky-500 border-solid rounded-lg">
+      <h4 class="ml-5 text-lg">Writing a good question</h4>
+      <p class="text-sm ml-5 mt-1">You are ready a ask a programming-related question and this form will guide you through the process</p>
+      <h6 class="ml-5 mt-2">Steps</h6>
+      <ul class="list-disc text-xs">
+        <li class="ml-12 font-light">Summarize your problem in a one-line title.</li>
+        <li class="ml-12 font-light">Describe your problem in more detail.</li>
+        <li class="ml-12 font-light">Describe what you tried and what you expected to happen.</li>
+        <li class="ml-12 font-light">Add “tags” which help surface your question to members of the community.</li>
+      </ul>
+    </div>
+
+    <div class="basis-3/4">
+      <form action="/questions/question" method="post" id="createQuestionForm">
+
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="questionTitle">Title</label><br>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Be specific and imagine you’re asking a question to another person.</p>
+        <textarea class="ml-5 mt-2 focus:decoration-wavy" name="title" id="questionTitle" cols="75" rows="1"></textarea><br>
+        <p class="error-message text-red-500 text-xs ml-5" id="titleError"></p>
+      </div>
+      
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="problemDetails">What are the details of your problem?</label><br>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Introduce the problem and expand on what you put in the title. Minimum 20 characters.</p>
+        <textarea class="ml-5 mt-2 focus:decoration-wavy" name="problemDetails" id="problemDetails" cols="75" rows="6"></textarea><br>
+        <p class="error-message text-red-500 text-xs ml-5" id="problemDetailsError"></p>
+      </div>
+
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="attemptDetails">What did you try and what where you expecting?</label><br>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Describe what you tried, what you expected to happen, and what actually resulted. Minimum 20 characters</p>
+        <textarea class="ml-5 mt-2 focus:decoration-wavy" name="attemptDetails" id="attemptDetails" cols="75" rows="6"></textarea><br>
+        <p class="error-message text-red-500 text-xs ml-5" id="attemptDetailsError"></p>
+      </div>
+
+      <div class="fieldWrapper bg-white py-6 px-6 my-4 w-fit border-solid  rounded-lg">
+        <label class="ml-5 text-sm font-semibold" for="tags">tags</label>
+        <p class="text-xs ml-5 mt-1 text-slate-500">Add Tags to desribe separated by a comma(,) to describe what your question is about. </p>
+        <textarea class="ml-5 mt-2" name="tags" id="tags" cols="75" rows="1"></textarea><br>
+        <p class="error-message text-red-500 text-xs ml-5" id="tagsError"></p>
+      </div>
+      
+      <button name="submit" value="SUBMIT" id="createQuestionBtn" class="rounded-lg px-2 py-2 bg-sky-600 text-white hover:bg-sky-700">SUBMIT</button><br>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{/if}}
