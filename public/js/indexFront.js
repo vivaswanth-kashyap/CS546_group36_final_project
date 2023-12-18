@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
     });
 });
 
@@ -129,7 +129,7 @@ commentContainer.addEventListener("click", function (e) {
                 event.target.closest('.comment-item').remove();
             } catch (error) {
                 // Handle error response
-                console.error(error);
+                //console.error(error);
             }
         });
     });
