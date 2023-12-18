@@ -206,6 +206,42 @@ $(document).ready(function () {
 		});
 	});
 
+	// commentsCreated
+	$("#commentsCreated").click(function () {
+		var clickedElementId = $(this).attr("id");
+		$("#container").empty();
+
+		// Perform AJAX request
+		$.ajax({
+			url: "http://localhost:3000/userActivity/api/commentsCreated",
+			method: "GET",
+			dataType: "json",
+			success: function (response) {
+				// Populate the list with the response data
+				let content = [];
+				content.push('<p class="communityTitle">Comments Made</p>');
+				response.forEach(function (item) {
+					let x =
+						'<div class="communitySquare border-solid border-2 rounded-lg p-4 m-4">' +
+						'<h2 class="communityTitle">' +
+						item.commentText +
+						"</h2>" +
+						'<p class="communityDescription"> Accepted: ' +
+						item.accepted +
+						"</p>" +
+						"</a>" +
+						"</div>";
+					content.push(x);
+				});
+				populateList(clickedElementId, content);
+			},
+			error: function () {
+				alert("Error fetching data");
+			},
+		});
+	});
+
+
 	// Keep this at the very bottom (this clicks the communitiesCreated by default)
 	$("#communitiesCreated").click();
 });

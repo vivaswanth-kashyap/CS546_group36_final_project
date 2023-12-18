@@ -101,10 +101,7 @@ const getComment = async (commentId) => {
 //get all comment
 const findAllComments = async () => {
   const commentCollection = await comments();
-  const commentList = await commentCollection
-    .find({})
-    .sort({ createdAt: -1 })
-    .toArray();
+  const commentList = await commentCollection.find({}).toArray();
 
   if (commentList.length === 0) {
     throw 'There is no comment';

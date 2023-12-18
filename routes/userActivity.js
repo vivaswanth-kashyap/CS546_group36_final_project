@@ -6,6 +6,7 @@ import xss from "xss";
 
 import * as communityData from "../data/communities.js";
 import * as questionData from "../data/questions.js";
+import * as commentData from '../data/comment.js';
 
 const router = express.Router();
 
@@ -218,6 +219,39 @@ router.route("/api/questionsSaved").get(async (req, res) =>
 			for (let i of allQuestions)
 			{
 				for (let j of userData.questionsSaved)
+				{
+					if (i._id.toString() === j.toString()) output.push(i);
+				}
+			}
+			return res.json(output);
+
+		} catch (e)
+		{
+			return res.status(500).render("error", { title: "Error", error: e });
+		}
+	}
+	else
+	{
+		return res.redirect("/login");
+	}
+
+});
+
+router.route("/api/commentsCreated").get(async (req, res) => 
+{
+	// Check if User is logged in
+	if (req.session.user)
+	{
+		try
+		{
+			const allComments = await commentData.findAllComments();
+			console.log(allComments);
+			let userData = await userActivity.getUserActivity(req.session.user.stevensEmail);
+			let output = [];
+
+			for (let i of allComments)
+			{
+				for (let j of userData.commentsCreated)
 				{
 					if (i._id.toString() === j.toString()) output.push(i);
 				}

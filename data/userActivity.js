@@ -1,6 +1,9 @@
 import * as helper from "../helpers/usersHelper.js";
 import { userActivity } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
+import * as communityData from "../data/communities.js";
+import * as questionData from "../data/questions.js";
+import * as commentData from '../data/comment.js';
 
 // Create methods
 export const createUserActivity = async (stevensEmail) => {
@@ -451,10 +454,9 @@ export const updateRating = async (stevensEmail) => {
 	// For every questionsCreated (+5 points)
 	// For every commentsCreated (+5 points)
 	// For every communitiesJoined (+1 points)
-	// For every like received in your question or your comment (+2 points)
-	// For every dislike received in your question or comment (-5 points)
+	// For every like received in your question (+2 points)
+	// For every dislike received in your question(-5 points)
 	// For every Accepted comment (+20 points)
-
 	currUser.rating =
 		currUser.communitiesCreated.length * 10 +
 		currUser.questionsCreated.length * 5 +
