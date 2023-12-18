@@ -11,13 +11,13 @@ router.route("/").get(async (req, res) => {
 	// if (req.session.user) {
 	// 	console.log(req.session.user.stevensEmail);
 	// }
-	console.log("inside route findAll");
+	// console.log("inside route findAll");
 	try {
 		const keyword = xss(req.query.key);
 		//console.log(keyword);
 		let questions;
 		if (keyword) {
-			console.log("top keyword recognized");
+			// console.log("top keyword recognized");
 			questions = await questionData.findAllQuestions(keyword);
 		} else {
 			questions = await questionData.findAllQuestions();
@@ -51,7 +51,7 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/search/:searchTerm").get(async (req, res) => {
-	console.log("inside route search");
+	// console.log("inside route search");
 	try {
 		const searchTerm = xss(req.params.searchTerm);
 		const results = await questionData.searchQuestions(searchTerm);
@@ -79,7 +79,7 @@ router.route("/question").get(async (req, res) => {
 });
 
 router.route("/question").post(async (req, res) => {
-	console.log("inside post");
+	// console.log("inside post");
 	try {
 		if (req.session.user) {
 			const input = req.body;
@@ -123,7 +123,7 @@ router.route("/question").post(async (req, res) => {
 				return res.redirect(`/questions/selectCommunity/${question._id}`);
 			}
 		} else {
-			console.log("inside else");
+			// console.log("inside else");
 			return res.render("question", {
 				title: "Error",
 				message: "You have to login first to ask a question",
@@ -133,7 +133,7 @@ router.route("/question").post(async (req, res) => {
 			});
 		}
 	} catch (e) {
-		console.log("inside catch");
+		// console.log("inside catch");
 		return res.render("question", {
 			title: "Error",
 			message: e.message,
@@ -145,7 +145,7 @@ router.route("/question").post(async (req, res) => {
 });
 
 router.route("/selectCommunity/:id").get(async (req, res) => {
-	console.log("inside select Community");
+	// console.log("inside select Community");
 	try {
 		let questionId = xss(req.params.id);
 		questionId = helpers.checkId(questionId);
@@ -194,7 +194,7 @@ router.route("/question").patch(async (req, res) => {
 			input.id = helpers.checkId(input.id);
 
 			let question;
-			console.log(input.key);
+			// console.log(input.key);
 			if (input.key === "up") {
 				question = await questionData.upVote(input.id);
 			} else {
@@ -220,7 +220,7 @@ router.route("/question").patch(async (req, res) => {
 router.route("/question/edit/:id").put(async (req, res) => {
 	let id = helpers.checkId(req.params.id);
 
-	console.log("inside put");
+	// console.log("inside put");
 	//console.log(req.body);
 	try {
 		const input = req.body;
@@ -407,7 +407,7 @@ router.route("/:id").get(async (req, res) => {
 });
 
 router.route("/:id").delete(async (req, res) => {
-	console.log("inside route delete");
+	// console.log("inside route delete");
 	try {
 		const questionId = helpers.checkId(req.params.id);
 
@@ -440,7 +440,7 @@ router.route("/:id").delete(async (req, res) => {
 			await communityData.deleteQuestionFromCommunity(communityId, questionId);
 
 			if (question.deleted) {
-				console.log("deleted");
+				// console.log("deleted");
 				return res.status(200).json(question);
 			}
 		} else {
