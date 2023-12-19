@@ -18,7 +18,12 @@ $(document).ready(function()
         var email = $("#emailAddressInput").val().trim();
         var password = $("#passwordInput").val().trim();
         var confirmPassword = $("#confirmPasswordInput").val().trim();
-        var academicStatus = $("#academicStatusInput").val().trim();
+        
+        var academicStatus = $("#academicStatusInput").val();
+        if (academicStatus) {
+			var academicStatus = $("#academicStatusInput").val().trim();
+		}
+        
         let regex = /^[a-zA-Z]+$/;
 
         if (!firstName || !regex.test(firstName) || firstName.length < 2 || firstName.length > 25)
